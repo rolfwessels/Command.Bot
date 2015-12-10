@@ -1,0 +1,15 @@
+; Top-most EditorConfig file
+root = true
+
+[*]
+end_of_line = crlf
+
+; 4-column space indentation
+[*.cs]
+indent_style = space
+indent_size = 4
+
+; 2-column tab indentation
+[*.js]
+indent_style = space
+indent_size = 4

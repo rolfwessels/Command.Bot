@@ -1,0 +1,322 @@
+<?xml version="1.0" ?>
+<project name="Command.Bot" default="test" xmlns="http://nant.sourceforge.net/nightly/latest/nant.xsd">
+
+
+	<!--Properties-->
+	<property name="src.folder" value="src"/>
+	<property name="src.sln.file" value="${src.folder}/Command.Bot.sln"/>
+	<property name="src.sln.configuration" value="Debug"/>
+  <property name="src.sln.Constants" value="${src.sln.configuration}" dynamic="true" />
+
+	<property name="build.dir" value="build" />
+	<property name="build.config.dir" value="${build.dir}\${src.sln.configuration}" dynamic="true"  />
+	<property name="build.reports.dir" value="${build.dir}/Reports" />
+	<property name="build.temp.dir" value="${build.dir}/Temp" />
+	<property name="build.dist.dir" value="${build.dir}/Distibutions" />
+	<property name="msbuild.executeable" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"/>
+	<property name="msbuild.executeable" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" if="${not file::exists(msbuild.executeable)}" />
+	<property name="msbuild.bin.folder" value="bin\${src.sln.configuration}" dynamic="true"/>
+  <property name="test.minimum.coverage" value="60" />
+
+
+	<!-- Version -->
+	<property name="version.buildFile" value="Command.Bot.build"/>
+	<property name="version.assembly" value="${src.folder}/Command.Bot.Core/Properties/CommonAssemblyInfo.cs" />
+	<property name="version.major" value="0"/>
+	<property name="version.minor" value="0"/>
+	<property name="version.build" value="1" />
+	<property name="version.revision" value="*" />
+	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}" dynamic="true" />
+	<property name="project.fullversion.file" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
+
+	<!-- File version controle -->
+	<property name="git.path" value="C:\Program Files (x86)\Git\bin\"/>
+	<property name="git.exe" value="${git.path}git.exe"/>
+
+	<!-- Continues integration -->
+	<property name="version.build" value="${build.number}" if="${property::exists('build.number')}"/>
+	<property name="version.build" value="${environment::get-variable('BUILD_NUMBER')}" if="${environment::variable-exists('BUILD_NUMBER')}"/>
+
+  <!-- Default deploy -->
+  <property name="deploy.workingDir" value="./"/>
+  <property name="deploy.location" value="Default Web Site/Command.Bot.Api.${src.sln.configuration}" dynamic="true"/>
+  <property name="deploy.auth" value="computerName='localhost'"/>
+  <property name="deploy.pack" value="${directory::get-current-directory()}\build\Deploy\Command.Bot.Api.${src.sln.configuration}.v${project.fullversion}.zip" dynamic="true"/>
+  <property name="deploy.proj" value="${src.folder}\Command.Bot.Api\Command.Bot.Api.csproj"/>
+
+  <!-- User targets -->
+	<target name="build" depends="clean compile" description="Compile and Run Tests" />
+	<target name="test" depends="build, run.tests" description="Compile and Run Tests" />
+  <target name="cover" depends="build, run.codecover.tests" description="Compile and Run Tests" />
+	<target name="full" depends="version, cover, dist , version.update"	description="Compiles, tests, and produces distributions" />
+	<target name="ci.tests" depends="compile, run.codecover.tests" description="Compile and Run Tests" />
+	<target name="ci.deploy" depends="version build deploy.msdeploy" description="Compile and Run Tests" />
+	<target name="ci.deploy.qa" depends="config.qa ci.deploy" description="Compile and Run Tests" />
+	<target name="ci.deploy.staging" depends="config.staging ci.deploy" description="Compile and Run Tests" />
+	<target name="ci.deploy.release" depends="config.release ci.deploy" description="Compile and Run Tests" />
+
+
+
+  <!-- Configuration -->
+	<target name="config.qa" description="Set qa settings">
+		<property name="src.sln.configuration" value="Qa"/>
+    <property name="deploy.auth" value="computerName='xxxx',userName='xxxx',password='xxxx',"/>
+    <property name="deploy.location" value="IIAB.Release"/>
+	</target>
+
+	<target name="config.staging" description="Set staging settings">
+		<property name="src.sln.configuration" value="Staging"/>
+	</target>
+
+	<target name="config.release" description="Set release settings">
+		<property name="src.sln.configuration" value="Release"/>
+	</target>
+
+	<!-- Internal targets -->
+	<target name="clean" description="Delete Automated Build artifacts">
+		<delete dir="${build.dir}" if="${directory::exists(build.dir)}" failonerror="false" />
+		<delete failonerror="false">
+			<fileset basedir="${src.folder}">
+				<include name="*\Bin\**"/>
+				<include name="*\Obj\**"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="compile" description="Compiles using the AutomatedDebug Configuration">
+		<exec
+		  program="${msbuild.executeable}"
+		  commandline="${src.sln.file} /t:clean /p:Configuration=${src.sln.configuration} /v:q "
+		  workingdir="." />
+		<exec
+		  program="${msbuild.executeable}"
+		  commandline="${src.sln.file} /t:rebuild /p:Configuration=${src.sln.configuration} /v:q"
+		  workingdir="." />
+    <call target="msbuild.publish"/>
+		<call target="msbuild.copy"/>
+	</target>
+
+  <target name="msbuild.publish">
+    <property name="msbuild.publish.to" value="${path::get-full-path(path::combine(build.config.dir,'Command.Bot.Api'))}"/>
+    <property name="msbuild.CommandLine" value=" " />
+    <exec program="${msbuild.executeable}"  workingdir="." verbose="false"  >
+      <arg value="${src.folder}\Command.Bot.Api\Command.Bot.Api.csproj" />
+      <arg value="/p:DeployOnBuild=true"/>
+      <arg value="/p:publishurl=&quot;${msbuild.publish.to}&quot;"/>
+      <arg value="/p:DefineConstants=&quot;${src.sln.Constants}&quot;"/>
+      <arg value="/p:PublishProfile=&quot;Publish - ${src.sln.configuration}.pubxml&quot;"/>
+      <arg value="/p:Configuration=${src.sln.configuration}"/>
+      <arg value="/p:VisualStudioVersion=11.0"/>
+      <arg value="/v:q"/>
+    </exec>
+  </target>
+
+	<target name="msbuild.copy" description="Copy files to build folder">
+		<copy todir="${build.config.dir}\Command.Bot.Console" overwrite="true">
+			<fileset basedir="${src.folder}\Command.Bot.Console\${msbuild.bin.folder}">
+				<include name="**\*"/>
+			</fileset>
+		</copy>
+    <copy todir="${build.config.dir}\Command.Bot.Api\static" overwrite="true">
+        <fileset basedir="${src.folder}\Command.Bot.Website\">
+            <include name="index.html"/>
+            <include name="favicon.ico"/>
+            <include name="robots.txt"/>
+            <include name="views\**\*"/>
+            <include name="scripts\dist\*"/>
+            <include name="assets\**\*"/>
+            <include name="bower_components/angular-loading-bar/build/loading-bar.min.css"/>
+            <include name="bower_components/angular-material/angular-material.css"/>
+        </fileset>
+    </copy>
+	</target>
+
+	<target name="version" description="Generate AssemblyInfo">
+		<echo message="Marking build with version ${project.fullversion}" />
+		<loadfile  file="${version.assembly}" property="CommonAssemblyInfo.Data" />
+		<regex pattern="\[assembly: (?'replaceme'AssemblyVersion.*)\]" input="${CommonAssemblyInfo.Data}" />
+		<echo message="Updated from: ${replaceme}" />
+		<echo message="${string::replace(CommonAssemblyInfo.Data, replaceme, 'AssemblyVersion(&quot;'+project.fullversion.file+'&quot;)')}" file="${version.assembly}"/>
+	</target>
+
+
+	<target name="version.update" description="Update the version in the build file">
+		<xmlpeek
+    file="${version.buildFile}"
+    xpath="/x:project/x:property[@name = 'version.build']/@value"
+    property="version.build.read"
+    verbose="false">
+			<namespaces>
+				<namespace prefix="x" uri="http://nant.sourceforge.net/nightly/latest/nant.xsd" />
+			</namespaces>
+		</xmlpeek>
+		<loadfile  file="${version.buildFile}" property="build.Data" />
+		<regex pattern="property (?'replaceme'name=&quot;version.build&quot;.*)" input="${build.Data}" />
+		<property name="new.version.build" value="${int::parse(version.build.read)+1}"/>
+		<echo message="Updated from: ${replaceme}" />
+		<echo message="Updated To: ${new.version.build}" />
+		<echo message="${string::replace(build.Data, replaceme, 'name=&quot;version.build&quot; value=&quot;'+new.version.build+'&quot; />')}" file="${version.buildFile}"/>
+	</target>
+
+   <target name="nuget.restore">
+        <exec program="src\.nuget\NuGet.exe"  >
+            <arg line="install src\.nuget\packages.config -OutputDirectory lib"/>
+        </exec>
+    </target>
+
+  <target name="run.codecover.tests" depends="nuget.restore">
+        <mkdir dir="${build.reports.dir}"/>
+        <property name="partcover.dir" value="lib\OpenCover.4.5.3723\" />
+
+        <property name="run.tests.timeout" value="60000" />
+        <property name="run.tests.folder.pattern" value=".Tests" />
+        <property name="run.tests.settings" value="/exclude:Unstable /timeout:${run.tests.timeout}" />
+        <property name="nunit2-failed" value="false" />
+        <foreach item="Folder" in="${src.folder}" property="foldername">
+            <do>
+                <if test="${string::ends-with(foldername,run.tests.folder.pattern)}" >
+
+                    <property name="run.tests.folder" value="${path::combine(foldername,msbuild.bin.folder)}" />
+                    <property name="run.tests.folder.dll" value="${path::combine(run.tests.folder,path::get-file-name(foldername) + '.exe')}" />
+                    <property name="run.tests.folder.dll" value="${path::combine(run.tests.folder,path::get-file-name(foldername) + '.dll')}" if="${not file::exists(run.tests.folder.dll)}" />
+                    <property name="run.tests.folder.result" value="${path::get-full-path( path::combine( build.reports.dir ,path::get-file-name(foldername)+'.xml'))}" />
+                    <property name="run.tests.folder.out" value="${path::get-full-path( path::combine( build.reports.dir ,path::get-file-name(foldername)+'.txt'))}" />
+                    <property name="run.tests.folder.outPart" value="${path::get-full-path( path::combine( build.reports.dir ,path::get-file-name(foldername)+'.part.xml'))}" />
+                    <property name="run.tests.nunit" value="${path::get-full-path('tools/nunit/nunit-console.exe')}" />
+
+                    <echo message="----------------------------------------------" />
+                    <echo message="Test ${path::get-file-name(run.tests.folder.dll)}" />
+                    <exec program="OpenCover.Console.exe" workingdir="${run.tests.folder}" basedir="${partcover.dir}" verbose="false" failonerror="false"  resultproperty="exec_result"  >
+                        <arg value="&quot;-target:${run.tests.nunit}&quot;" />
+                        <arg value="&quot;-targetargs:\&quot;${run.tests.folder.dll}\&quot; ${run.tests.settings} /nologo /out:\&quot;${run.tests.folder.out}\&quot; /xml:\&quot;${run.tests.folder.result}\&quot; &quot;"/>
+                        <arg value="-register:user" />
+                        <arg value="-output:&quot;${run.tests.folder.outPart}&quot;" />
+                        <arg value="-log:&quot;Warn&quot;" />
+                    </exec>
+                    <property name="nunit2-failed" value="true" if="${int::parse(exec_result) != 0}" />
+                    <echo message="----------------------------------------------" />
+
+                </if>
+            </do>
+        </foreach>
+        <fail if="${nunit2-failed == 'true'}" message="Tests have failed." />
+        <call target="run.codecover.tests.generate.report"/>
+        <call target="run.codecover.tests.coverage.test"/>
+    </target>
+
+  <target name="run.codecover.tests.generate.report">
+    <exec program="ReportGenerator.exe"  basedir="lib\ReportGenerator.2.1.1.0" verbose="true" failonerror="true"  >
+        <arg value="-reports:&quot;${build.reports.dir}\*.Tests.part.xml&quot;" />
+        <arg value="-targetdir:&quot;${build.reports.dir}\CodeCoverage&quot;" />
+        <arg value="-reporttypes:&quot;HTML;HTMLSummary;XMLSummary&quot;" />
+        <arg value="-filters:&quot;+Command.Bot*;-Command.Bot*Tests&quot;" />
+    </exec>
+  </target>
+
+   <target name="run.codecover.tests.coverage.test">
+    <property name="test.line.coverage" value="0" />
+    <xmlpeek file="${build.reports.dir}\CodeCoverage\Summary.xml" xpath="/CoverageReport/Summary/LineCoverage" property="test.line.coverage" verbose="true"></xmlpeek>
+    <echo message="'${test.line.coverage}'" />
+    <property name="test.line.coverage" value="${double::parse(string::replace(test.line.coverage, '%', ''))}" />
+    <fail if="${double::parse(test.line.coverage) &lt; double::parse(test.minimum.coverage)}" message="The solution currently has ${test.line.coverage}% coverage, less than the required ${test.minimum.coverage}%" />
+  </target>
+
+	 <target name="run.tests">
+        <mkdir dir="${build.reports.dir}"/>
+        <property name="run.tests.timeout" value="60000" />
+        <property name="run.tests.folder.pattern" value=".Tests" />
+        <property name="run.tests.settings" value="/exclude:Unstable /timeout:${run.tests.timeout}" />
+        <property name="nunit2-failed" value="false" />
+        <foreach item="Folder" in="${src.folder}" property="foldername">
+            <do>
+
+                <if test="${string::ends-with(foldername,run.tests.folder.pattern)}" >
+                    <property name="run.tests.folder" value="${path::combine(foldername,msbuild.bin.folder)}" />
+                    <property name="run.tests.folder.dll" value="${path::combine(run.tests.folder,path::get-file-name(foldername) + '.exe')}" />
+                    <property name="run.tests.folder.dll" value="${path::combine(run.tests.folder,path::get-file-name(foldername) + '.dll')}" if="${not file::exists(run.tests.folder.dll)}" />
+                    <property name="run.tests.folder.result" value="${path::get-full-path( path::combine( build.reports.dir ,path::get-file-name(foldername)+'.xml'))}" />
+                    <property name="run.tests.folder.out" value="${path::get-full-path( path::combine( build.reports.dir ,path::get-file-name(foldername)+'.txt'))}" />
+                    <exec program="nunit-console.exe"
+                failonerror="false"
+                basedir="tools/nunit/"
+                workingdir="${run.tests.folder}"
+                resultproperty="exec_result" verbose="false"  >
+                        <arg value="&quot;${run.tests.folder.dll}&quot;" />
+                        <arg value="${run.tests.settings}"/>
+                        <arg value="/out:&quot;${run.tests.folder.out}&quot;" />
+                        <arg value="/xml:&quot;${run.tests.folder.result}&quot;" />
+                        <arg value="/nologo" />
+                    </exec>
+
+                    <echo message="Result : ${exec_result}" />
+                    <property name="nunit2-failed" value="true" if="${int::parse(exec_result) != 0}" />
+                </if>
+            </do>
+        </foreach>
+        <fail if="${nunit2-failed == 'true'}" message="Tests have failed." />
+    </target>
+
+	<target name="dist">
+		<mkdir dir="${build.dist.dir}" unless="${directory::exists(build.dist.dir)}"/>
+		<foreach item="Folder" in="${build.config.dir}" property="foldername">
+			<do>
+				<if test="${not (string::contains(foldername,'Tests'))}" >
+					<property name="dist.from.folder" value="${foldername}" />
+					<property name="dist.to.folder" value="${path::combine(build.dist.dir,path::get-file-name(foldername)+ '.v' + project.fullversion +'.'+src.sln.configuration+ '.zip'  )}" />
+					<echo message="Zip from ${dist.from.folder}" />
+					<echo message="Zip to ${dist.to.folder}" />
+					<zip zipfile="${dist.to.folder}">
+						<fileset basedir="${dist.from.folder}">
+							<include name="**\*"/>
+							<exclude name="**\*.pdb"/>
+						</fileset>
+					</zip>
+				</if>
+			</do>
+		</foreach>
+	</target>
+
+  <target name="deploy.mspackage" >
+    <exec program="${msbuild.executeable}"  workingdir="${deploy.workingDir}">
+      <arg value="/v:q" />
+      <arg value="/t:restorepackages" />
+      <arg value="/T:Package"/>
+      <arg value="/p:Configuration=${src.sln.configuration};Platform=AnyCPU;AutoParameterizationWebConfigConnectionStrings=false;PackageLocation=&quot;${deploy.pack}&quot;;EnableNuGetPackageRestore=true"/>
+      <arg value="/p:PackageTempRootDir=c:\temp"/>
+      <arg value="${deploy.proj}"/>
+    </exec>
+    <delete dir="c:\temp\PackageTmp" />
+<!--    <call target="deploy.addtopackage" />-->
+  </target>
+  <target name="deploy.addtopackage">
+     <copy file="${deploy.pack}" tofile="${deploy.pack}_old.zip"/>
+    <unzip zipfile="${deploy.pack}" todir="build\tmp" />
+    <copy todir="build\tmp\Content\c_C\temp\PackageTmp\static" overwrite="true">
+        <fileset basedir="${build.config.dir}\Command.Bot.Api\static">
+            <include name="**\*"/>
+        </fileset>
+    </copy>
+
+    <zip zipfile="${deploy.pack}">
+        <fileset basedir="build\tmp\">
+            <include name="**/*" />
+        </fileset>
+    </zip>
+     <delete dir="build\tmp" />
+  </target>
+  <target name="deploy.msdeploy" depends="deploy.mspackage" >
+    <exec program="msdeploy.exe" failonerror="true" basedir="C:\Program Files\IIS\Microsoft Web Deploy V3\"  workingdir="${deploy.workingDir}" verbose="true" >
+      <arg value="-source:package=&quot;${deploy.pack}&quot;" />
+      <arg value="-dest:auto,includeAcls=&quot;False&quot;,tempAgent=&quot;false&quot;" if="${string::get-length(deploy.auth) &lt;=  0}" />
+      <arg value="-dest:auto,${deploy.auth},includeAcls=&quot;False&quot;,tempAgent=&quot;false&quot;" if="${string::get-length(deploy.auth) > 0}" />
+      <arg value="-verb:sync" />
+      <arg value="-disableLink:AppPoolExtension" />
+      <arg value="-disableLink:ContentExtension" />
+      <arg value="-disableLink:CertificateExtension" />
+      <arg value="-skip:skipAction=Delete,objectName=filePath,absolutePath=Logs" />
+      <arg value="-setParam:&quot;IIS Web Application Name&quot;=&quot;${deploy.location}&quot;" />
+      <arg value="-useCheckSum" />
+    </exec>
+  </target>
+
+</project>
