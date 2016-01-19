@@ -49,6 +49,7 @@ namespace Command.Bot.Core.Responders
             var text = context.Message.Text;
             if (text != null)
             {
+                text = Regex.Replace(text, @"<@.*?>:", " ");
                 text = Regex.Replace(text, @"<@.*?>", " ");
                 return text.Trim().ToLower();
             }

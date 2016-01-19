@@ -24,7 +24,7 @@ namespace Command.Bot.Core.Responders
 
         public override bool CanRespond(MessageContext context)
         {
-            return base.CanRespond(context) && _allowedUsers.Length > 0 && !_allowedUsers.Contains(context.Message.User.Name);
+            return base.CanRespond(context) && _allowedUsers.Length > 0 && !(_allowedUsers.Contains(context.Message.User.Id) || _allowedUsers.Contains(context.Message.User.Name));
         }
 
         public override BotMessage GetResponse(MessageContext context)

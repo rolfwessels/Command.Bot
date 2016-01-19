@@ -18,6 +18,7 @@ namespace Command.Bot.Core.Responders
 
         public override bool CanRespond(MessageContext context)
         {
+            
             return context.IsForBot() && context.HasMessage("help");
         }
 
