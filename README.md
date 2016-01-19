@@ -7,7 +7,7 @@
 * Copy the API Token 
 * Download the bot from https://github.com/rolfwessels/Command.Bot
 * Extract bot into working folder.
-* Edit the Command.Bot.exe.config file, update the BotKey setting and the AllowedUser settings. (Note allow user can be multiple users, that are comma seperated)
+* Copy the Command.Bot.exe.sample.config to Command.Bot.exe.config file, update the BotKey setting and the AllowedUser settings. (Note allow user can be multiple users, that are comma seperated)
 * For testing you can run "Command.Bot.exe service run"
 * Once that is working you can add command bot as a service by running  "Command.Bot.exe service install" as an *administator*
 

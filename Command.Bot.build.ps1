@@ -16,7 +16,7 @@ properties {
     $srcDirectory = 'src'
     $srcSolution = Join-Path $srcDirectory 'Command.Bot.sln'
 
-    $codeCoverRequired = 70
+    $codeCoverRequired = 10
 
     $versionMajor = 0
     $versionMinor = 0
@@ -28,6 +28,9 @@ properties {
     $msdeploy = 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe';
     $deployServiceDest = "computerName='xxxx',userName='xxx',password='xxxx',includeAcls='False',tempAgent='false',dirPath='d:\server\temp'"
     $deployApiDest = 'auto,includeAcls="False",tempAgent="false"'
+
+
+    $reportGenerator = 'lib\ReportGenerator.2.3.2.0\tools'
 }
 
 #
@@ -84,6 +87,9 @@ task build.copy {
     $fromFolder =  Join-Path $srcDirectory (Join-Path 'Command.Bot.Console' (srcBinFolder) )
     $toFolder =  Join-Path (buildConfigDirectory) 'Command.Bot.Console'
     copy-files $fromFolder $toFolder
+    remove-item (join-path $toFolder Command.Bot.exe.config)
+    copy-item (join-path $srcDirectory 'Command.Bot.Console\app.sample.config') (join-path $toFolder Command.Bot.exe.sample.config)
+    copy-files (join-path $srcDirectory 'Command.Bot.Core.Tests\Samples') (join-path $toFolder 'scripts')
 }
 
 task nuget.restore {
@@ -97,7 +103,7 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
     $partcoverDirectory = resolve-path 'lib\OpenCover.4.6.166\tools'
     $partcoverExe = Join-Path $partcoverDirectory 'OpenCover.Console.exe'
     $nunitDirectory =  resolve-path 'lib\NUnit.Runners.2.6.4\tools\nunit-console.exe'
-    $reportGenerator = 'lib\ReportGenerator.2.3.2.0'
+    
     
     $runTestsTimeout = '60000'
     $runTestsDirectory = '.Tests'
@@ -138,7 +144,7 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
     write-host 'Generate report' -foreground "magenta"
     Set-Location $currentPath
     Set-Location $reportGenerator
-    $buildReportsDirectoryRelative = Join-Path '..\..\' $buildReportsDirectory
+    $buildReportsDirectoryRelative = Join-Path '..\..\..\' $buildReportsDirectory
     $reports = Join-Path  $buildReportsDirectoryRelative '*.Tests.part.xml'
     $targetdir = Join-Path  $buildReportsDirectoryRelative 'CodeCoverage'
     $reporttypes = 'HTML;HTMLSummary;XMLSummary'
