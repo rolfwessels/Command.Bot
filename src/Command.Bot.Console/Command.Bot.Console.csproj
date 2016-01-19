@@ -98,7 +98,7 @@
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
     <Reference Include="websocket-sharp">
-      <HintPath>..\..\lib\MargieBot.1.1.4.1\lib\net45\websocket-sharp.dll</HintPath>
+      <HintPath>..\..\lib\WebSocketSharp.1.0.3-rc9\lib\websocket-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
