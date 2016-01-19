@@ -79,9 +79,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="ManyConsole, Version=0.4.2.17, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ManyConsole, Version=0.4.2.18, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\ManyConsole.0.4.2.17\lib\ManyConsole.dll</HintPath>
+      <HintPath>..\..\lib\ManyConsole.0.4.2.18\lib\ManyConsole.dll</HintPath>
     </Reference>
     <Reference Include="NDesk.Options">
       <HintPath>..\..\lib\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
@@ -135,6 +135,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="app.sample.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

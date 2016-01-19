@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Command.Bot.Core.Runner;
 using SlackConnector;
 using SlackConnector.Models;
 
 namespace Command.Bot.Core
 {
-    public class MessageContext
+    public class MessageContext : IMessageContext
     {
         private readonly ISlackConnection _connection;
 

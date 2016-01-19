@@ -89,8 +89,9 @@
     <Reference Include="RestSharp">
       <HintPath>..\..\lib\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="SlackConnector">
-      <HintPath>..\..\lib\SlackConnector.3.0.5811.41364\lib\net45\SlackConnector.dll</HintPath>
+    <Reference Include="SlackConnector, Version=3.0.5827.36312, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SlackConnector.3.0.5827.36312\lib\net45\SlackConnector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -102,7 +103,7 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="websocket-sharp">
-      <HintPath>..\..\lib\MargieBot.1.1.4.1\lib\net45\websocket-sharp.dll</HintPath>
+      <HintPath>..\..\lib\WebSocketSharp.1.0.3-rc9\lib\websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp-with-proxy-support">
       <HintPath>..\..\lib\websocket-sharp-with-proxy-support.1.9.1\lib\net35-client\websocket-sharp-with-proxy-support.dll</HintPath>
@@ -132,10 +133,13 @@
     <Compile Include="Responders\IResponder.cs" />
     <Compile Include="Responders\RemoveInstructions.cs" />
     <Compile Include="Responders\ResponderBase.cs" />
+    <Compile Include="Runner\BaseCommandLineRunner.cs" />
     <Compile Include="Runner\BatchFile.cs" />
     <Compile Include="Runner\FileRunner.cs" />
     <Compile Include="Runner\FileRunners.cs" />
+    <Compile Include="Runner\IMessageContext.cs" />
     <Compile Include="Runner\IRunner.cs" />
+    <Compile Include="Runner\PowerShellFile.cs" />
     <Compile Include="Runner\RunnerHelper.cs" />
     <Compile Include="SlackService.cs" />
   </ItemGroup>

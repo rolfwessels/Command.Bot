@@ -9,7 +9,7 @@ namespace Command.Bot.Core.Runner
     {
         static FileRunners()
         {
-            All = new IRunner[] { new BatchFile()};
+            All = new IRunner[] { new BatchFile() , new PowerShellFile() };
         }
 
         public static IRunner[] All { get; set; }

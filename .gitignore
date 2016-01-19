@@ -21,3 +21,4 @@ src/_NCrunch_Command.Bot/
 **/_NCrunch*
 **/nCrunchTemp*
 **/Command.Bot.Website/build/**
+/src/Command.Bot.Console/app.config

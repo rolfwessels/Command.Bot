@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
+using log4net;
 
 namespace Command.Bot.Core.Runner
 {
-    public class BatchFile : BaseCommandLineRunner, IRunner
+    public class PowerShellFile : BaseCommandLineRunner, IRunner
     {
+        
         #region Implementation of IRunner
 
-        public string Extension {
-            get { return ".bat"; }
+        public string Extension
+        {
+            get { return ".ps1"; }
         }
 
         public FileRunner GetRunner(string filePath)
@@ -26,8 +30,9 @@ namespace Command.Bot.Core.Runner
 
         private Func<IMessageContext, IEnumerable<string>> ProcessFile(string filePath)
         {
-            return (context) => {
-                ExecuteCommand(context,filePath);
+            return (context) =>
+            {
+                ExecuteCommand(context, filePath);
                 return new string[0];
             };
         }
@@ -36,7 +41,8 @@ namespace Command.Bot.Core.Runner
 
         void ExecuteCommand(IMessageContext context, string command)
         {
-            RunCommand(context, command);
+            var commandLine = "powershell -NoProfile -ExecutionPolicy Bypass -Command \"& '"+command+"'\"";
+            RunCommand(context, commandLine);
         }
     }
 }

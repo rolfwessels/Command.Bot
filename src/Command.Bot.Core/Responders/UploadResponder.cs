@@ -33,9 +33,11 @@ namespace Command.Bot.Core.Responders
         public override BotMessage GetResponse(MessageContext context)
         {
             var fullMessage = context.Message.GetFullMessage();
-            if (_extensions.Any(x => x.IsExtensionMatch(fullMessage.File.Name)))
+            if (HasAFileContainingExtention(fullMessage))
             {
-                var resource = new Uri(fullMessage.File.UrlDownload);
+                var uriString = fullMessage.File.UrlDownload ?? fullMessage.File.UrlPrivateDownload ?? fullMessage.File.UrlPrivate;
+                _log.Info(string.Format("Downloading '{0}'", uriString));
+                var resource = new Uri(uriString);
                 context.Say("Reading file");
                 var downloadData = resource.Download();
                 
@@ -44,9 +46,14 @@ namespace Command.Bot.Core.Responders
                     fileStream.Write(downloadData, 0, downloadData.Length);
                     context.Say("File saved");
                 }
-                return new BotMessage() { Text = "Command saved" };
+                return new BotMessage() { Text = string.Format("Command saved. You can type *{0}* to run the command.", Path.GetFileName(fullMessage.File.Name)) };
             }
             return new BotMessage() { Text = "Unknown file type."};
+        }
+
+        private bool HasAFileContainingExtention(MessageParser.RootObject fullMessage)
+        {
+            return fullMessage != null && (fullMessage.File != null && _extensions.Any(x => x.IsExtensionMatch(fullMessage.File.Name)));
         }
 
         #endregion

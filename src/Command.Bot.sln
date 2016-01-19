@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\go.bat = ..\go.bat
 		gulpfile.js = gulpfile.js
 		gulpwatch.bat = gulpwatch.bat
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Command.Bot.Console", "Command.Bot.Console\Command.Bot.Console.csproj", "{AF4A7467-D948-403A-A21B-B6A80A6A6652}"

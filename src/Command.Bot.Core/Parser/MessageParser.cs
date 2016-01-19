@@ -37,6 +37,7 @@ namespace Command.Bot.Core.Parser
             public string UrlDownload { get; set; }
             [JsonProperty(PropertyName = "url_private")]
             public string UrlPrivate { get; set; }
+            [JsonProperty(PropertyName = "url_private_download")]
             public string UrlPrivateDownload { get; set; }
             public string Permalink { get; set; }
             public string PermalinkPublic { get; set; }

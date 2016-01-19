@@ -5,9 +5,9 @@ namespace Command.Bot.Core.Runner
 {
     public class FileRunner : IResponderDescription
     {
-        private readonly Func<MessageContext, IEnumerable<string>> _execute;
+        private readonly Func<IMessageContext, IEnumerable<string>> _execute;
 
-        public FileRunner(string command, string description, Func<MessageContext, IEnumerable<string>> execute, string file)
+        public FileRunner(string command, string description, Func<IMessageContext, IEnumerable<string>> execute, string file)
         {
             _execute = execute;
             Command = command;
@@ -20,7 +20,7 @@ namespace Command.Bot.Core.Runner
         public string Command { get; private set; }
         public string Description { get; private set; }
 
-        public Func<MessageContext, IEnumerable<string>> Execute
+        public Func<IMessageContext, IEnumerable<string>> Execute
         {
             get { return _execute; }
         }
@@ -34,4 +34,6 @@ namespace Command.Bot.Core.Runner
             return text.ToLower().StartsWith(Command.ToLower());
         }
     }
+
+   
 }
