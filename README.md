@@ -5,7 +5,7 @@
 
 * Add "bots" to your slack installation. (on https://slack.com/apps search for bots and add it. Give the bot the username that you desire)
 * Copy the API Token 
-* Download the bot from https://github.com/rolfwessels/Command.Bot
+* Download the bot from https://github.com/rolfwessels/Command.Bot/releases
 * Extract bot into working folder.
 * Copy the Command.Bot.exe.sample.config to Command.Bot.exe.config file, update the BotKey setting and the AllowedUser settings. (Note allow user can be multiple users, that are comma seperated)
 * For testing you can run "Command.Bot.exe service run"
