@@ -42,7 +42,7 @@ namespace Command.Bot.Core.Runner
         {
             var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)??@".\";
             var fullPath = Path.GetFullPath(Path.Combine(directoryName, scripts));
-            _log.Debug($"FileRunners:GetOrCreateFullPath Using path : {fullPath}");
+            _log.Debug("FileRunners:GetOrCreateFullPath Using path : "+fullPath);
             if (!Directory.Exists(fullPath))
             {
                 Directory.CreateDirectory(fullPath);

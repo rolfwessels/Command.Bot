@@ -23,7 +23,7 @@ properties {
     $versionBuild = 2
     $versionRevision = 0
     
-    $vsVersion = "12.0"
+    $vsVersion = "14.0"
     
     $msdeploy = 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe';
     $deployServiceDest = "computerName='xxxx',userName='xxx',password='xxxx',includeAcls='False',tempAgent='false',dirPath='d:\server\temp'"
