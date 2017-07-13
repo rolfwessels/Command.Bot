@@ -12,7 +12,7 @@ namespace Command.Bot.Core.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace Command.Bot.Core.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("xoxb-14491425043-0v6oSPpQVsJ1zjqtiFN5HX4P")]
+        [global::System.Configuration.DefaultSettingValueAttribute("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")]
         public string BotKey {
             get {
                 return ((string)(this["BotKey"]));
@@ -34,10 +34,19 @@ namespace Command.Bot.Core.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("rolf")]
+        [global::System.Configuration.DefaultSettingValueAttribute("xxxxxxxxxxxxxxxxxx")]
         public string AllowedUser {
             get {
                 return ((string)(this["AllowedUser"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("scripts\\")]
+        public string ScriptsPath {
+            get {
+                return ((string)(this["ScriptsPath"]));
             }
         }
     }

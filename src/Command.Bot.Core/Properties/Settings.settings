@@ -3,10 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="BotKey" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">xoxb-14491425043-0v6oSPpQVsJ1zjqtiFN5HX4P</Value>
+      <Value Profile="(Default)">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</Value>
     </Setting>
     <Setting Name="AllowedUser" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">rolf</Value>
+      <Value Profile="(Default)">xxxxxxxxxxxxxxxxxx</Value>
+    </Setting>
+    <Setting Name="ScriptsPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">scripts\</Value>
     </Setting>
   </Settings>
 </SettingsFile>

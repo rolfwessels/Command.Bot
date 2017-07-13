@@ -20,7 +20,7 @@ properties {
 
     $versionMajor = 0
     $versionMinor = 0
-    $versionBuild = 1
+    $versionBuild = 2
     $versionRevision = 0
     
     $vsVersion = "12.0"
@@ -28,7 +28,6 @@ properties {
     $msdeploy = 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe';
     $deployServiceDest = "computerName='xxxx',userName='xxx',password='xxxx',includeAcls='False',tempAgent='false',dirPath='d:\server\temp'"
     $deployApiDest = 'auto,includeAcls="False",tempAgent="false"'
-
 
     $reportGenerator = 'lib\ReportGenerator.2.3.2.0\tools'
 }

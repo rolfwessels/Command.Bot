@@ -1,12 +1,18 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Command.Bot.Core.Responders;
+using System.Reflection;
+using Command.Bot.Core.Properties;
+using log4net;
 
 namespace Command.Bot.Core.Runner
 {
     public static class FileRunners
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Lazy<string> BasePath = new Lazy<string>(()=> GetOrCreateFullPath(Settings.Default.ScriptsPath));
+
         static FileRunners()
         {
             All = new IRunner[] { new BatchFile() , new PowerShellFile() };
@@ -18,7 +24,7 @@ namespace Command.Bot.Core.Runner
         {
             get
             {
-                var files = Directory.GetFiles(GetOrCreateFullPath(@"scripts\"));
+                var files = Directory.GetFiles(BasePath.Value);
                 foreach (var file in files)
                 {
                     var fileRunner = All.Where(x=>x.IsExtensionMatch(file)).Select(x => x.GetRunner(file)).FirstOrDefault(x => x != null);
@@ -29,17 +35,19 @@ namespace Command.Bot.Core.Runner
 
         public static string GetFileLocation(string name)
         {
-            return GetOrCreateFullPath(@"scripts\") + name;
+            return Path.Combine(BasePath.Value, name) ;
         }
 
         private static string GetOrCreateFullPath(string scripts)
         {
-            var orCreateFullPath = Path.GetFullPath(scripts);
-            if (!Directory.Exists(orCreateFullPath))
+            var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)??@".\";
+            var fullPath = Path.GetFullPath(Path.Combine(directoryName, scripts));
+            _log.Debug($"FileRunners:GetOrCreateFullPath Using path : {fullPath}");
+            if (!Directory.Exists(fullPath))
             {
-                Directory.CreateDirectory(orCreateFullPath);
+                Directory.CreateDirectory(fullPath);
             }
-            return orCreateFullPath;
+            return fullPath;
         }
     }
 
