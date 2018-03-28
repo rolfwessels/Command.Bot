@@ -7,11 +7,10 @@ Framework "4.0"
 properties {
     $buildConfiguration = 'debug'
     $buildDirectory = 'build'
-    $buildReportsDirectory =  Join-Path $buildDirectory 'reports'
-    $buildPackageDirectory =  Join-Path $buildDirectory 'packages'
-    $buildDistDirectory =  Join-Path $buildDirectory 'dist'
-
-    $buildContants = ''
+    $buildReportsDirectory = Join-Path $buildDirectory 'reports'
+    $buildPackageDirectory = Join-Path $buildDirectory 'packages'
+    $buildDistDirectory = Join-Path $buildDirectory 'dist'
+    $buildPublishProjects =  'Command.Bot.Console'
 
     $srcDirectory = 'src'
     $srcSolution = Join-Path $srcDirectory 'Command.Bot.sln'
@@ -20,16 +19,10 @@ properties {
 
     $versionMajor = 0
     $versionMinor = 0
-    $versionBuild = 2
+    $versionBuild = 3
     $versionRevision = 0
     
-    $vsVersion = "14.0"
-    
-    $msdeploy = 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe';
-    $deployServiceDest = "computerName='xxxx',userName='xxx',password='xxxx',includeAcls='False',tempAgent='false',dirPath='d:\server\temp'"
-    $deployApiDest = 'auto,includeAcls="False",tempAgent="false"'
-
-    $reportGenerator = 'lib\ReportGenerator.2.3.2.0\tools'
+    $nuget = './src/.nuget/NuGet.exe';
 }
 
 #
@@ -37,12 +30,12 @@ properties {
 #
 
 task default -depends build  -Description "By default it just builds"
-task clean -depends build.clean,build.cleanbin -Description "Removes build folder"
-task build -depends build.cleanbin,version,build.compile,build.copy -Description "Cleans bin/object and builds the project placing binaries in build directory"
-task test -depends build,test.run  -Description "Builds and runs part cover tests"
-task full -depends test,deploy.zip -Description "Versions builds and creates distributions"
-task package -depends version,build,deploy.package -Description "Creates packages that could be user for deployments"
-task deploy -depends version,build,deploy.service -Description "Deploy the files to webserver using msdeploy"
+task clean -depends build.clean, build.cleanbin -Description "Removes build folder"
+task build -depends build.cleanbin, version, build.compile, build.copy -Description "Cleans bin/object and builds the project placing binaries in build directory"
+task test -depends build, test.run  -Description "Builds and runs part cover tests"
+task full -depends test, deploy.zip -Description "Versions builds and creates distributions"
+task deploy -depends clean,version,build,deploy.zip -Description "Deploy the files to webserver using msdeploy"
+task prerequisite -depends prerequisite.choco, prerequisite.dotnet  -Description "Install all prerequisites"
 
 #
 # task depends
@@ -51,8 +44,7 @@ task deploy -depends version,build,deploy.service -Description "Deploy the files
 task build.clean {
     remove-item -force -recurse $buildDirectory -ErrorAction SilentlyContinue
     $binFolders = Get-ChildItem ($srcDirectory + '\*\*') | where { $_.name -eq 'bin' -or $_.name -eq 'obj'} | Foreach-Object {$_.fullname}
-    if ($binFolders -ne $null)
-    {
+    if ($binFolders -ne $null) {
         remove-item $binFolders -force -recurse -ErrorAction SilentlyContinue
     }
 }
@@ -60,31 +52,61 @@ task build.clean {
 task build.cleanbin {
     remove-item -force -recurse $buildReportsDirectory -ErrorAction SilentlyContinue
     remove-item -force -recurse (buildConfigDirectory) -ErrorAction SilentlyContinue
-    $binFolders = Get-ChildItem $srcDirectory -include bin,obj  | Foreach-Object {$_.fullname}
-    if ($binFolders -ne $null)
-    {
+    $binFolders = Get-ChildItem $srcDirectory -include bin, obj  | Foreach-Object {$_.fullname}
+    if ($binFolders -ne $null) {
         remove-item $binFolders -force -recurse -ErrorAction SilentlyContinue
     }
 }
 
 task build.compile {
-    'Compile '+$buildConfiguration+' version '+(srcBinFolder)
-    msbuild  $srcSolution /t:rebuild /p:Configuration=$buildConfiguration /p:VisualStudioVersion=$vsVersion /v:q
+    foreach ($buildPublishProject in $buildPublishProjects) {
+        $toFolder = (Join-Path ( Join-Path (resolve-path .)(buildConfigDirectory)) $buildPublishProject)
+        $project =  Join-Path $srcDirectory $buildPublishProject
+        
+        Push-Location 'src'
+        dotnet build 
+        Pop-Location
+        Push-Location $project
+        if ($buildConfiguration -ne 'release') {
+            write-host "Publish $project with suffix $buildConfiguration" -foreground "magenta"
+            dotnet publish -c $buildConfiguration --version-suffix $buildConfiguration  -v quiet
+        }
+        else {
+            write-host "Publish $project  $buildConfiguration" -foreground "magenta"
+            dotnet publish -c $buildConfiguration   -v quiet
+        }
+        #msbuild   /v:q
+        if (!$?) {
+            throw "Failed to publish $project"
+        }
+        
+        Pop-Location
+    }
 }
 
 task version {
-    $commonAssemblyInfo = Join-Path $srcDirectory 'Command.Bot.Core/Properties/CommonAssemblyInfo.cs'
-    $regEx = 'AssemblyVersion\(.*\)'
-    $replace = 'AssemblyVersion("' + (fullversionrev) + '")'
-    $replace
-    'Set the version in ' +$commonAssemblyInfo
-    (gc  $commonAssemblyInfo )  -replace $regEx, $replace |sc $commonAssemblyInfo
+    $projectFolders = Get-ChildItem $srcDirectory '*' -Directory
+    foreach ($projectFolder in $projectFolders) {
+        $projectFiles = Get-ChildItem $projectFolder.FullName '*.csproj' -File
+        foreach ($projectFile in $projectFiles) {
+            [xml]$Xml = Get-Content $projectFile.FullName
+            $result = $Xml.Project.PropertyGroup.Version
+            if (![string]::IsNullOrEmpty($result)) {
+                $version = (fullversionrev) 
+                write-host "Set version $version in  $projectFile" -foreground "magenta"
+                $Xml.Project.PropertyGroup.Version = $version
+                $Xml.Save( $projectFile.FullName)
+            }
+        }
+    }
 }
 
 task build.copy {
     'Copy the console'
-    $fromFolder =  Join-Path $srcDirectory (Join-Path 'Command.Bot.Console' (srcBinFolder) )
-    $toFolder =  Join-Path (buildConfigDirectory) 'Command.Bot.Console'
+    $fromFolder = Join-Path $srcDirectory (Join-Path 'Command.Bot.Console' (srcBinFolder) )
+    $fromFolder = Join-Path $fromFolder 'publish'
+    
+    $toFolder = Join-Path (buildConfigDirectory) 'Command.Bot.Console'
     copy-files $fromFolder $toFolder
     remove-item (join-path $toFolder Command.Bot.exe.config)
     copy-item (join-path $srcDirectory 'Command.Bot.Console\app.sample.config') (join-path $toFolder Command.Bot.exe.sample.config)
@@ -95,69 +117,69 @@ task nuget.restore {
     ./src/.nuget/NuGet.exe install src\.nuget\packages.config -OutputDirectory lib
 }
 
-task test.run -depends nuget.restore -precondition { return $buildConfiguration -eq 'debug' } {
-    mkdir $buildReportsDirectory -ErrorAction SilentlyContinue
+task test.run -depend nuget.restore  -precondition { return $buildConfiguration -eq 'debug' } {
+    $reportFolder = mkdir $buildReportsDirectory -ErrorAction SilentlyContinue
+    
+
+
 
     $currentPath = resolve-path '.'
-    $partcoverDirectory = resolve-path 'lib\OpenCover.4.6.166\tools'
-    $partcoverExe = Join-Path $partcoverDirectory 'OpenCover.Console.exe'
-    $nunitDirectory =  resolve-path 'lib\NUnit.Runners.2.6.4\tools\nunit-console.exe'
-    
-    
-    $runTestsTimeout = '60000'
-    $runTestsDirectory = '.Tests'
-    $runTestsSettings = '/exclude:Unstable /timeout:' + $runTestsTimeout
+    $openConverDirectory = resolve-path 'lib\OpenCover.4.6.519\tools'
+    $nunitDirectory =  resolve-path 'lib\NUnit.ConsoleRunner.3.7.0\tools\nunit3-console.exe'
+    $reportGenerator = 'lib\ReportGenerator.3.0.0-beta3\tools'
 
+    $openConverExe = './OpenCover.Console.exe'
     $nunit2failed = 'false'
-    $hasFailure = $FALSE
-    $testFolders = Get-ChildItem $srcDirectory '*.Tests' -Directory
-    foreach ($testFolder in $testFolders) {
+    $failures = 0
+   
+    #$testFolders1 = Get-ChildItem $srcDirectory '*.Tests' -Directory  | Where-Object {Test-Path $_} | Select-Object -first 1
+    $allTestDlls = Get-ChildItem $srcDirectory '*.Tests' -Directory  | foreach { Join-Path (Join-Path $_.FullName (srcBinFolder)) ($_.Name + '.dll') } | Where-Object {Test-Path $_} 
+    $combinedDlls = [string]::Join(" ", $allTestDlls)
+    $testOutputPrefix = "testResults";
+    
+    $buildReportsDirectoryResolved = '..\..\..\'+ $buildReportsDirectory;
+    $runTestsFolderResult =  Join-Path $buildReportsDirectoryResolved ($testOutputPrefix + '.xml')
+    $runTestsFolderOut =  Join-Path $buildReportsDirectoryResolved ($testOutputPrefix + '.txt')
+    $runTestsFolderPartResult =  Join-Path $buildReportsDirectoryResolved ($testOutputPrefix + '.part.xml')
 
-        $runTestsFolder = Join-Path $testFolder.FullName (srcBinFolder)
-        $runTestsFolderDll = Join-Path $runTestsFolder ($testFolder.Name + '.dll')
+    
+    Set-Location $openConverDirectory
+    
+    $target = '-targetargs:'+$combinedDlls+' -noheader  -shadowcopy --out:'+$runTestsFolderOut +'  --result='+$runTestsFolderResult
+    
+    &($openConverExe) -target:$nunitDirectory $target -oldstyle  -register:user -output:$runTestsFolderPartResult -log:Warn
+    [xml]$Xml = Get-Content $runTestsFolderResult
+    [int]$result= $Xml.'test-run'.failed
+    $failures += $result
 
-        $buildReportsDirectoryResolved = '..\..\..\'+ $buildReportsDirectory;
-        $runTestsFolderResult =  Join-Path $buildReportsDirectoryResolved ($testFolder.Name + '.xml')
-        $runTestsFolderOut =  Join-Path $buildReportsDirectoryResolved ($testFolder.Name + '.txt')
-        $runTestsFolderPartResult =  Join-Path $buildReportsDirectoryResolved ($testFolder.Name + '.part.xml')
-        '----------------------------------------------'
-        $testFolder.Name
-
-        Set-Location $partcoverDirectory
-
-        $target = '-targetargs:'+$runTestsFolderDll+' /nologo /noshadow /out:'+$runTestsFolderOut +' /xml:'+$runTestsFolderResult
-        $runTestsFolder
-
-        ./OpenCover.Console.exe -target:$nunitDirectory $target   -register:user -output:$runTestsFolderPartResult -log:Warn
-        [xml]$Xml = Get-Content $runTestsFolderResult
-        [int]$result= $Xml.'test-results'.failures
-        $hasFailure =  $hasFailure -or $result -gt 0
-
-    }
-
-    if ($hasFailure)
+    if ($failures -gt 0)
     {
-        throw "Tests have failed"
+        throw "$failures Tests have failed!!!"
     }
 
     write-host 'Generate report' -foreground "magenta"
     Set-Location $currentPath
     Set-Location $reportGenerator
     $buildReportsDirectoryRelative = Join-Path '..\..\..\' $buildReportsDirectory
-    $reports = Join-Path  $buildReportsDirectoryRelative '*.Tests.part.xml'
+    $reports = Join-Path  $buildReportsDirectoryRelative '*.part.xml'
     $targetdir = Join-Path  $buildReportsDirectoryRelative 'CodeCoverage'
     $reporttypes = 'HTML;HTMLSummary;XMLSummary'
-    $filters = '+Command.Bot*;-Command.Bot*Tests';
+    $filters = '+Ifs';
 
-    ./ReportGenerator.exe -reports:$reports -targetdir:$targetdir -reporttypes:$reporttypes -filters:$filters -verbosity:Error
+    ./ReportGenerator.exe -reports:$reports -targetdir:$targetdir -reporttypes:$reporttypes -filters:$filters  -verbosity:Error
     Set-Location $currentPath
     write-host 'Validate code coverage' -foreground "magenta"
 
     $codeCoverSummary = Join-Path $buildReportsDirectory 'CodeCoverage\Summary.xml'
     [xml]$Xml = Get-Content $codeCoverSummary
     [int]$codeCover = $Xml.CoverageReport.Summary.LineCoverage -replace '%', ''
+
     if ($codeCover -lt $codeCoverRequired) {
         throw 'The solution currently has '+$codeCover+'% coverage, less than the required '+$codeCoverRequired+'%'
+    }
+    else {
+        write-host "The solution currently has $codeCover% coverage" -foreground 'green'
+        
     }
 }
 
@@ -166,20 +188,15 @@ task deploy.zip {
     $folders = Get-ChildItem (buildConfigDirectory) -Directory
     foreach ($folder in $folders) {
         $version = fullversion
-        $zipname = Join-Path $buildDistDirectory ($folder.name + '.v.'+ $version+'.'+$buildConfiguration+'.zip' )
-        write-host ('Create '+$zipname)
+        $zipname = Join-Path $buildDistDirectory ($folder.name + '.v.' + $version + '.' + $buildConfiguration + '.zip' )
+        write-host ('Create ' + $zipname)
         ZipFiles $zipname $folder.fullname
     }
 }
 
-task deploy.service {
-    $source = 'dirPath='+( resolve-path (Join-Path (buildConfigDirectory) 'Command.Bot.Console'))
-    &($msdeploy) -verb:sync -allowUntrusted -source:$source -dest:$deployServiceDest
-    # &($msdeploy) -verb:sync -preSync:runCommand='D:\Dir\on\remote\server\stop-service.cmd',waitInterval=30000 -source:dirPath='C:\dir\of\files\to\be\copied\on\build\server ' -dest:computerName='xx.xx.xx.xx',userName='xx.xx.xx.xx',password='xxxxxxxxxxxxxxx',includeAcls='False',tempAgent='false',dirPath='D:\Dir\on\remote\server\'  -allowUntrusted -postSync:runCommand='D:\Dir\on\remote\server\start-service.cmd',waitInterval=30000
-}
 
 task ? -Description "Helper to display task info" {
-	WriteDocumentation
+    WriteDocumentation
 }
 
 #
@@ -200,31 +217,30 @@ function fullversionrev() {
 
 
 function srcBinFolder() {
-    return  Join-Path bin $buildConfiguration
+    return  Join-Path (Join-Path bin $buildConfiguration ) 'net461'
 }
 
 function buildConfigDirectory() {
     Join-Path $buildDirectory $buildConfiguration
 }
 
-function global:copy-files($source,$destination,$include=@(),$exclude=@()){
+function global:copy-files($source, $destination, $include = @(), $exclude = @()) {
     $sourceFullName = resolve-path $source
     $relativePath = Get-Item $source | Resolve-Path -Relative
     $mkdirResult = mkdir $destination -ErrorAction SilentlyContinue
     $files = Get-ChildItem $source -include $include -Recurse -Exclude $exclude
-     foreach ($file in $files) {
-       $relativePathOfFile = Get-Item $file.FullName | Resolve-Path -Relative
-       $tofile = Join-Path $destination $relativePathOfFile.Substring($relativePath.length)
-       Copy-Item -Force $relativePathOfFile $tofile
-     }
+    foreach ($file in $files) {
+        $relativePathOfFile = Get-Item $file.FullName | Resolve-Path -Relative
+        $tofile = Join-Path $destination $relativePathOfFile.Substring($relativePath.length)
+        Copy-Item -Force $relativePathOfFile $tofile
+    }
 }
 
-function ZipFiles( $zipfilename, $sourcedir )
-{
-   del $zipfilename -ErrorAction SilentlyContinue
-   Add-Type -Assembly System.IO.Compression.FileSystem
-   $compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal
-   [System.IO.Compression.ZipFile]::CreateFromDirectory($sourcedir,
+function ZipFiles( $zipfilename, $sourcedir ) {
+    del $zipfilename -ErrorAction SilentlyContinue
+    Add-Type -Assembly System.IO.Compression.FileSystem
+    $compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal
+    [System.IO.Compression.ZipFile]::CreateFromDirectory($sourcedir,
         $zipfilename, $compressionLevel, $false)
 }
 
@@ -233,7 +249,8 @@ function WriteDocumentation() {
 
     if ($currentContext.tasks.default) {
         $defaultTaskDependencies = $currentContext.tasks.default.DependsOn
-    } else {
+    }
+    else {
         $defaultTaskDependencies = @()
     }
 
@@ -248,12 +265,12 @@ function WriteDocumentation() {
 
         $task = $currentContext.tasks.$_
         new-object PSObject -property @{
-            Name = $task.Name;
+            Name        = $task.Name;
             Description = $task.Description;
         }
     }
 
-    $docs | where {-not [string]::IsNullOrEmpty($_.Description)} | sort 'Name' | sort 'Description' -Descending | format-table -autoSize -wrap -property Name,Description
+    $docs | where {-not [string]::IsNullOrEmpty($_.Description)} | sort 'Name' | sort 'Description' -Descending | format-table -autoSize -wrap -property Name, Description
 
     'Examples:'
     '----------'
@@ -262,8 +279,8 @@ function WriteDocumentation() {
     'go clean,build'
     ''
     ''
-    'Qa build:'
-    'go build -properties @{''buildConfiguration''=''Qa''}'
+    'Release build:'
+    'go deploy -properties @{''buildConfiguration''=''Release''}'
     ''
     'Staging deploy to sepecified folder:'
     'go deploy -properties @{buildConfiguration=''Staging'';deployServiceDest =''computerName=''''xxxx'''',userName=''''xxx'''',password=''''xxxx'''',includeAcls=''''False'''',tempAgent=''''false'''',dirPath=''''d:\server\temp'''''' }'

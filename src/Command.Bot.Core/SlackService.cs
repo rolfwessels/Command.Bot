@@ -53,7 +53,7 @@ namespace Command.Bot.Core
             RemoveEvents();
             try
             {
-                _connection.Disconnect();
+                _connection.Close().Wait();
             }
             catch (Exception e)
             {
