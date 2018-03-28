@@ -22,3 +22,4 @@ src/_NCrunch_Command.Bot/
 **/nCrunchTemp*
 **/Command.Bot.Website/build/**
 /src/Command.Bot.Console/app.config
+/src/.vs/

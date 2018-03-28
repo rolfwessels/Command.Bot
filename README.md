@@ -18,8 +18,3 @@
 * Add files to /script folder to be able to execute them
 * type the file name of the script that you want to execute to run it.
 
-
-
-
-
-
