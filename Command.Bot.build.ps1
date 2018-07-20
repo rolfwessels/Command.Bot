@@ -19,7 +19,7 @@ properties {
 
     $versionMajor = 0
     $versionMinor = 0
-    $versionBuild = 3
+    $versionBuild = 5
     $versionRevision = 0
     
     $nuget = './src/.nuget/NuGet.exe';
@@ -108,9 +108,14 @@ task build.copy {
     
     $toFolder = Join-Path (buildConfigDirectory) 'Command.Bot.Console'
     copy-files $fromFolder $toFolder
-    remove-item (join-path $toFolder Command.Bot.exe.config)
-    copy-item (join-path $srcDirectory 'Command.Bot.Console\app.sample.config') (join-path $toFolder Command.Bot.exe.sample.config)
+    
+    write-host 'update configs' -foreground "magenta"
+    move-item (join-path  $toFolder 'Command.Bot.exe.config') (join-path $toFolder 'Command.Bot.exe.sample.config')
     copy-files (join-path $srcDirectory 'Command.Bot.Core.Tests\Samples') (join-path $toFolder 'scripts')
+
+    write-host 'Poke' -foreground "magenta"
+	xmlPoke (join-path $toFolder 'Command.Bot.exe.sample.config') "//setting[@name='BotKey']//value" "xxxxxxxxxxxxxxxxxxxxxxxxx"
+	xmlPoke (join-path $toFolder 'Command.Bot.exe.sample.config') "//setting[@name='AllowedUser']//value" "username"
 }
 
 task nuget.restore {
@@ -120,9 +125,6 @@ task nuget.restore {
 task test.run -depend nuget.restore  -precondition { return $buildConfiguration -eq 'debug' } {
     $reportFolder = mkdir $buildReportsDirectory -ErrorAction SilentlyContinue
     
-
-
-
     $currentPath = resolve-path '.'
     $openConverDirectory = resolve-path 'lib\OpenCover.4.6.519\tools'
     $nunitDirectory =  resolve-path 'lib\NUnit.ConsoleRunner.3.7.0\tools\nunit3-console.exe'
@@ -242,6 +244,36 @@ function ZipFiles( $zipfilename, $sourcedir ) {
     $compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal
     [System.IO.Compression.ZipFile]::CreateFromDirectory($sourcedir,
         $zipfilename, $compressionLevel, $false)
+}
+
+function xmlPoke([string]$file, [string]$xpath, $value, $attr="", [hashtable]$namespaces  ) { 
+    "loaded file $file"
+    [xml] $fileXml = Get-Content $file 
+    $xmlNameTable = new-object System.Xml.NameTable
+    $xmlNameSpace = new-object System.Xml.XmlNamespaceManager($xmlNameTable)
+
+    foreach($key in $namespaces.keys)
+    {
+        $xmlNameSpace.AddNamespace($key, $namespaces.$key);
+    }
+    
+    $node = $fileXml.SelectSingleNode($xpath, $xmlNameSpace) 
+    
+    if ($node) { 
+        if ( [string]::IsNullOrEmpty($attr) ) {
+            "xmlpoke: set node value $($node.name) $value"
+            $node.InnerText = $value 
+        }
+        else {
+            "xmlpoke: set attribute  $($node.name) $attr $value"
+            $node.attributes[$attr].value = $value 
+        }
+
+        $fileXml.Save($file)  
+    } 
+    else {
+        write-host  "Could not find node $xpath"  -foreground "red" 
+    }
 }
 
 function WriteDocumentation() {
