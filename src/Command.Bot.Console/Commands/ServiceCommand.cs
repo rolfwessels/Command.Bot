@@ -14,7 +14,7 @@ namespace Command.Bot.Console.Commands
 	    public ServiceCommand()
 			: base("Command.BotService")
 		{
-			IsCommand("service", string.Format("Bot running as service"));
+			IsCommand("service", "Bot running as service");
 		}
 
 		#region Overrides of ServiceCommandBase

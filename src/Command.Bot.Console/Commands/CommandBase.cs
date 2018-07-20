@@ -19,14 +19,13 @@ namespace Command.Bot.Console.Commands
 		protected CommandBase()
 		{
 			_arguments = new List<Argument>();
-			HasOption("v|verbose", "Verbose output", b => Verbose = false);
+			HasOption("v|verbose", "Verbose output", b => Verbose = true);
 		}
 
 		protected bool Verbose { get; set; }
 
 		public override int Run(string[] remainingArguments)
 		{
-
 			if (Verbose) AddNLogConsoleOutput();
 			try
 			{
@@ -93,6 +92,7 @@ namespace Command.Bot.Console.Commands
 			repository.Configured = true;
 			repository.RaiseConfigurationChanged(EventArgs.Empty);
 			appender.Threshold = Level.Debug;
+		    
 		}
 
 		#endregion
