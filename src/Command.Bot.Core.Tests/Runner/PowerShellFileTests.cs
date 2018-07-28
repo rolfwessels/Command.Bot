@@ -7,16 +7,17 @@ using NUnit.Framework;
 namespace Command.Bot.Core.Tests.Runner
 {
     [TestFixture]
-    public class PowerShellFileTests
+    public class PowerShellFileTests : TestsBase
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private PowerShellFile _powerShellFile;
 
         #region Setup/Teardown
 
-        public void Setup()
+        private void Setup()
         {
             _powerShellFile = new PowerShellFile();
+            RiderFixForCurrentPathIssue();
         }
 
         #endregion
