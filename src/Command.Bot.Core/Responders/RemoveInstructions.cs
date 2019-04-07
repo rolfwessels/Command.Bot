@@ -23,15 +23,12 @@ namespace Command.Bot.Core.Responders
 
         public override BotMessage GetResponse(MessageContext context)
         {
-            string param;
-            if (context.StartsWith(Name, out param))
+            if (context.StartsWith(Name, out var param))
             {
-                var firstOrDefault = FileRunners.Scripts.FirstOrDefault(x=>x.MatchesString(param));
-                if (firstOrDefault != null)
-                {
-                    File.Delete(firstOrDefault.File);
-                    return new BotMessage() { Text = Path.GetFileName(firstOrDefault.File)+" removed" };
-                }
+                var runnerToRemove = FileRunners.Scripts.Find(param);
+                if (runnerToRemove == null) return new BotMessage() {Text = $"File '{param}' could not be found."};
+                File.Delete(runnerToRemove.File);
+                return new BotMessage() { Text = Path.GetFileName(runnerToRemove.File)+" removed" };
             }
             return new BotMessage() { Text = "File not found." };
         }
@@ -40,18 +37,10 @@ namespace Command.Bot.Core.Responders
 
         #region Implementation of IResponderDescription
 
-        public string Command {
-            get { return Name+" [command]"; }
-        }
+        public string Command => Name+" [command]";
 
-        public string Description
-        {
-            get { return "Remove a script."; }
-        }
-
-        
+        public string Description => "Remove a script.";
     }
-
         #endregion
     
 }
