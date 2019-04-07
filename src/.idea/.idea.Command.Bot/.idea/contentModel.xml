@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\User-pc\.nuget\packages\nunit3testadapter\3.10.0\build\net35\Mono.Cecil.dll" t="Include" />
+    <e p="C:\Users\User-pc\.nuget\packages\nunit3testadapter\3.10.0\build\net35\nunit.engine.api.dll" t="Include" />
+    <e p="C:\Users\User-pc\.nuget\packages\nunit3testadapter\3.10.0\build\net35\nunit.engine.dll" t="Include" />
+    <e p="C:\Users\User-pc\.nuget\packages\nunit3testadapter\3.10.0\build\net35\NUnit3.TestAdapter.dll" t="Include" />
+    <e p="C:\Users\User-pc\.nuget\packages\nunit3testadapter\3.10.0\build\net35\NUnit3.TestAdapter.pdb" t="Include" />
+    <e p="C:\Users\User-pc\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_Command.Bot.1458044470.00" t="ExcludeRecursive" />
+    <e p="D:\Work\Home\Command.Bot\Command.Bot.build.ps1" t="Include" />
+    <e p="D:\Work\Home\Command.Bot\go.bat" t="Include" />
+    <e p="D:\Work\Home\Command.Bot\README.md" t="Include" />
+    <e p="D:\Work\Home\Command.Bot\src" t="IncludeFlat">
+      <e p=".nuget" t="Include">
+        <e p="NuGet.Config" t="Include" />
+        <e p="NuGet.exe" t="Include" />
+        <e p="packages.config" t="Include" />
+      </e>
+      <e p="Command.Bot.Console" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="app.sample.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Command.Bot.Console.csproj" t="IncludeRecursive" />
+        <e p="Command.Bot.Console.v3.ncrunchproject" t="Include" />
+        <e p="Commands" t="Include">
+          <e p="CommandBase.cs" t="Include" />
+          <e p="ServiceCommand.cs" t="Include" />
+          <e p="ServiceCommandBase.cs" t="Include" />
+        </e>
+        <e p="Helpers" t="Include">
+          <e p="ServiceInstaller.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="net461" t="Include">
+              <e p="Command.Bot.Console.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="packages.config" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+      </e>
+      <e p="Command.Bot.Core" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Command.Bot.Core.csproj" t="IncludeRecursive" />
+        <e p="Command.Bot.Core.v3.ncrunchproject" t="Include" />
+        <e p="IResponderDescription.cs" t="Include" />
+        <e p="IResponderDescriptions.cs" t="Include" />
+        <e p="MessageContext.cs" t="Include" />
+        <e p="Network.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="net461" t="Include">
+              <e p="Command.Bot.Core.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="packages.config" t="Include" />
+        <e p="Parser" t="Include">
+          <e p="MessageParser.cs" t="Include" />
+        </e>
+        <e p="Properties" t="Include">
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+        <e p="Responders" t="Include">
+          <e p="AuthResponder.cs" t="Include" />
+          <e p="DefaultResponse.cs" t="Include" />
+          <e p="Downloader.cs" t="Include" />
+          <e p="HelpResponder.cs" t="Include" />
+          <e p="IResponder.cs" t="Include" />
+          <e p="MessageContextHelper.cs" t="Include" />
+          <e p="RemoveInstructions.cs" t="Include" />
+          <e p="ResponderBase.cs" t="Include" />
+          <e p="RunResponder.cs" t="Include" />
+          <e p="UploadResponder.cs" t="Include" />
+        </e>
+        <e p="ResponseBuilder.cs" t="Include" />
+        <e p="Runner" t="Include">
+          <e p="BaseCommandLineRunner.cs" t="Include" />
+          <e p="BatchFile.cs" t="Include" />
+          <e p="FileRunner.cs" t="Include" />
+          <e p="FileRunners.cs" t="Include" />
+          <e p="IMessageContext.cs" t="Include" />
+          <e p="IRunner.cs" t="Include" />
+          <e p="PowerShellFile.cs" t="Include" />
+          <e p="RunnerHelper.cs" t="Include" />
+        </e>
+        <e p="SlackService.cs" t="Include" />
+      </e>
+      <e p="Command.Bot.Core.Tests" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Command.Bot.Core.Tests.csproj" t="IncludeRecursive" />
+        <e p="Command.Bot.Core.Tests.v3.ncrunchproject" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="net461" t="Include">
+              <e p="Command.Bot.Core.Tests.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="packages.config" t="Include" />
+        <e p="Runner" t="Include">
+          <e p="BatchFileTests.cs" t="Include" />
+          <e p="FakeContext.cs" t="Include" />
+          <e p="PowerShellFileTests.cs" t="Include" />
+          <e p="TestsBase.cs" t="Include" />
+        </e>
+        <e p="Samples" t="Include">
+          <e p="batExample.bat" t="Include" />
+          <e p="psExample.ps1" t="Include" />
+        </e>
+      </e>
+      <e p="Command.Bot.sln" t="IncludeFlat" />
+      <e p="Core" t="Include" />
+      <e p="gulpfile.js" t="Include" />
+      <e p="gulpwatch.bat" t="Include" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Solution Items" t="Include" />
+      <e p="Tests" t="Include" />
+    </e>
+  </component>
+</project>
