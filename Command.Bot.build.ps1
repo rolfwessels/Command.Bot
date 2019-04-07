@@ -19,7 +19,7 @@ properties {
 
     $versionMajor = 0
     $versionMinor = 0
-    $versionBuild = 5
+    $versionBuild = 6
     $versionRevision = 0
     
     $nuget = './src/.nuget/NuGet.exe';
