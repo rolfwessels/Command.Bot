@@ -5,11 +5,9 @@ namespace Command.Bot.Core.Runner
 {
     public class FileRunner : IResponderDescription
     {
-        private readonly Func<IMessageContext, IEnumerable<string>> _execute;
-
         public FileRunner(string command, string description, Func<IMessageContext, IEnumerable<string>> execute, string file)
         {
-            _execute = execute;
+            Execute = execute;
             Command = command;
             Description = description;
             File = file;
@@ -20,10 +18,7 @@ namespace Command.Bot.Core.Runner
         public string Command { get; private set; }
         public string Description { get; private set; }
 
-        public Func<IMessageContext, IEnumerable<string>> Execute
-        {
-            get { return _execute; }
-        }
+        public Func<IMessageContext, IEnumerable<string>> Execute { get; }
 
         public string File { get; private set; }
 
@@ -31,7 +26,7 @@ namespace Command.Bot.Core.Runner
 
         public bool MatchesString(string text)
         {
-            return text.ToLower().StartsWith(Command.ToLower());
+            return text.ToLower().Trim().Equals(Command.ToLower().Trim());
         }
     }
 

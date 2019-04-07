@@ -23,3 +23,4 @@ src/_NCrunch_Command.Bot/
 **/Command.Bot.Website/build/**
 /src/Command.Bot.Console/app.config
 /src/.vs/
+**/.idea/
