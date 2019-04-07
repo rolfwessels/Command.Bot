@@ -21,7 +21,7 @@ namespace Command.Bot.Core.Responders
 
         public override bool CanRespond(MessageContext context)
         {
-            return base.CanRespond(context) && FileRunners.Scripts.Any(x=> x.MatchesString(context.CleanMessage()));
+            return base.CanRespond(context) && MatchRunners.Find(FileRunners.Scripts, context.CleanMessage()) != null;
         }
 
         #endregion
@@ -30,22 +30,14 @@ namespace Command.Bot.Core.Responders
 
         public override BotMessage GetResponse(MessageContext context)
         {
-            FileRunner runner = null;
-            foreach (FileRunner fileRunner in FileRunners.Scripts.Where(x => x.MatchesString(context.CleanMessage())))
+            var runner = MatchRunners.Find(FileRunners.Scripts, context.CleanMessage());
+            if (runner == null) return new BotMessage() {Text = "Command not found."};
+            var enumerable = runner.Execute(context);
+            foreach (var text in enumerable)
             {
-                runner = fileRunner;
-                break;
+                context.Say(text);
             }
-            if (runner != null)
-            {
-                var enumerable = runner.Execute(context);
-                foreach (var text in enumerable)
-                {
-                    context.Say(text);
-                }
-                return new BotMessage() { Text = "Done." };
-            }
-            return new BotMessage() { Text = "Command not found." };
+            return new BotMessage() { Text = "Done." };
         }
 
         #endregion

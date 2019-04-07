@@ -5,6 +5,7 @@ using SlackConnector.Models;
 
 namespace Command.Bot.Core.Responders
 {
+   
     public class RemoveInstructions : ResponderBase, IResponderDescription
     {
         private const string Name = "remove";

@@ -31,7 +31,7 @@ namespace Command.Bot.Core.Runner
 
         public bool MatchesString(string text)
         {
-            return text.ToLower().StartsWith(Command.ToLower());
+            return text.ToLower().Trim().Equals(Command.ToLower().Trim());
         }
     }
 

@@ -6,9 +6,11 @@
     <e p="C:\Users\User-pc\.nuget\packages\nunit3testadapter\3.10.0\build\net35\nunit.engine.dll" t="Include" />
     <e p="C:\Users\User-pc\.nuget\packages\nunit3testadapter\3.10.0\build\net35\NUnit3.TestAdapter.dll" t="Include" />
     <e p="C:\Users\User-pc\.nuget\packages\nunit3testadapter\3.10.0\build\net35\NUnit3.TestAdapter.pdb" t="Include" />
-    <e p="C:\Users\User-pc\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_Command.Bot.1458044470.00" t="ExcludeRecursive" />
+    <e p="C:\Users\User-pc\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\User-pc\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_Command.Bot.1458044470.00" t="ExcludeRecursive" />
     <e p="D:\Work\Home\Command.Bot\Command.Bot.build.ps1" t="Include" />
     <e p="D:\Work\Home\Command.Bot\go.bat" t="Include" />
+    <e p="D:\Work\Home\Command.Bot\lib" t="ExcludeRecursive" />
     <e p="D:\Work\Home\Command.Bot\README.md" t="Include" />
     <e p="D:\Work\Home\Command.Bot\src" t="IncludeFlat">
       <e p=".nuget" t="Include">
@@ -73,6 +75,7 @@
           <e p="Downloader.cs" t="Include" />
           <e p="HelpResponder.cs" t="Include" />
           <e p="IResponder.cs" t="Include" />
+          <e p="MatchRunners.cs" t="Include" />
           <e p="MessageContextHelper.cs" t="Include" />
           <e p="RemoveInstructions.cs" t="Include" />
           <e p="ResponderBase.cs" t="Include" />
@@ -105,6 +108,9 @@
           </e>
         </e>
         <e p="packages.config" t="Include" />
+        <e p="Responders" t="Include">
+          <e p="MatchRunnersTests.cs" t="Include" />
+        </e>
         <e p="Runner" t="Include">
           <e p="BatchFileTests.cs" t="Include" />
           <e p="FakeContext.cs" t="Include" />
@@ -120,7 +126,6 @@
       <e p="Core" t="Include" />
       <e p="gulpfile.js" t="Include" />
       <e p="gulpwatch.bat" t="Include" />
-      <e p="packages" t="ExcludeRecursive" />
       <e p="Solution Items" t="Include" />
       <e p="Tests" t="Include" />
     </e>

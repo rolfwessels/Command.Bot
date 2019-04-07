@@ -2,170 +2,99 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2a37a92-13b4-43fc-b060-5f79f99d13eb" name="Default" comment="Playing with rider.">
+      <change afterPath="$PROJECT_DIR$/Command.Bot.Core.Tests/Responders/MatchRunnersTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Command.Bot.Core/Responders/MatchRunners.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Command.Bot/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Command.Bot/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Command.Bot/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Command.Bot/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Command.Bot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Command.Bot/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Command.Bot.Core.Tests/Command.Bot.Core.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Command.Bot.Core.Tests/Command.Bot.Core.Tests.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/BatchFileTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/BatchFileTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Command.Bot.Core/Command.Bot.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Command.Bot.Core/Command.Bot.Core.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Command.Bot.Core/Responders/RemoveInstructions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Command.Bot.Core/Responders/RemoveInstructions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Command.Bot.Core/Responders/RunResponder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Command.Bot.Core/Responders/RunResponder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Command.Bot.Core/Runner/FileRunner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Command.Bot.Core/Runner/FileRunner.cs" afterDir="false" />
     </list>
     <ignored path=".idea/.idea.Command.Bot/.idea/" />
     <ignored path=".idea/.idea.Command.Bot/riderModule.iml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="BatchFileTests.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/BatchFileTests.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-              <folding>
-                <marker date="1554622326739" expanded="false" signature="6:117" ph="..." />
-                <marker date="1554622326739" expanded="true" signature="158:1643" ph="{...}" />
-                <marker date="1554622326739" expanded="true" signature="214:226" ph="{...}" />
-                <marker date="1554622326739" expanded="true" signature="289:1641" ph="{...}" />
-                <marker date="1554622326739" expanded="false" signature="452:627" ph="Setup/Teardown" />
-                <marker date="1554622326739" expanded="true" signature="504:607" ph="{...}" />
-                <marker date="1554622326739" expanded="true" signature="704:833" ph="{...}" />
-                <marker date="1554622326739" expanded="true" signature="908:1107" ph="{...}" />
-                <marker date="1554622326739" expanded="true" signature="1188:1631" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestsBase.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/TestsBase.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-              <folding>
-                <marker date="1532762400706" expanded="true" signature="57:381" ph="{...}" />
-                <marker date="1532762400706" expanded="true" signature="86:379" ph="{...}" />
-                <marker date="1532762400706" expanded="true" signature="184:373" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FileRunner.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Runner/FileRunner.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
-              <folding>
-                <marker date="1499846582737" expanded="false" signature="6:47" ph="..." />
-                <marker date="1499846582737" expanded="true" signature="82:1001" ph="{...}" />
-                <marker date="1499846582737" expanded="true" signature="136:994" ph="{...}" />
-                <marker date="1499846582737" expanded="true" signature="348:495" ph="{...}" />
-                <marker date="1499846582737" expanded="false" signature="505:855" ph="Implementation of IResponderDescription" />
-                <marker date="1499846582737" expanded="true" signature="728:785" ph="{...}" />
-                <marker date="1499846582737" expanded="true" signature="903:988" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RemoveInstructions.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/RemoveInstructions.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="28" column="99" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="99" />
-              <folding>
-                <marker date="1554621937300" expanded="false" signature="6:95" ph="..." />
-                <marker date="1554621937300" expanded="true" signature="134:1448" ph="{...}" />
-                <marker date="1554621937300" expanded="true" signature="215:1421" ph="{...}" />
-                <marker date="1554621937300" expanded="false" signature="277:489" ph="Overrides of ResponderBase" />
-                <marker date="1554621937300" expanded="true" signature="376:469" ph="{...}" />
-                <marker date="1554621937300" expanded="true" signature="499:1157" ph="Overrides of ResponderBase" />
-                <marker date="1554621937300" expanded="true" signature="605:1137" ph="{...}" />
-                <marker date="1554621937300" expanded="true" signature="694:1061" ph="{...}" />
-                <marker date="1554621937300" expanded="true" signature="852:1047" ph="{...}" />
-                <marker date="1554621937300" expanded="true" signature="1246:1303" ph="{...}" />
-                <marker date="1554621937300" expanded="true" signature="1338:1405" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RunResponder.cs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/RunResponder.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="58" column="7" lean-forward="true" selection-start-line="50" selection-start-column="57" selection-end-line="58" selection-end-column="7" />
-              <folding>
-                <marker date="1554622365750" expanded="false" signature="6:152" ph="..." />
-                <marker date="1554622365750" expanded="true" signature="191:2028" ph="{...}" />
-                <marker date="1554622365750" expanded="true" signature="264:2026" ph="{...}" />
-                <marker date="1554622365750" expanded="true" signature="448:508" ph="{...}" />
-                <marker date="1554622365750" expanded="true" signature="518:774" ph="Overrides of ResponderBase" />
-                <marker date="1554622365750" expanded="true" signature="617:754" ph="{...}" />
-                <marker date="1554622365750" expanded="true" signature="784:1770" ph="Overrides of ResponderBase" />
-                <marker date="1554622365750" expanded="true" signature="890:1519" ph="{...}" />
-                <marker date="1554622365750" expanded="true" signature="1050:1138" ph="{...}" />
-                <marker date="1554622365750" expanded="true" signature="1170:1440" ph="{...}" />
-                <marker date="1554622365750" expanded="true" signature="1291:1366" ph="{...}" />
-                <marker date="1554622365750" expanded="true" signature="1656:1750" ph="{...}" />
-                <marker date="1554622365750" expanded="false" signature="1788:2020" ph="Implementation of IResponderDescriptions" />
-                <marker date="1554622365750" expanded="true" signature="1901:2000" ph="{...}" />
-                <marker date="1554622365750" expanded="true" signature="1918:1990" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MessageContextHelper.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/MessageContextHelper.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
-              <folding>
-                <marker date="1499846582733" expanded="false" signature="6:66" ph="..." />
-                <marker date="1499846582733" expanded="true" signature="105:1927" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="152:1925" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="223:438" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="525:613" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="684:759" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="840:925" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="1006:1095" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="1195:1522" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="1384:1481" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="1595:1910" ph="{...}" />
-                <marker date="1499846582733" expanded="true" signature="1680:1875" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PowerShellFileTests.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/PowerShellFileTests.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="51" column="65" selection-start-line="51" selection-start-column="65" selection-end-line="51" selection-end-column="65" />
-              <folding>
-                <marker date="1532762312537" expanded="false" signature="6:117" ph="..." />
-                <marker date="1532762312537" expanded="true" signature="158:1594" ph="{...}" />
-                <marker date="1532762312537" expanded="true" signature="227:1592" ph="{...}" />
-                <marker date="1532762312537" expanded="false" signature="402:589" ph="Setup/Teardown" />
-                <marker date="1532762312537" expanded="true" signature="454:569" ph="{...}" />
-                <marker date="1532762312537" expanded="true" signature="666:802" ph="{...}" />
-                <marker date="1532762312537" expanded="true" signature="877:1083" ph="{...}" />
-                <marker date="1532762312537" expanded="true" signature="1164:1582" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Responders/MatchRunnersTests.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="455">
+                  <caret line="49" column="46" selection-start-line="49" selection-start-column="46" selection-end-line="49" selection-end-column="46" />
+                  <folding>
+                    <marker date="1554624637641" expanded="true" signature="6:193" ph="..." />
+                    <marker date="1554624637641" expanded="true" signature="238:2378" ph="{...}" />
+                    <marker date="1554624637641" expanded="true" signature="305:2376" ph="{...}" />
+                    <marker date="1554624637641" expanded="true" signature="397:704" ph="{...}" />
+                    <marker date="1554624637641" expanded="true" signature="799:1256" ph="{...}" />
+                    <marker date="1554624637641" expanded="true" signature="865:1069" ph="{...}" />
+                    <marker date="1554624637641" expanded="true" signature="1355:1812" ph="{...}" />
+                    <marker date="1554624637641" expanded="true" signature="1421:1625" ph="{...}" />
+                    <marker date="1554624637641" expanded="true" signature="1920:2370" ph="{...}" />
+                    <marker date="1554624637641" expanded="true" signature="1986:2190" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/MatchRunners.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="96">
+                  <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+                  <folding>
+                    <marker date="1554625576497" expanded="false" signature="6:97" ph="..." />
+                    <marker date="1554625576497" expanded="true" signature="136:407" ph="{...}" />
+                    <marker date="1554625576497" expanded="true" signature="175:405" ph="{...}" />
+                    <marker date="1554625576497" expanded="true" signature="289:390" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/MatchRunners.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="176">
+                  <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+                  <folding>
+                    <marker date="1554625576497" expanded="false" signature="6:97" ph="..." />
+                    <marker date="1554625576497" expanded="true" signature="136:407" ph="{...}" />
+                    <marker date="1554625576497" expanded="true" signature="175:405" ph="{...}" />
+                    <marker date="1554625576497" expanded="true" signature="289:390" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>tolo</find>
       <find>psExample.ps1</find>
+      <find>.ToArray();</find>
+      <find>fileRunners.Should().HaveCount(1);</find>
     </findStrings>
+    <replaceStrings>
+      <replace>;</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -176,14 +105,17 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/BatchFileTests.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/PowerShellFileTests.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/TestsBase.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/MessageContextHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/RemoveInstructions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/MatchRunners.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/TestsBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/DefaultResponse.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/RunResponder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Command.Bot.Core/Runner/FileRunner.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Command.Bot.Core/IResponderDescription.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/BatchFileTests.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/PowerShellFileTests.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/MessageContextHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Responders/MatchRunnersTests.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -192,19 +124,15 @@
         <option value="$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/PowerShellFileTests.cs" />
         <option value="$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/TestsBase.cs" />
         <option value="$PROJECT_DIR$/Command.Bot.Core/Responders/RemoveInstructions.cs" />
+        <option value="$PROJECT_DIR$/Command.Bot.Core.Tests/Responders/BatchFileTests.cs" />
         <option value="$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/BatchFileTests.cs" />
+        <option value="$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/MatchRunnersTests.cs" />
         <option value="$PROJECT_DIR$/Command.Bot.Core/Responders/RunResponder.cs" />
+        <option value="$PROJECT_DIR$/Command.Bot.Core.Tests/Responders/MatchRunnersTests.cs" />
+        <option value="$PROJECT_DIR$/Command.Bot.Core/Runner/FileRunner.cs" />
+        <option value="$PROJECT_DIR$/Command.Bot.Core/Responders/MatchRunners.cs" />
       </list>
     </option>
-  </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="NodePackageJsonFileManager">
-    <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="260" />
@@ -218,51 +146,21 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="FileSystemExplorer" />
       <pane id="SolutionExplorer">
-        <subPane>
-          <expand>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Command.Bot (3 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Command.Bot (3 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Tests" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Command.Bot (3 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Tests" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Command.Bot.Core.Tests" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Command.Bot (3 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Tests" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Command.Bot.Core.Tests" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Runner" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Command.Bot (3 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Command.Bot.Console" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-        <option name="show-file-system" value="false" />
-        <option name="show-all-items" value="false" />
+        <option name="show-all-files" value="false" />
       </pane>
+      <pane id="AssemblyExplorer" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
     <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
     <property name="SearchEverywhereHistoryKey" value="push&#9;ACTION&#9;Vcs.Push&#10;commit&#9;ACTION&#9;CheckinProject&#10;bra&#9;ACTION&#9;Git.Branches&#10;nuget&#9;ACTION&#9;ActivateNuGetToolWindow" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="editor.config.ad.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../CoreDocker/CoreDocker.sln" />
-    <property name="settings.editor.selected.configurable" value="RiderUnitTestingPageId" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -284,12 +182,16 @@
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="None" />
       <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" enabled="true" />
+      </method>
     </configuration>
     <list>
       <item itemvalue=".NET Project.Default" />
@@ -304,6 +206,7 @@
       <updated>1532761156179</updated>
       <workItem from="1532761157903" duration="2166000" />
       <workItem from="1554621669643" duration="701000" />
+      <workItem from="1554622917410" duration="2664000" />
     </task>
     <task id="LOCAL-00001" summary="Playing with rider.">
       <created>1532762658537</created>
@@ -316,7 +219,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2867000" />
+    <option name="totallyTimeSpent" value="5531000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -329,93 +232,124 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Errors In Solution" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Unit Tests" order="7" visible="true" weight="0.32897604" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32897604" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info anchor="bottom" id="NuGet" order="7" weight="0.32897604" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25266525" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.32897604" />
-      <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.57843137" />
+      <window_info id="Image Layers" />
+      <window_info id="Capture Tool" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.13646056" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Performance Profiler" weight="0.32936078" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3900325" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49946696" weight="0.32936078" />
+      <window_info anchor="bottom" id="NuGet" order="7" weight="0.32827735" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" x="1940" y="3" width="1876" height="1031" id="Unit Tests" order="10" sideWeight="0.50053304" side_tool="true" type="FLOATING" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="13" weight="0.32897604" />
+      <window_info anchor="bottom" id="Build" order="14" weight="0.32827735" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Unit Tests Coverage" weight="0.22547974" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Errors In Solution" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
+  <component name="UnitTestsCoverage.Settings">
+    <option name="coveragePercentColumnWidth" value="150" />
+    <option name="sortOrder" value="DESCENDING" />
+    <option name="sortedColumn" value="1" />
+    <option name="symbolColumnWidth" value="136" />
+    <coverage-tree-state>
+      <expand>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="1" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="1" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="4" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="1" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="4" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="5" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="1" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="6" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="1" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="6" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="7" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="1" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="6" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="7" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="148" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+      </expand>
+      <select />
+    </coverage-tree-state>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Playing with rider." />
     <option name="LAST_COMMIT_MESSAGE" value="Playing with rider." />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" suspend="NONE" type="DotNet Exception Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/BatchFileTests.cs">
+    <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/TestsBase.cs" />
+    <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/RemoveInstructions.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+        <state relative-caret-position="256">
+          <caret line="28" column="99" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="99" />
           <folding>
-            <marker date="1554622326739" expanded="false" signature="6:117" ph="..." />
-            <marker date="1554622326739" expanded="true" signature="158:1643" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="214:226" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="289:1641" ph="{...}" />
-            <marker date="1554622326739" expanded="false" signature="452:627" ph="Setup/Teardown" />
-            <marker date="1554622326739" expanded="true" signature="504:607" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="704:833" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="908:1107" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="1188:1631" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/PowerShellFileTests.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
-          <folding>
-            <marker date="1532762312537" expanded="false" signature="6:117" ph="..." />
-            <marker date="1532762312537" expanded="true" signature="158:1594" ph="{...}" />
-            <marker date="1532762312537" expanded="true" signature="227:1592" ph="{...}" />
-            <marker date="1532762312537" expanded="false" signature="402:589" ph="Setup/Teardown" />
-            <marker date="1532762312537" expanded="true" signature="454:569" ph="{...}" />
-            <marker date="1532762312537" expanded="true" signature="666:802" ph="{...}" />
-            <marker date="1532762312537" expanded="true" signature="877:1083" ph="{...}" />
-            <marker date="1532762312537" expanded="true" signature="1164:1582" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/TestsBase.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-          <folding>
-            <marker date="1532762400706" expanded="true" signature="57:381" ph="{...}" />
-            <marker date="1532762400706" expanded="true" signature="86:379" ph="{...}" />
-            <marker date="1532762400706" expanded="true" signature="184:373" ph="{...}" />
+            <marker date="1554622818889" expanded="false" signature="6:95" ph="..." />
+            <marker date="1554622818889" expanded="true" signature="134:1448" ph="{...}" />
+            <marker date="1554622818889" expanded="true" signature="215:1421" ph="{...}" />
+            <marker date="1554622818889" expanded="false" signature="277:489" ph="Overrides of ResponderBase" />
+            <marker date="1554622818889" expanded="true" signature="376:469" ph="{...}" />
+            <marker date="1554622818889" expanded="true" signature="499:1157" ph="Overrides of ResponderBase" />
+            <marker date="1554622818889" expanded="true" signature="605:1137" ph="{...}" />
+            <marker date="1554622818889" expanded="true" signature="694:1061" ph="{...}" />
+            <marker date="1554622818889" expanded="true" signature="852:1047" ph="{...}" />
+            <marker date="1554622818889" expanded="true" signature="1246:1303" ph="{...}" />
+            <marker date="1554622818889" expanded="true" signature="1338:1405" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/MessageContextHelper.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
+        <state relative-caret-position="592">
           <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
           <folding>
             <marker date="1499846582733" expanded="false" signature="6:66" ph="..." />
@@ -436,107 +370,114 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/PowerShellFileTests.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
+        <state relative-caret-position="560">
           <caret line="51" column="65" selection-start-line="51" selection-start-column="65" selection-end-line="51" selection-end-column="65" />
           <folding>
-            <marker date="1532762312537" expanded="false" signature="6:117" ph="..." />
-            <marker date="1532762312537" expanded="true" signature="158:1594" ph="{...}" />
-            <marker date="1532762312537" expanded="true" signature="227:1592" ph="{...}" />
-            <marker date="1532762312537" expanded="false" signature="402:589" ph="Setup/Teardown" />
-            <marker date="1532762312537" expanded="true" signature="454:569" ph="{...}" />
-            <marker date="1532762312537" expanded="true" signature="666:802" ph="{...}" />
-            <marker date="1532762312537" expanded="true" signature="877:1083" ph="{...}" />
-            <marker date="1532762312537" expanded="true" signature="1164:1582" ph="{...}" />
+            <marker date="1554622896866" expanded="false" signature="6:117" ph="..." />
+            <marker date="1554622896866" expanded="true" signature="158:1594" ph="{...}" />
+            <marker date="1554622896866" expanded="true" signature="227:1592" ph="{...}" />
+            <marker date="1554622896866" expanded="false" signature="402:589" ph="Setup/Teardown" />
+            <marker date="1554622896866" expanded="true" signature="454:569" ph="{...}" />
+            <marker date="1554622896866" expanded="true" signature="666:802" ph="{...}" />
+            <marker date="1554622896866" expanded="true" signature="877:1083" ph="{...}" />
+            <marker date="1554622896866" expanded="true" signature="1164:1582" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/BatchFileTests.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+        <state relative-caret-position="48">
+          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
           <folding>
-            <marker date="1554622326739" expanded="false" signature="6:117" ph="..." />
-            <marker date="1554622326739" expanded="true" signature="158:1643" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="214:226" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="289:1641" ph="{...}" />
-            <marker date="1554622326739" expanded="false" signature="452:627" ph="Setup/Teardown" />
-            <marker date="1554622326739" expanded="true" signature="504:607" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="704:833" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="908:1107" ph="{...}" />
-            <marker date="1554622326739" expanded="true" signature="1188:1631" ph="{...}" />
+            <marker date="1554623280900" expanded="false" signature="6:117" ph="..." />
+            <marker date="1554623280900" expanded="true" signature="158:1576" ph="{...}" />
+            <marker date="1554623280900" expanded="true" signature="222:1574" ph="{...}" />
+            <marker date="1554623280900" expanded="false" signature="385:560" ph="Setup/Teardown" />
+            <marker date="1554623280900" expanded="true" signature="437:540" ph="{...}" />
+            <marker date="1554623280900" expanded="true" signature="637:766" ph="{...}" />
+            <marker date="1554623280900" expanded="true" signature="841:1040" ph="{...}" />
+            <marker date="1554623280900" expanded="true" signature="1121:1564" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Runner/TestsBase.cs">
+    <entry file="file://$PROJECT_DIR$/Command.Bot.Core/IResponderDescription.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+        <state relative-caret-position="32">
+          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
           <folding>
-            <marker date="1532762400706" expanded="true" signature="57:381" ph="{...}" />
-            <marker date="1532762400706" expanded="true" signature="86:379" ph="{...}" />
-            <marker date="1532762400706" expanded="true" signature="184:373" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Runner/FileRunner.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
-          <folding>
-            <marker date="1499846582737" expanded="false" signature="6:47" ph="..." />
-            <marker date="1499846582737" expanded="true" signature="82:1001" ph="{...}" />
-            <marker date="1499846582737" expanded="true" signature="136:994" ph="{...}" />
-            <marker date="1499846582737" expanded="true" signature="348:495" ph="{...}" />
-            <marker date="1499846582737" expanded="false" signature="505:855" ph="Implementation of IResponderDescription" />
-            <marker date="1499846582737" expanded="true" signature="728:785" ph="{...}" />
-            <marker date="1499846582737" expanded="true" signature="903:988" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/RemoveInstructions.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="28" column="99" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="99" />
-          <folding>
-            <marker date="1554621937300" expanded="false" signature="6:95" ph="..." />
-            <marker date="1554621937300" expanded="true" signature="134:1448" ph="{...}" />
-            <marker date="1554621937300" expanded="true" signature="215:1421" ph="{...}" />
-            <marker date="1554621937300" expanded="false" signature="277:489" ph="Overrides of ResponderBase" />
-            <marker date="1554621937300" expanded="true" signature="376:469" ph="{...}" />
-            <marker date="1554621937300" expanded="true" signature="499:1157" ph="Overrides of ResponderBase" />
-            <marker date="1554621937300" expanded="true" signature="605:1137" ph="{...}" />
-            <marker date="1554621937300" expanded="true" signature="694:1061" ph="{...}" />
-            <marker date="1554621937300" expanded="true" signature="852:1047" ph="{...}" />
-            <marker date="1554621937300" expanded="true" signature="1246:1303" ph="{...}" />
-            <marker date="1554621937300" expanded="true" signature="1338:1405" ph="{...}" />
+            <marker date="1499846582727" expanded="true" signature="26:155" ph="{...}" />
+            <marker date="1499846582727" expanded="true" signature="71:153" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/RunResponder.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="58" column="7" lean-forward="true" selection-start-line="50" selection-start-column="57" selection-end-line="58" selection-end-column="7" />
+        <state relative-caret-position="288">
+          <caret line="23" column="61" selection-start-line="23" selection-start-column="61" selection-end-line="23" selection-end-column="61" />
           <folding>
-            <marker date="1554622365750" expanded="false" signature="6:152" ph="..." />
-            <marker date="1554622365750" expanded="true" signature="191:2028" ph="{...}" />
-            <marker date="1554622365750" expanded="true" signature="264:2026" ph="{...}" />
-            <marker date="1554622365750" expanded="true" signature="448:508" ph="{...}" />
-            <marker date="1554622365750" expanded="true" signature="518:774" ph="Overrides of ResponderBase" />
-            <marker date="1554622365750" expanded="true" signature="617:754" ph="{...}" />
-            <marker date="1554622365750" expanded="true" signature="784:1770" ph="Overrides of ResponderBase" />
-            <marker date="1554622365750" expanded="true" signature="890:1519" ph="{...}" />
-            <marker date="1554622365750" expanded="true" signature="1050:1138" ph="{...}" />
-            <marker date="1554622365750" expanded="true" signature="1170:1440" ph="{...}" />
-            <marker date="1554622365750" expanded="true" signature="1291:1366" ph="{...}" />
-            <marker date="1554622365750" expanded="true" signature="1656:1750" ph="{...}" />
-            <marker date="1554622365750" expanded="false" signature="1788:2020" ph="Implementation of IResponderDescriptions" />
-            <marker date="1554622365750" expanded="true" signature="1901:2000" ph="{...}" />
-            <marker date="1554622365750" expanded="true" signature="1918:1990" ph="{...}" />
+            <marker date="1554624481033" expanded="false" signature="6:152" ph="..." />
+            <marker date="1554624481033" expanded="true" signature="191:1584" ph="{...}" />
+            <marker date="1554624481033" expanded="true" signature="264:1582" ph="{...}" />
+            <marker date="1554624481033" expanded="true" signature="448:508" ph="{...}" />
+            <marker date="1554624481033" expanded="true" signature="518:776" ph="Overrides of ResponderBase" />
+            <marker date="1554624481033" expanded="true" signature="617:756" ph="{...}" />
+            <marker date="1554624481033" expanded="true" signature="786:1326" ph="Overrides of ResponderBase" />
+            <marker date="1554624481033" expanded="true" signature="892:1306" ph="{...}" />
+            <marker date="1554624481033" expanded="true" signature="1177:1240" ph="{...}" />
+            <marker date="1554624481033" expanded="false" signature="1344:1576" ph="Implementation of IResponderDescriptions" />
+            <marker date="1554624481033" expanded="true" signature="1457:1556" ph="{...}" />
+            <marker date="1554624481033" expanded="true" signature="1474:1546" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Runner/FileRunner.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="33" column="74" selection-start-line="33" selection-start-column="74" selection-end-line="33" selection-end-column="74" />
+          <folding>
+            <marker date="1554625097742" expanded="false" signature="6:47" ph="..." />
+            <marker date="1554625097742" expanded="true" signature="82:1011" ph="{...}" />
+            <marker date="1554625097742" expanded="true" signature="136:1004" ph="{...}" />
+            <marker date="1554625097742" expanded="true" signature="348:495" ph="{...}" />
+            <marker date="1554625097742" expanded="false" signature="505:855" ph="Implementation of IResponderDescription" />
+            <marker date="1554625097742" expanded="true" signature="728:785" ph="{...}" />
+            <marker date="1554625097742" expanded="true" signature="903:998" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Command.Bot.Core.Tests/Responders/MatchRunnersTests.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="49" column="46" selection-start-line="49" selection-start-column="46" selection-end-line="49" selection-end-column="46" />
+          <folding>
+            <marker date="1554624637641" expanded="true" signature="6:193" ph="..." />
+            <marker date="1554624637641" expanded="true" signature="238:2378" ph="{...}" />
+            <marker date="1554624637641" expanded="true" signature="305:2376" ph="{...}" />
+            <marker date="1554624637641" expanded="true" signature="397:704" ph="{...}" />
+            <marker date="1554624637641" expanded="true" signature="799:1256" ph="{...}" />
+            <marker date="1554624637641" expanded="true" signature="865:1069" ph="{...}" />
+            <marker date="1554624637641" expanded="true" signature="1355:1812" ph="{...}" />
+            <marker date="1554624637641" expanded="true" signature="1421:1625" ph="{...}" />
+            <marker date="1554624637641" expanded="true" signature="1920:2370" ph="{...}" />
+            <marker date="1554624637641" expanded="true" signature="1986:2190" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Command.Bot.Core/Responders/MatchRunners.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+          <folding>
+            <marker date="1554625576497" expanded="false" signature="6:97" ph="..." />
+            <marker date="1554625576497" expanded="true" signature="136:407" ph="{...}" />
+            <marker date="1554625576497" expanded="true" signature="175:405" ph="{...}" />
+            <marker date="1554625576497" expanded="true" signature="289:390" ph="{...}" />
           </folding>
         </state>
       </provider>
