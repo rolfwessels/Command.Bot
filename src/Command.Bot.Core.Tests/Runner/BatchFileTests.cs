@@ -7,16 +7,17 @@ using NUnit.Framework;
 namespace Command.Bot.Core.Tests.Runner
 {
     [TestFixture]
-    public class BatchFileTests
+    public class BatchFileTests : TestsBase
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private BatchFile _batFile;
 
         #region Setup/Teardown
 
-        public void Setup()
+        private void Setup()
         {
             _batFile = new BatchFile();
+            RiderFixForCurrentPathIssue();
         }
 
         #endregion
@@ -47,13 +48,14 @@ namespace Command.Bot.Core.Tests.Runner
             // arrange
             Setup();
             var fakeContext = new FakeContext();
+            
+           
             var fileRunner = _batFile.GetRunner(@"Samples\batExample.bat");
             // action
             fileRunner.Execute(fakeContext);
             // assert
             fakeContext.Response.Should().Contain("INFO:i am a bat file");
             fakeContext.Response.Should().Contain("INFO:hello");
-
         }
 
 
