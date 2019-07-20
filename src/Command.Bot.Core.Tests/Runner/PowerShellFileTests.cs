@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Command.Bot.Core.Runner;
 using FluentAssertions;
-using log4net;
+using Serilog;
 using NUnit.Framework;
 
 namespace Command.Bot.Core.Tests.Runner
@@ -9,7 +9,7 @@ namespace Command.Bot.Core.Tests.Runner
     [TestFixture]
     public class PowerShellFileTests : TestsBase
     {
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         private PowerShellFile _powerShellFile;
 
         #region Setup/Teardown
@@ -45,7 +45,7 @@ namespace Command.Bot.Core.Tests.Runner
         [Test]
         public void GetRunner_GivenFileName_ShouldReturnRunner()
         {
-            _log.Info("data");
+            Log.Information("data");
             // arrange
             Setup();
             var fakeContext = new FakeContext();

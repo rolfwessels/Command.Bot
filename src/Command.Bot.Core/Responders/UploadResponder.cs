@@ -4,14 +4,14 @@ using System.Linq;
 using System.Reflection;
 using Command.Bot.Core.Parser;
 using Command.Bot.Core.Runner;
-using log4net;
+using Serilog;
 using SlackConnector.Models;
 
 namespace Command.Bot.Core.Responders
 {
     public class UploadResponder : ResponderBase
     {
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         private readonly IRunner[] _extensions;
 
         public UploadResponder()
@@ -36,7 +36,7 @@ namespace Command.Bot.Core.Responders
             if (HasAFileContainingExtention(fullMessage))
             {
                 var uriString = fullMessage.File.UrlDownload ?? fullMessage.File.UrlPrivateDownload ?? fullMessage.File.UrlPrivate;
-                _log.Info(string.Format("Downloading '{0}'", uriString));
+                Log.Information(string.Format("Downloading '{0}'", uriString));
                 var resource = new Uri(uriString);
                 context.Say("Reading file");
                 var downloadData = resource.Download();

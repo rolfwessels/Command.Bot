@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using Command.Bot.Core.Properties;
 using SlackConnector.Models;
 
 namespace Command.Bot.Core.Responders

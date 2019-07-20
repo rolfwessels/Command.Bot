@@ -1,14 +1,14 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0691ABF2-B3C7-43BF-9862-2D8D1299CE58}"
 	ProjectSection(SolutionItems) = preProject
+		..\.travis.yml = ..\.travis.yml
 		..\Command.Bot.build.ps1 = ..\Command.Bot.build.ps1
 		..\README.md = ..\README.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command.Bot.Console", "Command.Bot.Console\Command.Bot.Console.csproj", "{AF4A7467-D948-403A-A21B-B6A80A6A6652}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command.Bot.Core", "Command.Bot.Core\Command.Bot.Core.csproj", "{99CDCD85-C8A7-4DAA-82C5-65C4774C2E30}"
 EndProject
@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{52BE2713
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E8CDBE03-BC0D-400F-B6D0-CA65988B6256}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command.Bot", "Command.Bot\Command.Bot.csproj", "{529DD5CA-B003-4876-B1B6-79A420441C42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +35,6 @@ Global
 		Staging|Any CPU = Staging|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AF4A7467-D948-403A-A21B-B6A80A6A6652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF4A7467-D948-403A-A21B-B6A80A6A6652}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF4A7467-D948-403A-A21B-B6A80A6A6652}.Qa|Any CPU.ActiveCfg = Release|Any CPU
-		{AF4A7467-D948-403A-A21B-B6A80A6A6652}.Qa|Any CPU.Build.0 = Release|Any CPU
-		{AF4A7467-D948-403A-A21B-B6A80A6A6652}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF4A7467-D948-403A-A21B-B6A80A6A6652}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF4A7467-D948-403A-A21B-B6A80A6A6652}.Staging|Any CPU.ActiveCfg = Release|Any CPU
-		{AF4A7467-D948-403A-A21B-B6A80A6A6652}.Staging|Any CPU.Build.0 = Release|Any CPU
 		{99CDCD85-C8A7-4DAA-82C5-65C4774C2E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{99CDCD85-C8A7-4DAA-82C5-65C4774C2E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99CDCD85-C8A7-4DAA-82C5-65C4774C2E30}.Qa|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +51,14 @@ Global
 		{54F0B648-DB1E-45A4-BA1B-FEB0AF16023E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{54F0B648-DB1E-45A4-BA1B-FEB0AF16023E}.Staging|Any CPU.ActiveCfg = Release|Any CPU
 		{54F0B648-DB1E-45A4-BA1B-FEB0AF16023E}.Staging|Any CPU.Build.0 = Release|Any CPU
+		{529DD5CA-B003-4876-B1B6-79A420441C42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{529DD5CA-B003-4876-B1B6-79A420441C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{529DD5CA-B003-4876-B1B6-79A420441C42}.Qa|Any CPU.ActiveCfg = Debug|Any CPU
+		{529DD5CA-B003-4876-B1B6-79A420441C42}.Qa|Any CPU.Build.0 = Debug|Any CPU
+		{529DD5CA-B003-4876-B1B6-79A420441C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{529DD5CA-B003-4876-B1B6-79A420441C42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{529DD5CA-B003-4876-B1B6-79A420441C42}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
+		{529DD5CA-B003-4876-B1B6-79A420441C42}.Staging|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

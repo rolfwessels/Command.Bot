@@ -30,7 +30,7 @@ namespace Command.Bot.Core.Responders
             for (var i = 0; i <= source1Length; matrix[i, 0] = i++){}
             for (var j = 0; j <= source2Length; matrix[0, j] = j++){}
 
-            // Calculate rows and collumns distances
+            // Calculate rows and columns distances
             for (var i = 1; i <= source1Length; i++)
             {
                 for (var j = 1; j <= source2Length; j++)
