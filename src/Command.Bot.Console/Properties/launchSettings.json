@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "Command.Bot.Console": {
-      "commandName": "Executable",
-      "executablePath": "bin\\Debug\\net461\\Command.Bot.exe",
-      "commandLineArgs": "run -v"
-    }
-  }
-}

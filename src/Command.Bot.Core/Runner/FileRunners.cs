@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Command.Bot.Core.Properties;
-using log4net;
+using Serilog;
 
 namespace Command.Bot.Core.Runner
 {
     public static class FileRunners
     {
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         private static readonly Lazy<string> BasePath = new Lazy<string>(()=> GetOrCreateFullPath(Settings.Default.ScriptsPath));
 
         static FileRunners()
@@ -42,7 +41,7 @@ namespace Command.Bot.Core.Runner
         {
             var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)??@".\";
             var fullPath = Path.GetFullPath(Path.Combine(directoryName, scripts));
-            _log.Debug("FileRunners:GetOrCreateFullPath Using path : "+fullPath);
+            Log.Debug("FileRunners:GetOrCreateFullPath Using path : "+fullPath);
             if (!Directory.Exists(fullPath))
             {
                 Directory.CreateDirectory(fullPath);

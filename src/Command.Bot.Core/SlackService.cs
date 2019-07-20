@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Command.Bot.Core.Responders;
-using log4net;
+using Serilog;
 using SlackConnector;
 using SlackConnector.Models;
 
@@ -11,7 +11,7 @@ namespace Command.Bot.Core
 {
     public class SlackService
     {
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         private readonly string _key;
         private readonly ISlackConnector _connector;
         private ISlackConnection _connection;
@@ -27,9 +27,9 @@ namespace Command.Bot.Core
 
         public async Task Connect()
         {
-            _log.Info("Connecting to slack service");
+            Log.Information("Connecting to slack service");
             _connection = await _connector.Connect(_key);
-            _log.Info("Connected");
+            Log.Information("Connected");
             LinkEvents();
         }
 
@@ -48,7 +48,7 @@ namespace Command.Bot.Core
 
         private void Disconnected()
         {
-            _log.Info("Disconnected");
+            Log.Information("Disconnected");
             
             RemoveEvents();
             try
@@ -57,18 +57,18 @@ namespace Command.Bot.Core
             }
             catch (Exception e)
             {
-                _log.Warn("SlackService Ensure disconnected: " + e.Message);
+                Log.Warning("SlackService Ensure disconnected: " + e.Message);
             }
-            _log.Info("Trying to reconnect.");
+            Log.Information("Trying to reconnect.");
             Connect().ContinueWith(x=>
             {
-                if (x.Exception != null) _log.Error(x.Exception.Message, x.Exception);
+                if (x.Exception != null) Log.Error(x.Exception.Message, x.Exception);
             });
         }
 
         private async Task MessageReceived(SlackMessage message)
         {
-            _log.Info("message" + message.Text);
+            Log.Information("message" + message.Text);
             var messageContext = GetMessageContext(message);
             try
             {
@@ -76,7 +76,7 @@ namespace Command.Bot.Core
             }
             catch (Exception e)
             {
-                _log.Error(e.Message, e);
+                Log.Error(e.Message, e);
                 _connection.Say(new BotMessage()
                 {
                     Text = string.Format("Ooops something went wrong ({0})", e.Message),
@@ -95,7 +95,7 @@ namespace Command.Bot.Core
 
         private async Task ProcessMessage(MessageContext messageContext)
         {
-            _log.Debug(string.Format("Message in {0}: {1}", messageContext.Message.User.Name,
+            Log.Debug(string.Format("Message in {0}: {1}", messageContext.Message.User.Name,
                 messageContext.Message.Text));
             foreach (var responder in _responders)
             {
@@ -109,7 +109,7 @@ namespace Command.Bot.Core
                             botMessage.ChatHub = messageContext.Message.ChatHub;
                         }
                         await _connection.Say(botMessage);
-                        _log.Debug(string.Format("Message out {0}: {1}", messageContext.Message.User.Name,
+                        Log.Debug(string.Format("Message out {0}: {1}", messageContext.Message.User.Name,
                             botMessage.Text));
                         messageContext.BotHasResponded = true;
                     }

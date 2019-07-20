@@ -1,7 +1,7 @@
 using System.Reflection;
 using Command.Bot.Core.Runner;
 using FluentAssertions;
-using log4net;
+using Serilog;
 using NUnit.Framework;
 
 namespace Command.Bot.Core.Tests.Runner
@@ -9,7 +9,7 @@ namespace Command.Bot.Core.Tests.Runner
     [TestFixture]
     public class BatchFileTests : TestsBase
     {
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         private BatchFile _batFile;
 
         #region Setup/Teardown

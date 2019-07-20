@@ -24,3 +24,4 @@ src/_NCrunch_Command.Bot/
 /src/Command.Bot.Console/app.config
 /src/.vs/
 **/.idea/
+src/Command.Bot/appsettings.development.json
