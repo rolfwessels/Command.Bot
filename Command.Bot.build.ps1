@@ -10,7 +10,7 @@ properties {
     $buildReportsDirectory = Join-Path $buildDirectory 'reports'
     $buildPackageDirectory = Join-Path $buildDirectory 'packages'
     $buildDistDirectory = Join-Path $buildDirectory 'dist'
-    $buildPublishProjects =  'Command.Bot.Console'
+    $buildPublishProjects = 'Command.Bot'
 
     $srcDirectory = 'src'
     $srcSolution = Join-Path $srcDirectory 'Command.Bot.sln'
@@ -34,7 +34,7 @@ task clean -depends build.clean, build.cleanbin -Description "Removes build fold
 task build -depends build.cleanbin, version, build.compile, build.copy -Description "Cleans bin/object and builds the project placing binaries in build directory"
 task test -depends build, test.run  -Description "Builds and runs part cover tests"
 task full -depends test, deploy.zip -Description "Versions builds and creates distributions"
-task deploy -depends clean,version,build,deploy.zip -Description "Deploy the files to webserver using msdeploy"
+task deploy -depends clean, version, build, deploy.zip -Description "Deploy the files to webserver using msdeploy"
 task prerequisite -depends prerequisite.choco, prerequisite.dotnet  -Description "Install all prerequisites"
 
 #
@@ -43,7 +43,7 @@ task prerequisite -depends prerequisite.choco, prerequisite.dotnet  -Description
 
 task build.clean {
     remove-item -force -recurse $buildDirectory -ErrorAction SilentlyContinue
-    $binFolders = Get-ChildItem ($srcDirectory + '\*\*') | where { $_.name -eq 'bin' -or $_.name -eq 'obj'} | Foreach-Object {$_.fullname}
+    $binFolders = Get-ChildItem ($srcDirectory + '\*\*') | where { $_.name -eq 'bin' -or $_.name -eq 'obj' } | Foreach-Object { $_.fullname }
     if ($binFolders -ne $null) {
         remove-item $binFolders -force -recurse -ErrorAction SilentlyContinue
     }
@@ -52,7 +52,7 @@ task build.clean {
 task build.cleanbin {
     remove-item -force -recurse $buildReportsDirectory -ErrorAction SilentlyContinue
     remove-item -force -recurse (buildConfigDirectory) -ErrorAction SilentlyContinue
-    $binFolders = Get-ChildItem $srcDirectory -include bin, obj  | Foreach-Object {$_.fullname}
+    $binFolders = Get-ChildItem $srcDirectory -include bin, obj | Foreach-Object { $_.fullname }
     if ($binFolders -ne $null) {
         remove-item $binFolders -force -recurse -ErrorAction SilentlyContinue
     }
@@ -61,7 +61,7 @@ task build.cleanbin {
 task build.compile {
     foreach ($buildPublishProject in $buildPublishProjects) {
         $toFolder = (Join-Path ( Join-Path (resolve-path .)(buildConfigDirectory)) $buildPublishProject)
-        $project =  Join-Path $srcDirectory $buildPublishProject
+        $project = Join-Path $srcDirectory $buildPublishProject
         
         Push-Location 'src'
         dotnet build 
@@ -69,11 +69,11 @@ task build.compile {
         Push-Location $project
         if ($buildConfiguration -ne 'release') {
             write-host "Publish $project with suffix $buildConfiguration" -foreground "magenta"
-            dotnet publish -c $buildConfiguration --version-suffix $buildConfiguration  -v quiet
+            dotnet publish -c $buildConfiguration -r win10-x64 --self-contained --version-suffix $buildConfiguration  -v quiet
         }
         else {
             write-host "Publish $project  $buildConfiguration" -foreground "magenta"
-            dotnet publish -c $buildConfiguration   -v quiet
+            dotnet publish -c $buildConfiguration -r win10-x64 --self-contained -v quiet
         }
         #msbuild   /v:q
         if (!$?) {
@@ -103,19 +103,18 @@ task version {
 
 task build.copy {
     'Copy the console'
-    $fromFolder = Join-Path $srcDirectory (Join-Path 'Command.Bot.Console' (srcBinFolder) )
-    $fromFolder = Join-Path $fromFolder 'publish'
+    $fromFolder = Join-Path $srcDirectory (Join-Path 'Command.Bot' (Join-Path (Join-Path bin $buildConfiguration ) 'netcoreapp2.1\win10-x64\') )
+
     
-    $toFolder = Join-Path (buildConfigDirectory) 'Command.Bot.Console'
-    copy-files $fromFolder $toFolder
+    $toFolder = Join-Path (buildConfigDirectory) 'Command.Bot\'
+    "$fromFolder*"
+    copy-files "$fromFolder" $toFolder 
     
     write-host 'update configs' -foreground "magenta"
-    move-item (join-path  $toFolder 'Command.Bot.exe.config') (join-path $toFolder 'Command.Bot.exe.sample.config')
+    remove-item (join-path  $toFolder 'appsettings.development.json')
     copy-files (join-path $srcDirectory 'Command.Bot.Core.Tests\Samples') (join-path $toFolder 'scripts')
 
-    write-host 'Poke' -foreground "magenta"
-	xmlPoke (join-path $toFolder 'Command.Bot.exe.sample.config') "//setting[@name='BotKey']//value" "xxxxxxxxxxxxxxxxxxxxxxxxx"
-	xmlPoke (join-path $toFolder 'Command.Bot.exe.sample.config') "//setting[@name='AllowedUser']//value" "username"
+ 
 }
 
 task nuget.restore {
@@ -127,7 +126,7 @@ task test.run -depend nuget.restore  -precondition { return $buildConfiguration 
     
     $currentPath = resolve-path '.'
     $openConverDirectory = resolve-path 'lib\OpenCover.4.6.519\tools'
-    $nunitDirectory =  resolve-path 'lib\NUnit.ConsoleRunner.3.7.0\tools\nunit3-console.exe'
+    $nunitDirectory = resolve-path 'lib\NUnit.ConsoleRunner.3.7.0\tools\nunit3-console.exe'
     $reportGenerator = 'lib\ReportGenerator.3.0.0-beta3\tools'
 
     $openConverExe = './OpenCover.Console.exe'
@@ -135,27 +134,26 @@ task test.run -depend nuget.restore  -precondition { return $buildConfiguration 
     $failures = 0
    
     #$testFolders1 = Get-ChildItem $srcDirectory '*.Tests' -Directory  | Where-Object {Test-Path $_} | Select-Object -first 1
-    $allTestDlls = Get-ChildItem $srcDirectory '*.Tests' -Directory  | foreach { Join-Path (Join-Path $_.FullName (srcBinFolder)) ($_.Name + '.dll') } | Where-Object {Test-Path $_} 
+    $allTestDlls = Get-ChildItem $srcDirectory '*.Tests' -Directory | foreach { Join-Path (Join-Path $_.FullName (srcBinFolder)) ($_.Name + '.dll') } | Where-Object { Test-Path $_ } 
     $combinedDlls = [string]::Join(" ", $allTestDlls)
     $testOutputPrefix = "testResults";
     
-    $buildReportsDirectoryResolved = '..\..\..\'+ $buildReportsDirectory;
-    $runTestsFolderResult =  Join-Path $buildReportsDirectoryResolved ($testOutputPrefix + '.xml')
-    $runTestsFolderOut =  Join-Path $buildReportsDirectoryResolved ($testOutputPrefix + '.txt')
-    $runTestsFolderPartResult =  Join-Path $buildReportsDirectoryResolved ($testOutputPrefix + '.part.xml')
+    $buildReportsDirectoryResolved = '..\..\..\' + $buildReportsDirectory;
+    $runTestsFolderResult = Join-Path $buildReportsDirectoryResolved ($testOutputPrefix + '.xml')
+    $runTestsFolderOut = Join-Path $buildReportsDirectoryResolved ($testOutputPrefix + '.txt')
+    $runTestsFolderPartResult = Join-Path $buildReportsDirectoryResolved ($testOutputPrefix + '.part.xml')
 
     
     Set-Location $openConverDirectory
     
-    $target = '-targetargs:'+$combinedDlls+' -noheader  -shadowcopy --out:'+$runTestsFolderOut +'  --result='+$runTestsFolderResult
+    $target = '-targetargs:' + $combinedDlls + ' -noheader  -shadowcopy --out:' + $runTestsFolderOut + '  --result=' + $runTestsFolderResult
     
     &($openConverExe) -target:$nunitDirectory $target -oldstyle  -register:user -output:$runTestsFolderPartResult -log:Warn
     [xml]$Xml = Get-Content $runTestsFolderResult
-    [int]$result= $Xml.'test-run'.failed
+    [int]$result = $Xml.'test-run'.failed
     $failures += $result
 
-    if ($failures -gt 0)
-    {
+    if ($failures -gt 0) {
         throw "$failures Tests have failed!!!"
     }
 
@@ -177,7 +175,7 @@ task test.run -depend nuget.restore  -precondition { return $buildConfiguration 
     [int]$codeCover = $Xml.CoverageReport.Summary.LineCoverage -replace '%', ''
 
     if ($codeCover -lt $codeCoverRequired) {
-        throw 'The solution currently has '+$codeCover+'% coverage, less than the required '+$codeCoverRequired+'%'
+        throw 'The solution currently has ' + $codeCover + '% coverage, less than the required ' + $codeCoverRequired + '%'
     }
     else {
         write-host "The solution currently has $codeCover% coverage" -foreground 'green'
@@ -219,7 +217,7 @@ function fullversionrev() {
 
 
 function srcBinFolder() {
-    return  Join-Path (Join-Path bin $buildConfiguration ) 'net461'
+    return  Join-Path (Join-Path bin $buildConfiguration ) 'win10-x64'
 }
 
 function buildConfigDirectory() {
@@ -246,14 +244,13 @@ function ZipFiles( $zipfilename, $sourcedir ) {
         $zipfilename, $compressionLevel, $false)
 }
 
-function xmlPoke([string]$file, [string]$xpath, $value, $attr="", [hashtable]$namespaces  ) { 
+function xmlPoke([string]$file, [string]$xpath, $value, $attr = "", [hashtable]$namespaces  ) { 
     "loaded file $file"
     [xml] $fileXml = Get-Content $file 
     $xmlNameTable = new-object System.Xml.NameTable
     $xmlNameSpace = new-object System.Xml.XmlNamespaceManager($xmlNameTable)
 
-    foreach($key in $namespaces.keys)
-    {
+    foreach ($key in $namespaces.keys) {
         $xmlNameSpace.AddNamespace($key, $namespaces.$key);
     }
     
@@ -302,7 +299,7 @@ function WriteDocumentation() {
         }
     }
 
-    $docs | where {-not [string]::IsNullOrEmpty($_.Description)} | sort 'Name' | sort 'Description' -Descending | format-table -autoSize -wrap -property Name, Description
+    $docs | where { -not [string]::IsNullOrEmpty($_.Description) } | sort 'Name' | sort 'Description' -Descending | format-table -autoSize -wrap -property Name, Description
 
     'Examples:'
     '----------'

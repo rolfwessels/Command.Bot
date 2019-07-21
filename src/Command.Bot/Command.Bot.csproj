@@ -23,5 +23,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Command.Bot.Core.Tests\Samples\batExample.bat" Link="scripts\batExample.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Command.Bot.Core.Tests\Samples\psExample.ps1" Link="scripts\psExample.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
 </Project>
