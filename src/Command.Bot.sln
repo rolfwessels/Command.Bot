@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\.travis.yml = ..\.travis.yml
 		..\Command.Bot.build.ps1 = ..\Command.Bot.build.ps1
+		..\Dockerfile = ..\Dockerfile
+		..\go.cmd = ..\go.cmd
+		..\go.sh = ..\go.sh
+		..\Makefile = ..\Makefile
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject

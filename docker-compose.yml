@@ -1,0 +1,14 @@
+version: "3"
+networks:
+  command-bot-network:
+
+services:
+  dev:
+    build: .
+    deploy:
+    restart: unless-stopped
+    volumes:
+      - "./:/app"
+      - "/app/.vs"
+    networks:
+      - command-bot-network
