@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Command.Bot.Service.Helpers;
+using System.ServiceProcess;
 using Command.Bot.Shared;
 using Serilog;
+using ServiceInstaller = Command.Bot.Service.Helpers.ServiceInstaller;
 
 namespace Command.Bot.Service.Commands
 {
@@ -53,7 +54,14 @@ namespace Command.Bot.Service.Commands
             if (_serviceStart) Start();
             if (_serviceStop) Stop();
             if (_serviceIsInstalled) IsInstalled();
-            if (remainingArguments.Contains(AsServiceArgument)) throw new NotImplementedException();
+            if (remainingArguments.Contains(AsServiceArgument))
+            {
+                var servicesToRun = new ServiceBase[]
+                {
+                    new Service(_serviceName,StartService,StopService),
+                };
+                ServiceBase.Run(servicesToRun);
+            }
         }
 
         #endregion
@@ -103,7 +111,7 @@ namespace Command.Bot.Service.Commands
 
         #region Nested type: Service
 
-        protected class Service : servi
+        protected class Service :  ServiceBase
         {
             private readonly Action _startService;
             private readonly Action _stopService;
@@ -116,9 +124,7 @@ namespace Command.Bot.Service.Commands
                 ServiceName = serviceName;
             }
 
-            public string ServiceName { get; set; }
-
-            protected void OnStart(string[] args)
+            protected override void OnStart(string[] args)
             {
                 try
                 {
@@ -133,7 +139,7 @@ namespace Command.Bot.Service.Commands
                 }
             }
 
-            protected void OnStop()
+            protected override void OnStop()
             {
                 try
                 {

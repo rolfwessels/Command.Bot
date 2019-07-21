@@ -54,7 +54,7 @@ namespace Command.Bot.Shared
                 list.Add("");
                 list.Add("<arguments> available:");
                 foreach (var argument in _arguments)
-                    list.Add(string.Format("  {0} {1}", argument.Name.PadRight(pad, ' '), argument.Descriptions));
+                    list.Add($"  {argument.Name.PadRight(pad, ' ')} {argument.Descriptions}");
                 list.Add("");
             }
 

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Command.Bot.Core;
+using Command.Bot.Shared;
 using Serilog;
 
 namespace Command.Bot.Service.Commands
