@@ -2,11 +2,11 @@
 using Command.Bot.Core;
 using Serilog;
 
-namespace Command.Bot.Commands
+namespace Command.Bot.Service.Commands
 {
     public class ServiceCommand : ServiceCommandBase
     {
-	    private SlackService _slackService;
+        private SlackService _slackService;
 
         public ServiceCommand()
             : base("Command.BotService")
@@ -18,7 +18,7 @@ namespace Command.Bot.Commands
 
         protected override void StartService()
         {
-            Log.Information($"Starting service {Settings.Default.BotKey.Substring(1,5)}");
+            Log.Information($"Starting service {Settings.Default.BotKey.Substring(1, 5)}");
             _slackService = new SlackService(Settings.Default.BotKey);
             _slackService.Connect().ContinueWith(Connected);
         }

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace Command.Bot.Helpers
+namespace Command.Bot.Service.Helpers
 {
     public static class ServiceInstaller
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using ManyConsole;
 using Serilog;
 
-namespace Command.Bot.Console.Commands
+namespace Command.Bot.Shared
 {
     public abstract class CommandBase : ConsoleCommand
     {
@@ -28,7 +28,7 @@ namespace Command.Bot.Console.Commands
             }
             catch (Exception e)
             {
-				Log.Error(e.Message, e);
+                Log.Error(e.Message, e);
                 System.Console.Error.WriteLine(e.Message);
                 return 1;
             }

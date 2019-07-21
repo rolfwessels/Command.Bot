@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Command.Bot.Console.Commands;
-using Command.Bot.Helpers;
+using Command.Bot.Service.Helpers;
+using Command.Bot.Shared;
 using Serilog;
 
-namespace Command.Bot.Commands
+namespace Command.Bot.Service.Commands
 {
     public abstract class ServiceCommandBase : CommandBase
     {
         private const string AsServiceArgument = "executeAsService";
-		
+
         private bool _serviceInstall;
         private bool _serviceIsInstalled;
         private string _serviceName;
@@ -31,8 +31,7 @@ namespace Command.Bot.Commands
             AddArguments("start", "Start the service", () => _serviceStart = true);
             AddArguments("stop", "Stop the service", () => _serviceStop = true);
             AddArguments("isinstalled", "Is the service installed", () => _serviceIsInstalled = true);
-            HasOption("servicename=", $"optional service name [{_serviceName}].",
-                b => _serviceName = b ?? _serviceName);
+            HasOption<string>("servicename=", $"optional service name [{_serviceName}].",b => _serviceName = b ?? _serviceName);
             HasAdditionalArguments(1, GetArgumentHelpText());
         }
 
@@ -43,8 +42,8 @@ namespace Command.Bot.Commands
             if (_serviceRun)
             {
                 StartService();
-                System.Console.Out.WriteLine("Press any key to stop.");
-                System.Console.ReadKey();
+                Console.Out.WriteLine("Press any key to stop.");
+                Console.ReadKey();
                 StopService();
             }
 
@@ -64,48 +63,47 @@ namespace Command.Bot.Commands
         private void IsInstalled()
         {
             var serviceIsInstalled = ServiceInstaller.ServiceIsInstalled(_serviceName);
-            System.Console.Out.WriteLine("Service {1} is installed : {0}.", serviceIsInstalled, _serviceName);
+            Console.Out.WriteLine("Service {1} is installed : {0}.", serviceIsInstalled, _serviceName);
         }
 
         private void Stop()
         {
-            System.Console.Out.WriteLine("Stop service {0}.", _serviceName);
+            Console.Out.WriteLine("Stop service {0}.", _serviceName);
             ServiceInstaller.StopService(_serviceName);
         }
 
         private void Start()
         {
-            System.Console.Out.WriteLine("Start service {0}.", _serviceName);
+            Console.Out.WriteLine("Start service {0}.", _serviceName);
             ServiceInstaller.StartService(_serviceName);
         }
 
         private void Status()
         {
-            System.Console.Out.WriteLine("Service status of {0}.", _serviceName);
+            Console.Out.WriteLine("Service status of {0}.", _serviceName);
             ServiceInstaller.GetServiceStatus(_serviceName);
         }
 
         private void RemoveService()
         {
-            System.Console.Out.WriteLine("Remove service {0}.", _serviceName);
+            Console.Out.WriteLine("Remove service {0}.", _serviceName);
             ServiceInstaller.Uninstall(_serviceName);
         }
 
         private void Install()
         {
-            System.Console.Out.WriteLine("Installing service {0}", _serviceName);
+            Console.Out.WriteLine("Installing service {0}", _serviceName);
             var location = Assembly.GetExecutingAssembly().Location;
-            Log.Debug(string.Format("ServiceConsoleCommand:RunCommand {0}", location));
-            ServiceInstaller.InstallAndStart(_serviceName, null,
-                string.Format(@"{0} {1}", location, AsServiceArgument));
-            System.Console.Out.WriteLine("Service {0} is now installed.", _serviceName);
+            Log.Debug($"ServiceConsoleCommand:RunCommand {location}");
+            ServiceInstaller.InstallAndStart(_serviceName, null, $@"{location} {AsServiceArgument}");
+            Console.Out.WriteLine("Service {0} is now installed.", _serviceName);
         }
 
         #endregion
 
         #region Nested type: Service
 
-        protected class Service
+        protected class Service : servi
         {
             private readonly Action _startService;
             private readonly Action _stopService;
@@ -124,13 +122,13 @@ namespace Command.Bot.Commands
             {
                 try
                 {
-				Log.Information("Start service");
+                    Log.Information("Start service");
                     _startService();
-				Log.Information("Services started");
+                    Log.Information("Services started");
                 }
                 catch (Exception e)
                 {
-				Log.Error(e.Message, e);
+                    Log.Error(e.Message, e);
                     throw;
                 }
             }
@@ -139,13 +137,13 @@ namespace Command.Bot.Commands
             {
                 try
                 {
-				Log.Information("Stop service");
+                    Log.Information("Stop service");
                     _stopService();
-				Log.Information("Services stopped");
+                    Log.Information("Services stopped");
                 }
                 catch (Exception e)
                 {
-				Log.Error(e.Message, e);
+                    Log.Error(e.Message, e);
                     throw;
                 }
             }
