@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
@@ -16,16 +17,19 @@ namespace Command.Bot.Core
             _configGroup = configGroup;
         }
 
+        public static IConfiguration Config => _config.Value;
+
         #region Private Methods
 
         protected static IConfiguration ReadConfig()
         {
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Local";
-            Log.Debug($"Environment {environment}");
-            var config = new ConfigurationBuilder();
-            config.AddJsonFile("appsettings.json", true, true)
-                .AddJsonFile($"appsettings.{environment}.json", true, true);
-            config.AddEnvironmentVariables();
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "development";
+            Log.Debug($"Environment: '{environment}'");
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings.{environment}.json", true, true)
+                .AddEnvironmentVariables();
             return config.Build();
         }
 

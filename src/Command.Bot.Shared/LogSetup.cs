@@ -1,3 +1,4 @@
+using Command.Bot.Core;
 using Serilog;
 
 namespace Command.Bot.Shared
@@ -7,8 +8,9 @@ namespace Command.Bot.Shared
         public static LoggerConfiguration Default()
         {
             return new LoggerConfiguration()
+//                .ReadFrom.Configuration(BaseSettings.Config)
                 .MinimumLevel.Debug()
-                .WriteTo.File("logs/command.bot.log", rollOnFileSizeLimit: true, fileSizeLimitBytes: 10000000,
+                .WriteTo.File("c:\\temp\\logs\\command.bot.log", rollOnFileSizeLimit: true, fileSizeLimitBytes: int.MaxValue,
                     retainedFileCountLimit: 2);
         }
     }
