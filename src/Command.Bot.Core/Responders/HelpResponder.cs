@@ -31,42 +31,10 @@ namespace Command.Bot.Core.Responders
         public override BotMessage GetResponse(MessageContext context)
         {
             var botMessage = new BotMessage() { Text =
-                $"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}",
-               // Attachments = Attachments()
-            
+                $"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}"
             };
 
             return botMessage;
-        }
-
-        private List<SlackAttachment> Attachments()
-        {
-            return new List<SlackAttachment>( ) {
-                new SlackAttachment() {
-                    Text = "Select command",
-                    Fallback = "Unfortunately it seems like you cant select a command right now.",
-                    CallbackId = "select_command",
-                    ColorHex =  "#3AA3E3",
-                    Actions =   _responderDescriptions
-                        .OfType<IResponderDescriptions>()
-                        .SelectMany(x=>x.Descriptions)
-                        .Select(BuildAction)
-                        .Concat(_responderDescriptions
-                            .OfType<IResponderDescription>().Select(BuildAction))
-                        .ToList()
-                } };
-        }
-
-        private SlackAttachmentAction BuildAction(IResponderDescription x)
-        {
-            Log.Information("x.Command:"+ x.Command);
-            return new SlackAttachmentAction()
-            {
-                Text = x.Command,
-                Name = x.Command.ToLower(),
-                Value = x.Command.ToLower(),
-                Type = "button"
-            };
         }
 
         private string GetCommands()
