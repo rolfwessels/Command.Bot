@@ -1,0 +1,8 @@
+**/obj
+**/bin
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.vs
+.gitignore

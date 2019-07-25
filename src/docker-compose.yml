@@ -1,0 +1,14 @@
+version: "3"
+networks:
+  slack-bot-dev-network:
+
+services:
+  slack_bot_dev:
+    build: .
+    deploy:
+    restart: unless-stopped
+    # environment:
+    #   - Bot__BotKey=xxxxxxxxxxxxxxxxxxx
+    #   - Bot__AllowedUser=xxxxxxxxxxxxxxxxxxx
+    networks:
+      - slack-bot-dev-network

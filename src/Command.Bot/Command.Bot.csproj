@@ -9,9 +9,6 @@
     <ProjectReference Include="..\Command.Bot.Shared\Command.Bot.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="appsettings.development.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
