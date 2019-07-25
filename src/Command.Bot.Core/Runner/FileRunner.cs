@@ -15,12 +15,12 @@ namespace Command.Bot.Core.Runner
 
         #region Implementation of IResponderDescription
 
-        public string Command { get; private set; }
-        public string Description { get; private set; }
+        public string Command { get; }
+        public string Description { get; }
 
         public Func<IMessageContext, IEnumerable<string>> Execute { get; }
 
-        public string File { get; private set; }
+        public string File { get; }
 
         #endregion
 

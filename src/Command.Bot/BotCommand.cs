@@ -27,6 +27,7 @@ namespace Command.Bot
             {
                 Log.Information($"Starting service {Settings.Default.BotKey.Substring(1, 5)}");
                 _slackService = new SlackService(Settings.Default.BotKey);
+                _slackService.Connect().ContinueWith(Connected);
                 Console.Out.WriteLine("Press any key to stop.");
                 Console.ReadKey();
                 Log.Information("Starting stopped.");
@@ -34,6 +35,12 @@ namespace Command.Bot
             }
 
         }
+
+        private void Connected(Task obj)
+        {
+            if (obj.Exception != null) Log.Error(obj.Exception.Message, obj.Exception);
+        }
+
 
         #endregion
     }

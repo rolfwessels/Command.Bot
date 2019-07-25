@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Serilog;
 
 namespace Command.Bot.Core.Runner
@@ -14,7 +15,16 @@ namespace Command.Bot.Core.Runner
 
         static FileRunners()
         {
-            All = new IRunner[] { new BatchFile() , new PowerShellFile() };
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                All = new IRunner[] {new BatchFile(), new PowerShellFile()};
+            }
+            else
+            {
+                All = new IRunner[] { new ShFile() };
+            }
+            
+            
         }
 
         public static IRunner[] All { get; set; }
@@ -25,9 +35,13 @@ namespace Command.Bot.Core.Runner
             {
                 var files = Directory.GetFiles(BasePath.Value);
                 foreach (var file in files)
-                {
+                {   
                     var fileRunner = All.Where(x=>x.IsExtensionMatch(file)).Select(x => x.GetRunner(file)).FirstOrDefault(x => x != null);
-                    if (fileRunner != null) yield return fileRunner;
+                    if (fileRunner != null)
+                    {
+                        Log.Debug("file:" + file);
+                        yield return fileRunner;
+                    }
                 }
             }
         }

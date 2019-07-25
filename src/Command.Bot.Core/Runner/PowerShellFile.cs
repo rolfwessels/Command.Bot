@@ -38,7 +38,7 @@ namespace Command.Bot.Core.Runner
         void ExecuteCommand(IMessageContext context, string command)
         {
             var commandLine = "powershell -NoProfile -ExecutionPolicy Bypass -Command \"& '"+command+"'\"";
-            RunCommand(context, commandLine);
+            RunCommand(context, "cmd.exe", "/c " + commandLine);
         }
     }
 }

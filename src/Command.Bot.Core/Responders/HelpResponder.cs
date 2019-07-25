@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Serilog;
 using SlackConnector.Models;
 
 namespace Command.Bot.Core.Responders
@@ -28,7 +30,43 @@ namespace Command.Bot.Core.Responders
 
         public override BotMessage GetResponse(MessageContext context)
         {
-            return new BotMessage() { Text = string.Format("Hi, You are currently connected to {0}\n\n{1}", GetCurrentMachineInformation(),GetCommands())};
+            var botMessage = new BotMessage() { Text =
+                $"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}",
+               // Attachments = Attachments()
+            
+            };
+
+            return botMessage;
+        }
+
+        private List<SlackAttachment> Attachments()
+        {
+            return new List<SlackAttachment>( ) {
+                new SlackAttachment() {
+                    Text = "Select command",
+                    Fallback = "Unfortunately it seems like you cant select a command right now.",
+                    CallbackId = "select_command",
+                    ColorHex =  "#3AA3E3",
+                    Actions =   _responderDescriptions
+                        .OfType<IResponderDescriptions>()
+                        .SelectMany(x=>x.Descriptions)
+                        .Select(BuildAction)
+                        .Concat(_responderDescriptions
+                            .OfType<IResponderDescription>().Select(BuildAction))
+                        .ToList()
+                } };
+        }
+
+        private SlackAttachmentAction BuildAction(IResponderDescription x)
+        {
+            Log.Information("x.Command:"+ x.Command);
+            return new SlackAttachmentAction()
+            {
+                Text = x.Command,
+                Name = x.Command.ToLower(),
+                Value = x.Command.ToLower(),
+                Type = "button"
+            };
         }
 
         private string GetCommands()
@@ -51,12 +89,12 @@ namespace Command.Bot.Core.Responders
 
         private static void AppendDescription(StringBuilder stringBuilder, IResponderDescription description)
         {
-            stringBuilder.AppendLine(string.Format("*{0}* {1}",  description.Command, description.Description));
+            stringBuilder.AppendLine($"*{description.Command}* {description.Description}");
         }
 
         private string GetCurrentMachineInformation()
         {
-            return string.Format("{0}({1})", Environment.MachineName, Network.GetLocalIPAddress());
+            return $"{Environment.MachineName}({Network.GetLocalIPAddress()})";
         }
 
         #endregion

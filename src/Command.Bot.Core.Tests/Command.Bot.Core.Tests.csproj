@@ -13,6 +13,9 @@
     <ProjectReference Include="..\Command.Bot.Core\Command.Bot.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Samples\shExample.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Samples\batExample.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

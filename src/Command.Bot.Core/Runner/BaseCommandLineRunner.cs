@@ -5,9 +5,9 @@ namespace Command.Bot.Core.Runner
 {
     public class BaseCommandLineRunner
     {
-        protected void RunCommand(IMessageContext context, string commandLine)
+        protected void RunCommand(IMessageContext context, string fileName, string arguments)
         {
-            var processInfo = new ProcessStartInfo("cmd.exe", "/c " + commandLine)
+            var processInfo = new ProcessStartInfo(fileName, arguments)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -28,7 +28,7 @@ namespace Command.Bot.Core.Runner
                 int exitCode = process.ExitCode;
                 if (exitCode != 0)
                 {
-                    context.SayOutput("ExitCode: " + exitCode.ToString(CultureInfo.InvariantCulture));
+                    context.SayError("ExitCode: " + exitCode.ToString(CultureInfo.InvariantCulture));
                 }
                 process.Close();
             }
