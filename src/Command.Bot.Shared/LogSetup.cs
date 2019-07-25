@@ -8,10 +8,7 @@ namespace Command.Bot.Shared
         public static LoggerConfiguration Default()
         {
             return new LoggerConfiguration()
-//                .ReadFrom.Configuration(BaseSettings.Config)
-                .MinimumLevel.Debug()
-                .WriteTo.File("c:\\temp\\logs\\command.bot.log", rollOnFileSizeLimit: true, fileSizeLimitBytes: int.MaxValue,
-                    retainedFileCountLimit: 2);
+                .ReadFrom.Configuration(BaseSettings.Config);
         }
     }
 }

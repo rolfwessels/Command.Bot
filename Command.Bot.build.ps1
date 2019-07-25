@@ -10,16 +10,16 @@ properties {
     $buildReportsDirectory = Join-Path $buildDirectory 'reports'
     $buildPackageDirectory = Join-Path $buildDirectory 'packages'
     $buildDistDirectory = Join-Path $buildDirectory 'dist'
-    $buildPublishProjects = 'Command.Bot'
+    $buildPublishProjects = 'Command.Bot.Service'
 
     $srcDirectory = 'src'
     $srcSolution = Join-Path $srcDirectory 'Command.Bot.sln'
 
     $codeCoverRequired = 10
 
-    $versionMajor = 0
+    $versionMajor = 1
     $versionMinor = 0
-    $versionBuild = 6
+    $versionBuild = 1
     $versionRevision = 0
     
     $nuget = './src/.nuget/NuGet.exe';
@@ -69,11 +69,11 @@ task build.compile {
         Push-Location $project
         if ($buildConfiguration -ne 'release') {
             write-host "Publish $project with suffix $buildConfiguration" -foreground "magenta"
-            dotnet publish -c $buildConfiguration -r win10-x64 --self-contained --version-suffix $buildConfiguration  -v quiet
+            dotnet publish -c $buildConfiguration --self-contained --version-suffix $buildConfiguration  -v quiet
         }
         else {
             write-host "Publish $project  $buildConfiguration" -foreground "magenta"
-            dotnet publish -c $buildConfiguration -r win10-x64 --self-contained -v quiet
+            dotnet publish -c $buildConfiguration --self-contained -v quiet
         }
         #msbuild   /v:q
         if (!$?) {
@@ -103,7 +103,7 @@ task version {
 
 task build.copy {
     'Copy the console'
-    $fromFolder = Join-Path $srcDirectory (Join-Path 'Command.Bot' (Join-Path (Join-Path bin $buildConfiguration ) 'netcoreapp2.1\win10-x64\') )
+    $fromFolder = Join-Path $srcDirectory (Join-Path $buildPublishProjects (Join-Path (Join-Path bin $buildConfiguration ) 'net461\') )
 
     
     $toFolder = Join-Path (buildConfigDirectory) 'Command.Bot\'

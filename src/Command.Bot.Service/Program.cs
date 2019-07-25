@@ -24,7 +24,7 @@ namespace Command.Bot.Service
                     Directory.SetCurrentDirectory(location ?? ".");
                 }
                 Log.Logger = LogSetup.Default().CreateLogger();
-                Log.Information($"Starting Command.Bot service.");
+                Log.Information("Starting Command.Bot service.");
                 // locate any commands in the assembly (or use an IoC container, or whatever source)
                 var commands = ConsoleCommandDispatcher.FindCommandsInSameAssemblyAs(typeof(ServiceCommand));
                 // then run them.
