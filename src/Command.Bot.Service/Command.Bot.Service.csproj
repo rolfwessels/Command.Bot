@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+	    <OutputType>Exe</OutputType>
+	    <TargetFramework>net461</TargetFramework>
+		<NoWarn>$(NoWarn);NU1605</NoWarn>
+		
+		<AssemblyName>Command.Bot.Service</AssemblyName>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+	  </PropertyGroup>
+	<ItemGroup>
+	  <Content Include="..\Command.Bot\appsettings.development.json" Link="appsettings.development.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="..\Command.Bot\appsettings.json" Link="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="log4net" Version="2.0.8" />
+	  <PackageReference Include="ManyConsole" Version="2.0.1" />
+	  <!-- <PackageReference Include="Newtonsoft.Json" Version="8.0.3" /> -->
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Command.Bot.Core\Command.Bot.Core.csproj" />
+	  <ProjectReference Include="..\Command.Bot.Shared\Command.Bot.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="System.ServiceProcess" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\" />
+	</ItemGroup>
+
+</Project>

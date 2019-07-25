@@ -3,14 +3,10 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
       <OutputType>Exe</OutputType>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="ManyConsole" Version="2.0.1" />
 
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Command.Bot.Core\Command.Bot.Core.csproj" />
+    <ProjectReference Include="..\Command.Bot.Shared\Command.Bot.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.development.json">
@@ -22,6 +18,20 @@
     <None Update="appsettings.local.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Command.Bot.Core.Tests\Samples\batExample.bat" Link="scripts\batExample.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Command.Bot.Core.Tests\Samples\psExample.ps1" Link="scripts\psExample.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Mono.Options" Version="5.3.0.1" />
   </ItemGroup>
   
 </Project>

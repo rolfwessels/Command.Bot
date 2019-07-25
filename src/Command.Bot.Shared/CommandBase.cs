@@ -4,7 +4,7 @@ using System.Linq;
 using ManyConsole;
 using Serilog;
 
-namespace Command.Bot.Console.Commands
+namespace Command.Bot.Shared
 {
     public abstract class CommandBase : ConsoleCommand
     {
@@ -28,7 +28,7 @@ namespace Command.Bot.Console.Commands
             }
             catch (Exception e)
             {
-				Log.Error(e.Message, e);
+                Log.Error(e.Message, e);
                 System.Console.Error.WriteLine(e.Message);
                 return 1;
             }
@@ -54,7 +54,7 @@ namespace Command.Bot.Console.Commands
                 list.Add("");
                 list.Add("<arguments> available:");
                 foreach (var argument in _arguments)
-                    list.Add(string.Format("  {0} {1}", argument.Name.PadRight(pad, ' '), argument.Descriptions));
+                    list.Add($"  {argument.Name.PadRight(pad, ' ')} {argument.Descriptions}");
                 list.Add("");
             }
 
