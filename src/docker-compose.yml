@@ -7,8 +7,11 @@ services:
     build: .
     deploy:
     restart: unless-stopped
-    # environment:
-    #   - Bot__BotKey=xxxxxxxxxxxxxxxxxxx
-    #   - Bot__AllowedUser=xxxxxxxxxxxxxxxxxxx
+    environment:
+      - Bot__BotKey=${Bot__BotKey}
+      - Bot__AllowedUser=${Bot_AllowedUser}
+      - Bot__ScriptsPath=/scripts
+    volumes:
+      - ./Command.Bot.Core.Tests/Samples:/scripts
     networks:
       - slack-bot-dev-network
