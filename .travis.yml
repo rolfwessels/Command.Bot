@@ -28,7 +28,7 @@ script:
     - popd
     # tests only run on windows for now.
     #- pushd Command.Bot.Core.Tests && dotnet test
-    - popd
+    #- popd
     - popd
 
 after_success:
