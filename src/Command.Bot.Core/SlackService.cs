@@ -95,8 +95,7 @@ namespace Command.Bot.Core
 
         private async Task ProcessMessage(MessageContext messageContext)
         {
-            Log.Debug(string.Format("Message in {0}: {1}", messageContext.Message.User.Name,
-                messageContext.Message.Text));
+            Log.Debug($"Message in {messageContext.Message.User.Name}: {messageContext.Message.Text}");
             foreach (var responder in _responders)
             {
                 if (responder.CanRespond(messageContext))
@@ -109,8 +108,7 @@ namespace Command.Bot.Core
                             botMessage.ChatHub = messageContext.Message.ChatHub;
                         }
                         await _connection.Say(botMessage);
-                        Log.Debug(string.Format("Message out {0}: {1}", messageContext.Message.User.Name,
-                            botMessage.Text));
+                        Log.Debug($"Message out {messageContext.Message.User.Name}: {botMessage.Text}");
                         messageContext.BotHasResponded = true;
                     }
                 }

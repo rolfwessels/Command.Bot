@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Command.Bot.Core.Responders;
 
 namespace Command.Bot.Core.Runner
 {
@@ -32,7 +34,7 @@ namespace Command.Bot.Core.Runner
 
         void ExecuteCommand(IMessageContext context, string command)
         {
-            RunCommand(context, "cmd.exe", "/c " + command);
+            RunCommand(context, "cmd.exe", "/c " + CommandWithArguments(context.Text,command));
         }
     }
 }

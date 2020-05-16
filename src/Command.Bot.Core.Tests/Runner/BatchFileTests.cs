@@ -58,6 +58,21 @@ namespace Command.Bot.Core.Tests.Runner
             fakeContext.Response.Should().Contain("INFO:hello");
         }
 
+        [Test]
+        public void GetRunner_GivenArgument_ShouldPassTheArgument()
+        {
+            // arrange
+            Setup();
+            var fakeContext = new FakeContext() { Text = "batExample.bat --test" };
+
+
+            var fileRunner = _batFile.GetRunner(@"Samples\batExample.bat");
+            // action
+            fileRunner.Execute(fakeContext);
+            // assert
+            fakeContext.Response.Should().Contain("INFO:Your first argument was '--test'");
+        }
+
 
 
 

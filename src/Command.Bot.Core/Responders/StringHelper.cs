@@ -13,5 +13,13 @@ namespace Command.Bot.Core.Responders
             if (stringValues.Length <= 1) return stringValues.FirstOrDefault();
             return string.Join(", ", stringValues.Take(stringValues.Length - 1)) + lastJoin + stringValues.Last();
         }
+
+        public static string StringJoin(this IEnumerable<object> values, string separator = ", ")
+        {
+            if (values == null) return null;
+            var stringValues = values.Select(x => x.ToString()).ToArray();
+            if (stringValues.Length <= 1) return stringValues.FirstOrDefault();
+            return string.Join(separator, stringValues) ;
+        }
     }
 }

@@ -47,6 +47,7 @@ services:
 - First type 'help' as a dm to the bot that you have just added.
 - Add files to /script folder to be able to execute them
 - type the file name of the script that you want to execute to run it.
+- note that you can also pass parameters to the scripts by appending them to the command. 
 
 ## Developers
 

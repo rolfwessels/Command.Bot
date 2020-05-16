@@ -19,7 +19,7 @@ namespace Command.Bot.Core.Runner
             if (this.IsExtensionMatch(filePath))
             {
                 var command = Path.GetFileNameWithoutExtension(filePath);
-                return new FileRunner(command, string.Format("run {0} command.", Path.GetFileName(filePath)),ProcessFile(filePath), filePath);
+                return new FileRunner(command, $"run {Path.GetFileName(filePath)} command.",ProcessFile(filePath), filePath);
             }
             return null;
         }
@@ -37,7 +37,8 @@ namespace Command.Bot.Core.Runner
 
         void ExecuteCommand(IMessageContext context, string command)
         {
-            var commandLine = "powershell -NoProfile -ExecutionPolicy Bypass -Command \"& '"+command+"'\"";
+            var commandLine = $"powershell -NoProfile -ExecutionPolicy Bypass -Command \"& '{command}' {GetCommandArguments(context.Text)}\"";
+            Console.Out.WriteLine("");
             RunCommand(context, "cmd.exe", "/c " + commandLine);
         }
     }

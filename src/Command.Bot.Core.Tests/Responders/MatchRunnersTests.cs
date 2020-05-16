@@ -43,6 +43,18 @@ namespace Command.Bot.Core.Tests.Responders
             
             fileRunners.Command.Should().Be("test");
         }
+          
+        [Test]
+        public void Find_GivenMatchWithArguments_ShouldReturnOnlyMatchingOne()
+        {
+            // arrange
+            var runners = GetSampleRunners();
+            // action
+            var fileRunners = runners.Find("TEST --test");
+            // assert
+            
+            fileRunners.Command.Should().Be("test");
+        }
          
         [Test]
         public void Find_GivenSimilarStartingMatches_ShouldReturnOnlyMatchingOne()
@@ -76,6 +88,8 @@ namespace Command.Bot.Core.Tests.Responders
             // assert
             fileRunners.First().Should().Be("testWeb");
         }
+
+
 
         private static FileRunner[] GetSampleRunners()
         {
