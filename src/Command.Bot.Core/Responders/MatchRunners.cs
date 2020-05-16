@@ -13,7 +13,6 @@ namespace Command.Bot.Core.Responders
           return fileRunners.FirstOrDefault(x => x.MatchesString(cleanMessage));
         }
 
-
         public static IEnumerable<string> FindWithSimilarNames(this IEnumerable<FileRunner> runners, string message, int max = 3)
         {
             var source2 = message.Trim().ToLower();

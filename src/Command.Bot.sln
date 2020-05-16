@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0691ABF2-B3C7-43BF-9862-2D8D1299CE58}"
 	ProjectSection(SolutionItems) = preProject
@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E8CDBE03-B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command.Bot", "Command.Bot\Command.Bot.csproj", "{529DD5CA-B003-4876-B1B6-79A420441C42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Command.Bot.Service", "Command.Bot.Service\Command.Bot.Service.csproj", "{1154E359-7AC5-4119-841B-451BF24CA81B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command.Bot.Service", "Command.Bot.Service\Command.Bot.Service.csproj", "{1154E359-7AC5-4119-841B-451BF24CA81B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Command.Bot.Shared", "Command.Bot.Shared\Command.Bot.Shared.csproj", "{B3C326B5-BFB7-48DC-90CB-8BAF68B590D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command.Bot.Shared", "Command.Bot.Shared\Command.Bot.Shared.csproj", "{B3C326B5-BFB7-48DC-90CB-8BAF68B590D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

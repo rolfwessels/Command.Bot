@@ -7,12 +7,12 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 	</PropertyGroup>
 	<ItemGroup>
-    <PackageReference Include="Serilog" Version="2.8.0" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
-	  <PackageReference Include="SlackConnector" Version="4.2.74" />
+    <PackageReference Include="Serilog" Version="2.9.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.4" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
+	  <PackageReference Include="SlackConnector" Version="5.1.7" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Properties\" />

@@ -58,6 +58,23 @@ namespace Command.Bot.Core.Tests.Runner
         }
 
 
+        [Test]
+        public void GetRunner_GivenTest_ShouldReturnRunner()
+        {
+            Log.Information("data");
+            // arrange
+            Setup();
+            var fakeContext = new FakeContext();
+            fakeContext.Text = "psExample test";
+            var fileRunner = _powerShellFile.GetRunner(@"Samples\psExample.ps1");
+            // action
+            fileRunner.Execute(fakeContext);
+            // assert
+            fakeContext.Response.Should().Contain(x => x.EndsWith("! - $param1=test")).And.HaveCount(1);
+
+        }
+
+
 
 
     }

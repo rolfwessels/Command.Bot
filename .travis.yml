@@ -1,0 +1,50 @@
+language: csharp
+mono: none
+dist: xenial
+dotnet: 3.1
+sudo: required
+
+services:
+    - docker
+
+addons:
+    apt:
+        packages:
+            - gettext
+            - libcurl4-openssl-dev
+            - libicu-dev
+            - libssl-dev
+            - libunwind8
+            - zlib1g
+            - curl
+
+script:
+    - which dotnet
+    - export ASPNETCORE_ENVIRONMENT=Development
+    - dotnet --info
+    - pushd src/
+    - dotnet restore
+    - pushd Command.Bot && dotnet restore  && dotnet build
+    - popd
+    # tests only run on windows for now.
+    #- pushd Command.Bot.Core.Tests && dotnet test
+    #- popd
+    - popd
+
+after_success:
+    # Add docker images
+    - pushd src/
+    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    - if [[ "$TRAVIS_BRANCH"  =~ ^feature.*$ ]]; then
+      docker build -t rolfwessels/command-bot:alpha .;
+      docker push rolfwessels/command-bot;
+      fi
+    - if [ "$TRAVIS_BRANCH" == "develop" ]; then
+      docker build -t rolfwessels/command-bot:beta .;
+      docker push rolfwessels/command-bot;
+      fi
+    - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      docker build -t rolfwessels/command-bot:latest -t rolfwessels/command-bot:v0.0.$TRAVIS_BUILD_NUMBER .;
+      docker push rolfwessels/command-bot;
+      fi
+    - popd

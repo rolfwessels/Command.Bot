@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Command.Bot.Core.Responders;
 using Command.Bot.Core.Runner;
 using SlackConnector;
 using SlackConnector.Models;
@@ -25,6 +26,8 @@ namespace Command.Bot.Core
         {
             return GetValue(new BotMessage() { Text = text});
         }
+
+        public string Text => this.CleanMessage();
 
         public Task SayOutput(string text)
         {

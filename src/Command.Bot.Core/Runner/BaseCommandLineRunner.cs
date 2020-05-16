@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
+using Command.Bot.Core.Responders;
 
 namespace Command.Bot.Core.Runner
 {
@@ -32,6 +34,17 @@ namespace Command.Bot.Core.Runner
                 }
                 process.Close();
             }
+        }
+
+        protected virtual string CommandWithArguments(string contextText, string command)
+        {
+            var commandWithArguments = command + ' ' + GetCommandArguments(contextText);
+            return commandWithArguments.Trim();
+        }
+
+        protected virtual string GetCommandArguments(string contextText)
+        {
+            return contextText?.Split(' ').Skip(1).StringJoin(" ");
         }
     }
 }

@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/rolfwessels/Command.Bot.svg?branch=master)](https://travis-ci.org/rolfwessels/Command.Bot)
+[![Dockerhub Status](https://img.shields.io/badge/dockerhub-ok-blue.svg)](https://hub.docker.com/r/rolfwessels/command-bot/tags)
+
 # Command.Bot
 
 ## Installing Command bot
@@ -47,6 +50,7 @@ services:
 - First type 'help' as a dm to the bot that you have just added.
 - Add files to /script folder to be able to execute them
 - type the file name of the script that you want to execute to run it.
+- note that you can also pass parameters to the scripts by appending them to the command. 
 
 ## Developers
 
@@ -61,10 +65,9 @@ go deploy -properties @{'buildConfiguration'='Release'}
 ### Testings and playing with docker.
 
 ```bash
-cd src\
 docker-compose config
 docker-compose up -d
-docker-compose exec slack_bot_dev sh
+docker-compose exec dev sh
 ```
 
 ### Build and deploy docker

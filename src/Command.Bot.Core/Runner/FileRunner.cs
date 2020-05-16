@@ -21,12 +21,13 @@ namespace Command.Bot.Core.Runner
         public Func<IMessageContext, IEnumerable<string>> Execute { get; }
 
         public string File { get; }
-
+        
         #endregion
 
         public bool MatchesString(string text)
         {
-            return text.ToLower().Trim().Equals(Command.ToLower().Trim());
+            return text.ToLower().Trim().Equals(Command.ToLower().Trim()) ||
+                   text.ToLower().Trim().StartsWith(Command.ToLower().Trim()+" ");
         }
     }
 

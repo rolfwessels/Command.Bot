@@ -32,7 +32,7 @@ namespace Command.Bot.Core.Runner
 
         void ExecuteCommand(IMessageContext context, string command)
         {
-            RunCommand(context, "sh", command);
+            RunCommand(context, "sh", CommandWithArguments(context.Text, command));
         }
     }
 }
