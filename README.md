@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/rolfwessels/Command.Bot.svg?branch=master)](https://travis-ci.org/rolfwessels/Command.Bot)
+[![Github release](https://img.shields.io/github/v/release/rolfwessels/Command.Bot)](https://github.com/rolfwessels/Command.Bot/releases)
 [![Dockerhub Status](https://img.shields.io/badge/dockerhub-ok-blue.svg)](https://hub.docker.com/r/rolfwessels/command-bot/tags)
+[![Dockerhub Version](https://img.shields.io/docker/v/rolfwessels/command-bot?sort=semver)](https://hub.docker.com/r/rolfwessels/command-bot/tags)
 
 # Command.Bot
 
