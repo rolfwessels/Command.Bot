@@ -65,10 +65,9 @@ go deploy -properties @{'buildConfiguration'='Release'}
 ### Testings and playing with docker.
 
 ```bash
-cd src\
 docker-compose config
 docker-compose up -d
-docker-compose exec slack_bot_dev sh
+docker-compose exec dev sh
 ```
 
 ### Build and deploy docker
