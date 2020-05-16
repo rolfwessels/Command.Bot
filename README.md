@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/rolfwessels/Command.Bot.svg?branch=master)](https://travis-ci.org/rolfwessels/Command.Bot)
+[![Dockerhub Status](https://img.shields.io/badge/dockerhub-ok-blue.svg)](https://hub.docker.com/r/rolfwessels/command-bot)
+
 # Command.Bot
 
 ## Installing Command bot
