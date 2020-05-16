@@ -35,16 +35,17 @@ after_success:
     # Add docker images
     - pushd src/
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    - echo branch $TRAVIS_BRANCH
     - if [[ "$TRAVIS_BRANCH"  =~ ^feature.*$ ]]; then
       docker build -t rolfwessels/command-bot:alpha .;
       docker push rolfwessels/command-bot;
       fi
-    - if [ "$TRAVIS_BRANCH" == "develop" ]; then
+    - if [ "$TRAVIS_BRANCH" == "master" ]; then
       docker build -t rolfwessels/command-bot:beta .;
       docker push rolfwessels/command-bot;
       fi
-    - if [ "$TRAVIS_BRANCH" == "master" ]; then
-      docker build -t rolfwessels/command-bot:latest -t rolfwessels/command-bot:v0.0.$TRAVIS_BUILD_NUMBER .;
+    - if [ "$TRAVIS_BRANCH" =~ ^v1.*$ ]; then
+      docker build -t rolfwessels/command-bot:latest -t rolfwessels/command-bot:$TRAVIS_BRANCH .;
       docker push rolfwessels/command-bot;
       fi
     - popd

@@ -68,6 +68,7 @@ go deploy -properties @{'buildConfiguration'='Release'}
 docker-compose config
 docker-compose up -d
 docker-compose exec dev sh
+docker-compose down
 ```
 
 ### Build and deploy docker
@@ -75,6 +76,6 @@ docker-compose exec dev sh
 ```bash
 cd src\
 docker login
-docker build -t rolfwessels/command-bot:latest -t rolfwessels/command-bot:v1.0.1 ./
+docker build -t rolfwessels/command-bot:latest -t rolfwessels/command-bot:v1.0.4 ./
 docker push -t rolfwessels/command-bot
 ```
