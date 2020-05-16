@@ -19,7 +19,7 @@ properties {
 
     $versionMajor = 1
     $versionMinor = 0
-    $versionBuild = 1
+    $versionBuild = 4
     $versionRevision = 0
     
     $nuget = './src/.nuget/NuGet.exe';
@@ -111,7 +111,7 @@ task build.copy {
     copy-files "$fromFolder" $toFolder 
     
     write-host 'update configs' -foreground "magenta"
-    remove-item (join-path  $toFolder 'appsettings.development.json')
+    remove-item (join-path  $toFolder 'appsettings.development.json') -ErrorAction SilentlyContinue
     copy-files (join-path $srcDirectory 'Command.Bot.Core.Tests\Samples') (join-path $toFolder 'scripts')
 
  
@@ -208,7 +208,7 @@ function fullversion() {
     if ($env:BUILD_NUMBER) {
         $version = $env:BUILD_NUMBER
     }
-    return "$versionMajor.$versionMajor.$version"
+    return "$versionMajor.$versionMinor.$version"
 }
 
 function fullversionrev() {
