@@ -1,4 +1,5 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
+#addin nuget:?package=Cake.Git&version=0.21.0
 
 
 //////////////////////////////////////////////////////////////////////
@@ -8,7 +9,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var coverageThreshold = Argument("coverageThreshold", "100");
-var version = Argument("version", "1.0.0");
+
 
 
 //////////////////////////////////////////////////////////////////////
@@ -17,16 +18,13 @@ var version = Argument("version", "1.0.0");
 
 Task("Default")
     .IsDependentOn("Test");
-
-
 Task("Build")
     .IsDependentOn("Restore")
     .IsDependentOn("Build-Project");
 Task("Test")
     .IsDependentOn("Build")
     .IsDependentOn("Run-Unit-Tests");
-
-Task("Release")
+Task("Dist")
     .IsDependentOn("Test")
     .IsDependentOn("Build-Zip");
 
@@ -35,13 +33,12 @@ Task("Release")
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-
-
 var sln = "./src/Command.Bot.sln";
 var dirDist = "./dist";
 var samplesFolder = "./src/Command.Bot.Core.Tests/Samples";
 var dirService = Directory("./src/Command.Bot.Service/bin") + Directory(configuration) + Directory("net461");
-
+var versionPrefix = "1.0.";
+var version = $"{versionPrefix}0";
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
@@ -62,20 +59,27 @@ Task("Restore")
 Task("Build-Project")
     .Does(() =>
 {
+    DirectoryPath repoPath = Directory("./");
+    var commits = GitLog(repoPath, int.MaxValue);
+    version = $"{versionPrefix}{commits.Count}";
+    Information("Mark version as: {0}", commits.Count);
+    var dotNetCoreMSBuildSettings = new DotNetCoreMSBuildSettings()
+            .SetVersion(version)
+            .SetFileVersion(version)
+            .SetInformationalVersion(version);
+    var settings = new DotNetCoreBuildSettings {
+        MSBuildSettings = dotNetCoreMSBuildSettings,
+        Configuration = configuration,
+    };
+
     if(IsRunningOnWindows())
     {
-      // Use MSBuild
-      MSBuild(sln, settings =>
-        settings.SetConfiguration(configuration).SetVerbosity(Verbosity.Minimal));
+        DotNetCoreBuild(sln, settings);
     }
     else
     {
-        var settings = new DotNetCoreBuildSettings
-        {
-            WorkingDirectory = "./src/Command.Bot/",
-            Configuration = configuration
-        };
-        DotNetCoreBuild("Command.Bot.csproj", settings);
+    
+        DotNetCoreBuild("./src/Command.Bot/Command.Bot.csproj", settings);
     }
 });
 
