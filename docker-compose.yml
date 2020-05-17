@@ -8,7 +8,17 @@ services:
     deploy:
     restart: unless-stopped
     volumes:
-      - "./:/app"
-      - "/app/.vs"
+      - "./:/command.bot"
+      - "/command.bot/.vs"
+      - "/command.bot/src/Command.Bot/bin"
+      - "/command.bot/src/Command.Bot.Core/bin"
+      - "/command.bot/src/Command.Bot.Core.Tests/bin"
+      - "/command.bot/src/Command.Bot.Service/bin"
+      - "/command.bot/src/Command.Bot.Shared/bin"
+      - "/command.bot/src/Command.Bot/obj"
+      - "/command.bot/src/Command.Bot.Core/obj"
+      - "/command.bot/src/Command.Bot.Core.Tests/obj"
+      - "/command.bot/src/Command.Bot.Service/obj"
+      - "/command.bot/src/Command.Bot.Shared/obj"
     networks:
       - command-bot-network

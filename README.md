@@ -52,7 +52,7 @@ services:
 - First type 'help' as a dm to the bot that you have just added.
 - Add files to /script folder to be able to execute them
 - type the file name of the script that you want to execute to run it.
-- note that you can also pass parameters to the scripts by appending them to the command. 
+- note that you can also pass parameters to the scripts by appending them to the command.
 
 ## Developers
 
@@ -64,7 +64,7 @@ go deploy -properties @{'buildConfiguration'='Release'}
 #upload the zip under build/dist to github
 ```
 
-### Testings and playing with docker.
+### Testings and playing with docker
 
 ```bash
 docker-compose config
@@ -80,4 +80,14 @@ cd src\
 docker login
 docker build -t rolfwessels/command-bot:latest -t rolfwessels/command-bot:v1.0.4 ./
 docker push -t rolfwessels/command-bot
+```
+
+## Adding required security for cake ps build script
+
+see <https://cakebuild.net/docs/tutorials/powershell-security>
+
+```cmd
+Get-ExecutionPolicy -List
+Set-ExecutionPolicy RemoteSigned -Scope Process
+Unblock-File build.ps1
 ```
