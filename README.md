@@ -21,8 +21,6 @@
 docker run -e Bot__BotKey=${Bot__BotKey} -e Bot__AllowedUser=${Bot__AllowedUser} --name command-bot rolfwessels/command-bot:latest
 ```
 
-### Execute from command line
-
 ### Using docker compose
 
 Add the following
@@ -56,21 +54,33 @@ services:
 
 ## Developers
 
-### Build release for github
+### Cake targets on windows
 
-```bash
-#update the version
-go deploy -properties @{'buildConfiguration'='Release'}
-#upload the zip under build/dist to github
-```
+- `.\build.ps1 -t Default` The default task that just build and tests.
+- `.\build.ps1 -t Build` Build the project.
+- `.\build.ps1 -t Test` Run unit tests.
+- `.\build.ps1 -t Dist` Build release zip file in the dist folder.
+- `.\build.ps1 -t Clean` Cleans all directories that are used during the build process.
+- `.\build.ps1 -t Build-Docker` Build docker dev container.
+- `.\build.ps1 -t Up` Open in docker dev container.
+- `.\build.ps1 -t Down` Stop docker dev container.
+
+### Cake targets on linux
+
+- `./build.sh --target=Default` The default task that just build and tests.
+- `./build.sh --target=Build` Build the project.
+- `./build.sh --target=Test` Run unit tests.
+- `./build.sh --target=Dist` Build release zip file in the dist folder.
+- `./build.sh --target=Clean` Cleans all directories that are used during the build process.
+- `./build.sh --target=Build-Docker` Build docker dev container.
+- `./build.sh --target=Up` Open in docker dev container.
+- `./build.sh --target=Down` Stop docker dev container.
 
 ### Testings and playing with docker
 
-```bash
-docker-compose config
-docker-compose up -d
-docker-compose exec dev sh
-docker-compose down
+```cmd
+.\build.ps1 -t Build-Docker
+.\build.ps1 -t Up
 ```
 
 ### Build and deploy docker

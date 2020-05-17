@@ -16,15 +16,19 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
+    .Description("The default task that just build and tests.")
     .IsDependentOn("Test");
 Task("Build")
+    .Description("Build the project.")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build-Project");
 Task("Test")
+    .Description("Run unit tests.")
     .IsDependentOn("Build")
     .IsDependentOn("Run-Unit-Tests");
 Task("Dist")
+    .Description("Build release zip file in the dist folder.")
     .IsDependentOn("Test")
     .IsDependentOn("Build-Zip");
 
@@ -111,15 +115,16 @@ Task("Run-Unit-Tests")
 Task("Build-Zip")
     .Does(() =>
 { 
+     
     var toFolder = Directory(dirDist) + Directory($"Command.Bot.{version}.{configuration}");
-    var from = Directory(dirService)+Directory("**/*");
+    var from =  $"{Directory(dirService)}/**/*";
     var zipFile = $"{toFolder}.zip";
     Information($"Copy {from} to {toFolder}"); 
     CreateDirectory(toFolder);
     CopyFiles(from,toFolder);
 
     var toScriptsFolder = Directory(toFolder) + Directory($"scripts");
-    var fromScripts = Directory(samplesFolder)+Directory("**/*");
+    var fromScripts = $"{Directory(samplesFolder)}/**/*";
     Information($"Copy {fromScripts} to {toScriptsFolder}"); 
     CreateDirectory(toScriptsFolder);
     CopyFiles(fromScripts,toScriptsFolder);
@@ -133,7 +138,8 @@ Task("Build-Zip")
 // Docker stuff
 ///////////////////////////////////////////////////////////////////////////////
 
-Task("dcb")
+Task("Build-Docker")
+    .Description("Build docker dev container.")
     .Does(() =>
 {    
     StartProcess("docker-compose", new ProcessSettings {
@@ -143,7 +149,8 @@ Task("dcb")
     );
 });
 
-Task("up")
+Task("Up")
+    .Description("Open in docker dev container.")
     .Does(() =>
 {
     StartProcess("docker-compose", new ProcessSettings {
@@ -162,7 +169,8 @@ Task("up")
     );
 });
 
-Task("down")
+Task("Down")
+    .Description("Stop docker dev container.")
     .Does(() =>
 {
     StartProcess("docker-compose", new ProcessSettings {
