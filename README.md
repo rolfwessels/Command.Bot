@@ -88,6 +88,6 @@ see <https://cakebuild.net/docs/tutorials/powershell-security>
 
 ```cmd
 Get-ExecutionPolicy -List
-Set-ExecutionPolicy RemoteSigned -Scope Process
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 Unblock-File build.ps1
 ```

@@ -1,5 +1,6 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 
+
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -7,6 +8,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var coverageThreshold = Argument("coverageThreshold", "100");
+var version = Argument("version", "1.0.0");
 
 
 //////////////////////////////////////////////////////////////////////
@@ -26,15 +28,17 @@ Task("Test")
 
 Task("Release")
     .IsDependentOn("Test")
-    .IsDependentOn("Test");
+    .IsDependentOn("Build-Zip");
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var buildDir = Directory("./src/Command.Bot.Service/bin") + Directory(configuration);
+
 var sln = "./src/Command.Bot.sln";
+var dirDist = "./dist";
+var dirService = Directory("./src/Command.Bot.Service/bin") + Directory(configuration) + Directory("net461");
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -86,6 +90,24 @@ Task("Run-Unit-Tests")
     Information($"Running  {file.ToString()}"); 
     DotNetCoreTest(file.ToString(), settings);
 });
+
+Task("Build-Zip")
+    .Does(() =>
+{ 
+    var toFolder = Directory(dirDist) + Directory($"Command.Bot.{version}.{configuration}");
+    var from = Directory(dirService)+Directory("**/*");
+    var zipFile = $"{toFolder}.zip";
+    Information($"Copy {from} to {toFolder}"); 
+    CreateDirectory(toFolder);
+    CopyFiles(from,toFolder);
+    Information($"Zipping to {zipFile}"); 
+    Zip(toFolder, zipFile);
+   
+});
+
+///////////////////////////////////////////////////////////////////////////////
+// Docker stuff
+///////////////////////////////////////////////////////////////////////////////
 
 Task("dcb")
     .Does(() =>
