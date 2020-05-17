@@ -1,5 +1,5 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
-#addin nuget:?package=Cake.Git&version=0.21.0
+// #addin nuget:?package=Cake.Git&version=0.21.0
 
 
 //////////////////////////////////////////////////////////////////////
@@ -8,7 +8,6 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var coverageThreshold = Argument("coverageThreshold", "100");
 
 
 
@@ -19,6 +18,7 @@ var coverageThreshold = Argument("coverageThreshold", "100");
 Task("Default")
     .IsDependentOn("Test");
 Task("Build")
+    .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build-Project");
 Task("Test")
@@ -47,7 +47,13 @@ Task("Clean")
     .Description("Cleans all directories that are used during the build process.")
     .Does(() =>
 {
-    DotNetCoreClean("./src");
+    StartProcess("dotnet", new ProcessSettings {
+        Arguments = new ProcessArgumentBuilder()
+            .Append("clean")
+            .Append("src/")
+            .Append("-v m")
+        }
+    );  
 });
 
 Task("Restore")
@@ -59,16 +65,16 @@ Task("Restore")
 Task("Build-Project")
     .Does(() =>
 {
-    DirectoryPath repoPath = Directory("./");
-    var commits = GitLog(repoPath, int.MaxValue);
-    version = $"{versionPrefix}{commits.Count}";
-    Information("Mark version as: {0}", commits.Count);
-    var dotNetCoreMSBuildSettings = new DotNetCoreMSBuildSettings()
-            .SetVersion(version)
-            .SetFileVersion(version)
-            .SetInformationalVersion(version);
+    // DirectoryPath repoPath = Directory("./");
+    // var commits = GitLog(repoPath, int.MaxValue);
+    // version = $"{versionPrefix}{commits.Count}";
+    // Information("Mark version as: {0}", commits.Count);
+    // var dotNetCoreMSBuildSettings = new DotNetCoreMSBuildSettings()
+    //         .SetVersion(version)
+    //         .SetFileVersion(version)
+    //         .SetInformationalVersion(version);
     var settings = new DotNetCoreBuildSettings {
-        MSBuildSettings = dotNetCoreMSBuildSettings,
+        // MSBuildSettings = dotNetCoreMSBuildSettings,
         Configuration = configuration,
     };
 
@@ -88,11 +94,16 @@ Task("Run-Unit-Tests")
 { 
     var settings = new DotNetCoreTestSettings
      {
-         ArgumentCustomization = args => args.Append("/p:CollectCoverage=true")
-                                             .Append("/p:CoverletOutputFormat=opencover")
-                                             .Append("/p:ThresholdType=line")
-                                             .Append($"/p:Threshold={coverageThreshold}")
+         ArgumentCustomization = args => args.Append("/p:CoverletOutputFormat=opencover")
      };
+    if(!IsRunningOnWindows())
+    { 
+        Information("Adding filter to remove ");
+        settings = new DotNetCoreTestSettings
+        {
+            ArgumentCustomization = args => args.Append("--filter TestCategory!=windows-only")
+        };
+    }
     Information($"Running  {file.ToString()}"); 
     DotNetCoreTest(file.ToString(), settings);
 });

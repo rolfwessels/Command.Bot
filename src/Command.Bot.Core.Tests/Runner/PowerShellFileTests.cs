@@ -7,9 +7,10 @@ using NUnit.Framework;
 namespace Command.Bot.Core.Tests.Runner
 {
     [TestFixture]
+    [Category("windows-only")]
     public class PowerShellFileTests : TestsBase
     {
-        
+
         private PowerShellFile _powerShellFile;
 
         #region Setup/Teardown
