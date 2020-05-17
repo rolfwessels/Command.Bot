@@ -36,8 +36,10 @@ Task("Release")
 
 // Define directories.
 
+
 var sln = "./src/Command.Bot.sln";
 var dirDist = "./dist";
+var samplesFolder = "./src/Command.Bot.Core.Tests/Samples";
 var dirService = Directory("./src/Command.Bot.Service/bin") + Directory(configuration) + Directory("net461");
 
 //////////////////////////////////////////////////////////////////////
@@ -100,6 +102,13 @@ Task("Build-Zip")
     Information($"Copy {from} to {toFolder}"); 
     CreateDirectory(toFolder);
     CopyFiles(from,toFolder);
+
+    var toScriptsFolder = Directory(toFolder) + Directory($"scripts");
+    var fromScripts = Directory(samplesFolder)+Directory("**/*");
+    Information($"Copy {fromScripts} to {toScriptsFolder}"); 
+    CreateDirectory(toScriptsFolder);
+    CopyFiles(fromScripts,toScriptsFolder);
+
     Information($"Zipping to {zipFile}"); 
     Zip(toFolder, zipFile);
    

@@ -12,7 +12,7 @@
 - Download the bot from https://github.com/rolfwessels/Command.Bot/releases
 - Extract bot into working folder.
 - Update the `appSettings.json`. Change BotKey setting and the AllowedUser settings. (Note allow user can be multiple users, that are comma seperated)
-- For testing you can run "Command.Bot.exe service run"
+- For testing you can run "Command.Bot.Service.exe run -v"
 - Once that is working you can add command bot as a service by running "Command.Bot.exe service install" as an _administator_
 
 ## Running on linux-docker
