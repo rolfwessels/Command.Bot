@@ -7,7 +7,7 @@
 
 ## Installing Command bot
 
-- Add "bots" to your slack installation. (on https://slack.com/apps search for bots and add it. Give the bot the username that you desire)
+- Add "bots" to your slack installation. (on https://slack.com/apps search for bots and add it. Give the bot the username that you desire) see the [wiki](https://github.com/rolfwessels/Command.Bot/wiki/How-to-get-the-correct-bot-auth-token) for more detail.
 - Copy the API Token
 - Download the bot from https://github.com/rolfwessels/Command.Bot/releases
 - Extract bot into working folder.
