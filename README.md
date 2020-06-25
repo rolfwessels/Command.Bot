@@ -64,6 +64,7 @@ services:
 - `.\build.ps1 -t Build-Docker` Build docker dev container.
 - `.\build.ps1 -t Up` Open in docker dev container.
 - `.\build.ps1 -t Down` Stop docker dev container.
+- `.\build.ps1 -t push-docker --branch=master` Push docker image based on branch.
 
 ### Cake targets on linux
 
@@ -75,6 +76,7 @@ services:
 - `./build.sh --target=Build-Docker` Build docker dev container.
 - `./build.sh --target=Up` Open in docker dev container.
 - `./build.sh --target=Down` Stop docker dev container.
+- `./build.sh --target=push-docker --branch=master` Push docker image based on branch.
 
 ### Testings and playing with docker
 

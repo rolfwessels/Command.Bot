@@ -1,5 +1,5 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
-// #addin nuget:?package=Cake.Git&version=0.21.0
+
 
 
 //////////////////////////////////////////////////////////////////////
@@ -8,6 +8,8 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var branch = Argument("branch", "");
+var dockerImageName =  Argument("dockerImageName", "rolfwessels/command-bot"); 
 
 
 
@@ -66,19 +68,23 @@ Task("Restore")
     DotNetCoreRestore("./src");
 });
 
-Task("Build-Project")
+Task("Version")
     .Does(() =>
 {
-    // DirectoryPath repoPath = Directory("./");
-    // var commits = GitLog(repoPath, int.MaxValue);
-    // version = $"{versionPrefix}{commits.Count}";
-    // Information("Mark version as: {0}", commits.Count);
-    // var dotNetCoreMSBuildSettings = new DotNetCoreMSBuildSettings()
-    //         .SetVersion(version)
-    //         .SetFileVersion(version)
-    //         .SetInformationalVersion(version);
+    version = $"{versionPrefix}"+Run("git","rev-list","HEAD","--count");
+    Information("Mark version as: {0}", version);
+});
+
+Task("Build-Project")
+    .IsDependentOn("Version")
+    .Does(() =>
+{   
+    var dotNetCoreMSBuildSettings = new DotNetCoreMSBuildSettings()
+            .SetVersion(version)
+            .SetFileVersion(version)
+            .SetInformationalVersion(version);
     var settings = new DotNetCoreBuildSettings {
-        // MSBuildSettings = dotNetCoreMSBuildSettings,
+        MSBuildSettings = dotNetCoreMSBuildSettings,
         Configuration = configuration,
     };
 
@@ -111,7 +117,6 @@ Task("Run-Unit-Tests")
     Information($"Running  {file.ToString()}"); 
     DotNetCoreTest(file.ToString(), settings);
 });
-
 Task("Build-Zip")
     .Does(() =>
 { 
@@ -181,7 +186,61 @@ Task("Down")
 });
 
 
+Task("Push-Docker")
+    .Description("Pushes to docker based on git branch.")
+    .Does(() =>
+{
+    if (string.IsNullOrEmpty(branch)) {
+        branch = "git rev-parse --abbrev-ref HEAD";
+    }
+    
+    Information($"You are on {branch} branch");
+    if (branch.StartsWith("feature")) {
+        var target = $"{dockerImageName}:alpha";
+        DockerBuildAndPush(new [] {target});
+    }
+    else if (branch == "master") {
+        var target = $"{dockerImageName}:beta";
+        DockerBuildAndPush(new [] {target});
+    }
+    else if (branch.StartsWith("v1")) {
+        var target = $"{dockerImageName}:latest";
+        DockerBuildAndPush(new [] {target, $"{dockerImageName}:{branch}"});
+    }
+});
 
+
+void DockerBuildAndPush(string[] targets)  {
+    Information($"Building targets {string.Join(" and ",targets)}"); 
+    var buildArguments = new ProcessArgumentBuilder().Append("build");
+    foreach (var target in targets)
+    {
+        buildArguments = buildArguments.Append($"-t {target}");
+    }
+    buildArguments = buildArguments.Append(".");        
+    StartProcess("docker", new ProcessSettings {Arguments = buildArguments});
+    StartProcess("docker", new ProcessSettings {
+    Arguments = new ProcessArgumentBuilder()
+        .Append("push")
+        .Append($"{dockerImageName}")
+        }
+    );
+}
+
+string Run(params string[] commands) {
+    var arguments = new ProcessArgumentBuilder();
+    foreach (var test in commands.Skip(1)) {
+      arguments =  arguments.Append(test);
+    }
+    var output = "";
+    var setting = new ProcessSettings { 
+        Arguments = arguments, 
+        RedirectedStandardOutputHandler = (d) => output += "\n"+d,
+        RedirectStandardOutput = true,
+    };
+    StartProcess(commands.First(),setting);
+    return output.Trim();
+}
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
 //////////////////////////////////////////////////////////////////////
