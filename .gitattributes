@@ -1,0 +1,23 @@
+# Autodetect Text Files:
+* text=auto
+
+# Definitely Text Files:
+.gitattributes text
+.gitignore text
+*.md text
+*.tf text eol=lf
+*.tfvar text eol=lf
+*.sh text eol=lf
+*.js text eol=lf
+Dockerfile text eol=lf
+
+
+*.cs text eol=crlf
+*.csproj text eol=crlf
+*.config text eol=crlf
+*.json text eol=crlf
+*.yml text eol=crlf
+
+
+
+

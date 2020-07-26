@@ -7,9 +7,10 @@ using NUnit.Framework;
 namespace Command.Bot.Core.Tests.Runner
 {
     [TestFixture]
+    [Category("windows-only")]
     public class BatchFileTests : TestsBase
     {
-        
+
         private BatchFile _batFile;
 
         #region Setup/Teardown
@@ -48,8 +49,8 @@ namespace Command.Bot.Core.Tests.Runner
             // arrange
             Setup();
             var fakeContext = new FakeContext();
-            
-           
+
+
             var fileRunner = _batFile.GetRunner(@"Samples\batExample.bat");
             // action
             fileRunner.Execute(fakeContext);
