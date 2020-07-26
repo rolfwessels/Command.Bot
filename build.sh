@@ -16,7 +16,7 @@ fi
 
 # Make sure the tools folder exist.
 if [ ! -d "$TOOLS_DIR" ]; then
-  mkdir "$TOOLS_DIR"
+  mkdir -p "$TOOLS_DIR"
 fi
 
 ###########################################################################
@@ -45,7 +45,7 @@ fi
 # INSTALL CAKE
 ###########################################################################
 
-export PATH="$PATH:~/.dotnet/tools/"
+export PATH="$PATH:~/.dotnet/tools/:$TOOLS_DIR"
 CAKE_INSTALLED_VERSION=$($CAKE_EXE --version 2>&1)
 
 if [ "$CAKE_VERSION" != "$CAKE_INSTALLED_VERSION" ]; then
@@ -55,7 +55,7 @@ if [ "$CAKE_VERSION" != "$CAKE_INSTALLED_VERSION" ]; then
         fi
 
         echo "Installing Cake $CAKE_VERSION... .. not $CAKE_INSTALLED_VERSION"
-        dotnet tool install -g --version $CAKE_VERSION Cake.Tool
+        dotnet tool install --tool-path $TOOLS_DIR --version $CAKE_VERSION Cake.Tool
         
         if [ $? -ne 0 ]; then
             echo "An error occured while installing Cake."
