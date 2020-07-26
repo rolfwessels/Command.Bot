@@ -6,7 +6,7 @@ CAKE_VERSION=0.38.4
 DOTNET_VERSION=2.1.701
 
 TOOLS_DIR=$SCRIPT_DIR/tools/.linux/
-CAKE_EXE="~/.dotnet/tools/dotnet-cake"
+CAKE_EXE="dotnet-cake"
 CAKE_PATH=$TOOLS_DIR/.store/cake.tool/$CAKE_VERSION
 
 if [ "$CAKE_VERSION" = "" ] || [ "$DOTNET_VERSION" = "" ]; then
@@ -45,7 +45,8 @@ fi
 # INSTALL CAKE
 ###########################################################################
 
-CAKE_INSTALLED_VERSION=$(~/.dotnet/tools/dotnet-cake --version 2>&1)
+export PATH="$PATH:~/.dotnet/tools/"
+CAKE_INSTALLED_VERSION=$($CAKE_EXE --version 2>&1)
 
 if [ "$CAKE_VERSION" != "$CAKE_INSTALLED_VERSION" ]; then
     if [ ! -f "$CAKE_EXE" ] || [ ! -d "$CAKE_PATH" ]; then
@@ -53,7 +54,7 @@ if [ "$CAKE_VERSION" != "$CAKE_INSTALLED_VERSION" ]; then
             dotnet tool uninstall --tool-path $TOOLS_DIR Cake.Tool
         fi
 
-        echo "Installing Cake $CAKE_VERSION..."
+        echo "Installing Cake $CAKE_VERSION... .. not $CAKE_INSTALLED_VERSION"
         dotnet tool install -g --version $CAKE_VERSION Cake.Tool
         
         if [ $? -ne 0 ]; then
@@ -61,9 +62,10 @@ if [ "$CAKE_VERSION" != "$CAKE_INSTALLED_VERSION" ]; then
             exit 1
         fi
     fi
+    
     CAKE_EXE="dotnet-cake"
 else
-    CAKE_EXE="~/.dotnet/tools/dotnet-cake"
+    CAKE_EXE="dotnet-cake"
 fi
 
 ###########################################################################
