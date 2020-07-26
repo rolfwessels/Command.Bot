@@ -61,7 +61,7 @@ if [ "$CAKE_VERSION" != "$CAKE_INSTALLED_VERSION" ]; then
             exit 1
         fi
     fi
-    CAKE_EXE="~/.dotnet/tools/dotnet-cake"
+    CAKE_EXE="dotnet-cake"
 else
     CAKE_EXE="~/.dotnet/tools/dotnet-cake"
 fi
