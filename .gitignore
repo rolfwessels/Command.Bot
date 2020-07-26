@@ -17,7 +17,7 @@ obj
 src/_NCrunch_Command.Bot/
 **/bower_components
 **/StyleCop.Cache
-
+dotnet
 **/_NCrunch*
 **/nCrunchTemp*
 **/Command.Bot.Website/build/**
@@ -29,3 +29,4 @@ tools/*
 .dotnet/dotnet-install.sh
 dist/Command.Bot.1.0.0.Release/Command.Bot.Service.pdb
 /dist
+.dotnet

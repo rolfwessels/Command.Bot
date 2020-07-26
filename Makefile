@@ -27,7 +27,7 @@ rebuild: down
 	@echo "✔️ Building containers..."
 	@docker-compose build
 
-down: set-credentials
+down:
 	@echo "✔️ Stopping containers..."
 	docker-compose down
 
