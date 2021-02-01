@@ -13,7 +13,7 @@
 	  </Content>
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="log4net" Version="2.0.8" />
+	  <PackageReference Include="log4net" Version="2.0.10" />
 	  <PackageReference Include="ManyConsole" Version="2.0.1" />
 	  <!-- <PackageReference Include="Newtonsoft.Json" Version="8.0.3" /> -->
 	</ItemGroup>
