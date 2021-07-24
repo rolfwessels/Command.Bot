@@ -43,7 +43,6 @@ namespace Command.Bot.Core.Responders
             return startsWith;
         }
 
-
         public static string CleanMessage(this MessageContext context)
         {
             var text = context.Message.Text;
@@ -51,7 +50,7 @@ namespace Command.Bot.Core.Responders
             {
                 text = Regex.Replace(text, @"<@.*?>:", " ");
                 text = Regex.Replace(text, @"<@.*?>", " ");
-                return text.Trim().ToLower();
+                return text.Trim().Trim('*').Trim().ToLower();
             }
             return null;
         }
