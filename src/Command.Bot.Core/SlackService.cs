@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Command.Bot.Core.Responders;
 using Serilog;
@@ -13,9 +14,10 @@ namespace Command.Bot.Core
     {
         
         private readonly string _key;
-        private readonly ISlackConnector _connector;
+        private ISlackConnector _connector;
         private ISlackConnection _connection;
         private readonly List<IResponder> _responders;
+        public int ReconnectingCounter { get; set; }
 
         public SlackService(string key)
         {
@@ -38,6 +40,24 @@ namespace Command.Bot.Core
             RemoveEvents();
             _connection.OnMessageReceived += MessageReceived;
             _connection.OnDisconnect += Disconnected;
+            _connection.OnReconnecting += Reconnecting;
+        }
+
+        private async Task Reconnecting()
+        {
+            ReconnectingCounter++;
+            Log.Debug($"OnReconnecting {ReconnectingCounter}");
+            if (ReconnectingCounter > 30)
+            {
+                
+                Disconnected();
+                Log.Debug($"Wait a few minutes then reconnect...");
+                await Task.Delay(TimeSpan.FromMinutes(2));
+                
+                _connector = new SlackConnector.SlackConnector();
+                Log.Debug($"Connecting again.");
+                await Connect();
+            }
         }
 
         private void RemoveEvents()
