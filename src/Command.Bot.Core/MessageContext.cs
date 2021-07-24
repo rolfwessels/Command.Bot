@@ -32,7 +32,7 @@ namespace Command.Bot.Core
         public Task SayOutput(string text)
         {
             if (string.IsNullOrEmpty(text)) return Task.FromResult(true);
-            return GetValue(new BotMessage() { Text = $">>>{text}"});
+            return GetValue(new BotMessage() { Text = $"```{text}```"});
         }
 
         public Task SayError(string text)
