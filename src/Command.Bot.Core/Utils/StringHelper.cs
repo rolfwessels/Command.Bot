@@ -20,5 +20,24 @@ namespace Command.Bot.Core.Utils
             if (stringValues.Length <= 1) return stringValues.FirstOrDefault();
             return string.Join(separator, stringValues) ;
         }
+
+        public static IEnumerable<List<string>> GroupByMaxLength(this IEnumerable<string> values, int maxLength =10)
+        {
+            var returnValue = new List<string>();
+            var counter = 0;
+            foreach (var value in values)
+            {
+                if (counter + value.Length > maxLength)
+                {
+                    counter = 0;
+                    if (returnValue.Any()) yield return returnValue;
+                }
+                counter += value.Length;
+                returnValue.Add(value);
+            }
+            if (returnValue.Any()) yield return returnValue;
+        }
+
+        
     }
 }

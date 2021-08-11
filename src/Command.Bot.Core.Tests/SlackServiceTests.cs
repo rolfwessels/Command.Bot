@@ -74,7 +74,7 @@ namespace Command.Bot.Core.Tests
             // action
             await _slackService.ProcessMessage(new MessageContext(Message("batExample -test"), slackConnection));
             // assert
-            slackConnection.Said.Select(x => x.Text).Should().Contain("```hello\ni am a bat file\nYour first argument was '-test'\nOr is it '-test'```");
+            slackConnection.Said.Select(x => x.Text).Should().Contain("```hello\ni am a bat file\nYour first argument was '-test'\nOr is it '-test' ?```");
         }
 
         [Test]

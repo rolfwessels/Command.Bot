@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -19,30 +18,32 @@ namespace Command.Bot.Core
     {
         private readonly ISlackConnection _connection;
         private readonly Subject<string> _outputText;
-        private IDisposable _disposable;
-        private readonly IObservable<IList<string>> _buffered;
+        private readonly IDisposable _disposable;
         private int _counter;
+        public static int MaxLength = 100;
 
         public MessageContext(SlackMessage message, ISlackConnection connection)
         {
             _connection = connection;
             Message = message;
             _outputText = new Subject<string>();
-            
-            _buffered = _outputText.AsObservable()
-                .Buffer(TimeSpan.FromSeconds(1), 5);
-            _disposable = _buffered.Subscribe(x =>
+
+            _disposable = _outputText.AsObservable()
+                .Buffer(TimeSpan.FromSeconds(1)).Subscribe(x =>
                 {
-                    var txt = x.StringJoin("\n");
-                    Log.Information("say:"+ txt);
-                    try
-                    {
-                        Say($"```{txt}```").Wait();
+                    foreach (var txt in x.GroupByMaxLength(MaxLength).Select(b=>b.StringJoin("\n"))) 
+                    {   
+                        try
+                        {
+                            Log.Information("say:" + txt);
+                            Say($"```{txt}```").Wait();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error(e, "Failing");
+                        }
                     }
-                    catch (Exception e)
-                    {
-                       Log.Error(e,"Failing");
-                    }
+                    
                     foreach (var _ in x)
                     {
                         Interlocked.Decrement(ref _counter);
