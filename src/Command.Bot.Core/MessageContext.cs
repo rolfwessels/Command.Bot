@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Command.Bot.Core.Responders;
 using Command.Bot.Core.Runner;
 using Command.Bot.Core.Utils;
+using Serilog;
 using SlackConnector;
 using SlackConnector.Models;
 
@@ -32,7 +33,16 @@ namespace Command.Bot.Core
                 .Buffer(TimeSpan.FromSeconds(1), 5);
             _disposable = _buffered.Subscribe(x =>
                 {
-                    connection.Say($"```{x.StringJoin("\n")}```");
+                    var txt = x.StringJoin("\n");
+                    Log.Information("say:"+ txt);
+                    try
+                    {
+                        Say($"```{txt}```").Wait();
+                    }
+                    catch (Exception e)
+                    {
+                       Log.Error(e,"Failing");
+                    }
                     foreach (var _ in x)
                     {
                         Interlocked.Decrement(ref _counter);
@@ -45,7 +55,7 @@ namespace Command.Bot.Core
 
         public Task Say(string text)
         {
-            return GetValue(new BotMessage() { Text = text});
+            return Say(new BotMessage() { Text = text});
         }
 
         public string Text => this.CleanMessage();
@@ -58,16 +68,17 @@ namespace Command.Bot.Core
             return Task.CompletedTask;
         }
 
-        public Task SayError(string text)
+        public async Task SayError(string text)
         {
-            if (string.IsNullOrEmpty(text)) return Task.FromResult(true);
-            return GetValue(new BotMessage() { Text = $">>>`{text}`" });
+            await FlushMessages();
+            if (string.IsNullOrEmpty(text)) return ;
+            await Say(new BotMessage() { Attachments = new List<SlackAttachment>() {new SlackAttachment() {ColorHex = "#D00000" , Text = text } }});
         }
 
-        public Task GetValue(BotMessage botMessage)
+        public Task Say(BotMessage botMessage)
         {
             if (botMessage.ChatHub == null) botMessage.ChatHub = Message.ChatHub;
-            if (string.IsNullOrEmpty(botMessage.Text)) return Task.FromResult(true);
+            if (string.IsNullOrEmpty(botMessage.Text) && !botMessage.Attachments.Any()) return Task.FromResult(true);
             return _connection.Say(botMessage);
         }
 
