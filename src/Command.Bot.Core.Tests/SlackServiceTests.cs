@@ -72,10 +72,23 @@ namespace Command.Bot.Core.Tests
             Setup();
             var slackConnection = new FakeConnection();
             // action
+            await _slackService.ProcessMessage(new MessageContext(Message("batExample -test"), slackConnection));
+            // assert
+            slackConnection.Said.Select(x => x.Text).Should().Contain("```hello\ni am a bat file\nYour first argument was '-test'\nOr is it '-test'```");
+        }
+
+        [Test]
+        public async Task ProcessMessage_GivenRunCommand_ShouldSayWhenDone()
+        {
+            // arrange
+            Setup();
+            var slackConnection = new FakeConnection();
+            // action
             await _slackService.ProcessMessage(new MessageContext(Message("batExample"), slackConnection));
             // assert
-            slackConnection.Said.Select(x => x.Text).Should().Contain("```hello```");
+            slackConnection.Said.Select(x => x.Text).Should().Contain("Done.");
         }
+
         [Test]
         public async Task ProcessMessage_GivenRunCommandWithSimilarName_ShouldRespond()
         {

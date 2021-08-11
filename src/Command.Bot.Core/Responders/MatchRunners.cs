@@ -17,7 +17,6 @@ namespace Command.Bot.Core.Responders
 
         public static IEnumerable<IResponderDescription> GetCommands(this IEnumerable<IResponder> responders)
         {
-            var stringBuilder = new StringBuilder();
             foreach (var responderDescription in responders)
             {
                 if (responderDescription is IResponderDescription description)

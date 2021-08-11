@@ -92,20 +92,21 @@ namespace Command.Bot.Core
 
         private async Task MessageReceived(SlackMessage message)
         {
-
-            var messageContext = GetMessageContext(message);
-            try
+            using (var messageContext = GetMessageContext(message))
             {
-                await ProcessMessage(messageContext);
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-                _connection.Say(new BotMessage()
+                try
                 {
-                    Text = $"Ooops something went wrong ({e.Message})",
-                    ChatHub = message.ChatHub
-                }).Wait();
+                    await ProcessMessage(messageContext);
+                }
+                catch (Exception e)
+                {
+                    _log.Error(e.Message, e);
+                    _connection.Say(new BotMessage()
+                    {
+                        Text = $"Ooops something went wrong ({e.Message})",
+                        ChatHub = message.ChatHub
+                    }).Wait();
+                }
             }
         }
 

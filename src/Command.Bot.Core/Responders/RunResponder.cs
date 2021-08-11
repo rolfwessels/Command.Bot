@@ -18,7 +18,6 @@ namespace Command.Bot.Core.Responders
         {
             _runners = FileRunners.All;
             _path = FileRunners.GetOrCreateFullPath(scriptPath) ;
-            Console.Out.WriteLine("_path"+ _path);
         }
 
         #region Overrides of ResponderBase
@@ -35,8 +34,12 @@ namespace Command.Bot.Core.Responders
         public override async Task GetResponse(MessageContext context)
         {
             var runner = FileRunners.Scripts(_path).Find(context.CleanMessage());
+            if (runner == null)
+            {
+                await context.Say("Command not found.");
+                return;
+            }
 
-            await context.Say("Command not found.");
             Log.Information($"Start executing {runner.Command}");
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -45,7 +48,8 @@ namespace Command.Bot.Core.Responders
             {
                 await context.Say(text);
             }
-            
+
+            await context.FlushMessages();
             stopwatch.Stop();
             Log.Information($"Done executing {runner.Command} in {stopwatch.Elapsed}");
             await context.Say("Done.");
