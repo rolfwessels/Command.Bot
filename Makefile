@@ -118,9 +118,15 @@ version:
 
 publish-nuget: version
 	@echo  "${GREEN}Publish branch $(current-branch) to $(version-tag)${NC}"
-	@cd src && dotnet build --configuration Release
+	@cd src/Command.Bot.Core && dotnet build --configuration Release
 	dotnet pack src/Command.Bot.Core/Command.Bot.Core.csproj
-# dotnet nuget push src/Command.Bot.Core/bin/Debug/Command.Bot.Core.*.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
+	dotnet nuget push src/Command.Bot.Core/bin/Debug/Command.Bot.Core.*.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
+
+publish-nuget: version
+	@echo  "${GREEN}Publish branch $(current-branch) to $(version-tag)${NC}"
+	@cd src/Command.Bot.Core && dotnet build --configuration Release
+	dotnet pack src/Command.Bot.Core/Command.Bot.Core.csproj
+	dotnet nuget push src/Command.Bot.Core/bin/Debug/Command.Bot.Core.*.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
 
 docker-check:
 	$(call assert-file-exists,$(docker-filecheck), This step should only be run from Docker. Please run `make up` first.)
