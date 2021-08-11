@@ -1,9 +1,10 @@
-[![Build Status](https://travis-ci.org/rolfwessels/Command.Bot.svg?branch=master)](https://travis-ci.org/rolfwessels/Command.Bot)
 [![Github release](https://img.shields.io/github/v/release/rolfwessels/Command.Bot)](https://github.com/rolfwessels/Command.Bot/releases)
 [![Dockerhub Status](https://img.shields.io/badge/dockerhub-ok-blue.svg)](https://hub.docker.com/r/rolfwessels/command-bot/tags)
 [![Dockerhub Version](https://img.shields.io/docker/v/rolfwessels/command-bot?sort=semver)](https://hub.docker.com/r/rolfwessels/command-bot/tags)
 
 # Command.Bot
+
+Slack bot that allows you to run scripts remotely.
 
 ## Installing Command bot
 
@@ -53,37 +54,6 @@ services:
 - note that you can also pass parameters to the scripts by appending them to the command.
 
 ## Developers
-
-### Cake targets on windows
-
-- `.\build.ps1 -t Default` The default task that just build and tests.
-- `.\build.ps1 -t Build` Build the project.
-- `.\build.ps1 -t Test` Run unit tests.
-- `.\build.ps1 -t Dist` Build release zip file in the dist folder.
-- `.\build.ps1 -t Clean` Cleans all directories that are used during the build process.
-- `.\build.ps1 -t Build-Docker` Build docker dev container.
-- `.\build.ps1 -t Up` Open in docker dev container.
-- `.\build.ps1 -t Down` Stop docker dev container.
-- `.\build.ps1 -t push-docker --branch=master` Push docker image based on branch.
-
-### Cake targets on linux
-
-- `./build.sh --target=Default` The default task that just build and tests.
-- `./build.sh --target=Build` Build the project.
-- `./build.sh --target=Test` Run unit tests.
-- `./build.sh --target=Dist` Build release zip file in the dist folder.
-- `./build.sh --target=Clean` Cleans all directories that are used during the build process.
-- `./build.sh --target=Build-Docker` Build docker dev container.
-- `./build.sh --target=Up` Open in docker dev container.
-- `./build.sh --target=Down` Stop docker dev container.
-- `./build.sh --target=push-docker --branch=master` Push docker image based on branch.
-
-### Testings and playing with docker
-
-```cmd
-.\build.ps1 -t Build-Docker
-.\build.ps1 -t Up
-```
 
 ### Build and deploy docker
 
