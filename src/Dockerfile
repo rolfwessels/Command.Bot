@@ -16,8 +16,8 @@ WORKDIR /app
 
 COPY ./ ./
 WORKDIR /app/Command.Bot
-RUN ./build.sh --target=Test
-RUN dotnet publish -c Release -o out
+ARG VERSION=1.0.0
+RUN dotnet publish -c Release -o out /p:Version=$VERSION 
 
 FROM microsoft/dotnet:2.1-runtime
 

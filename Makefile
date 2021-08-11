@@ -27,13 +27,20 @@ ifeq ($(env), prod)
 endif
 
 
-
 ifeq ($(current-branch), master)
   docker-tags := -t $(dockerhub):latest -t $(dockerhub):v$(version)
 else ifeq ($(current-branch), develop)
   docker-tags := -t $(dockerhub):beta 
 else
   docker-tags := -t $(dockerhub):alpha 
+endif
+
+ifeq ($(current-branch), main)
+  version-tag :=  $(version)
+else ifeq ($(current-branch), develop)
+  version-tag := $(version)-beta
+else
+  version-tag := $(version)-alpha
 endif
 
 # Docker Warning
@@ -102,13 +109,18 @@ test: restore
 
 start: docker-check
 	@echo -e "${GREEN}Starting the $(release) release of $(project)${NC}"
-	@cd src/CommandBot/ && dotnet run -- run -v
+	@cd src/Command.Bot/ && dotnet run -- run -v
 
-publish-nuget: 
+version:
+	@echo -e "${GREEN}Setting version number $(version) ${NC}"
+	@sed 's/Version>.*</Version>$(version-tag)</' src/Command.Bot.Core/Command.Bot.Core.csproj > src/Command.Bot.Core/Command.Bot.Core.csproj.ch  
+	@mv  src/Command.Bot.Core/Command.Bot.Core.csproj.ch src/Command.Bot.Core/Command.Bot.Core.csproj
+
+publish-nuget: version
 	@echo  "${GREEN}Publish branch $(current-branch) to $(version-tag)${NC}"
-	dotnet build --configuration Release
-	dotnet pack src/Bumbershoot.Utilities/Bumbershoot.Utilities.csproj
-	dotnet nuget push src/Bumbershoot.Utilities/bin/Debug/Bumbershoot.Utilities.*.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
+	@cd src && dotnet build --configuration Release
+	dotnet pack src/Command.Bot.Core/Command.Bot.Core.csproj
+# dotnet nuget push src/Command.Bot.Core/bin/Debug/Command.Bot.Core.*.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
 
 docker-check:
 	$(call assert-file-exists,$(docker-filecheck), This step should only be run from Docker. Please run `make up` first.)

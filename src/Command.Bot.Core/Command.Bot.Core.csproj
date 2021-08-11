@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-		<AssemblyName>Command.Bot.Core</AssemblyName>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<TargetFramework>netstandard2.0</TargetFramework>
+			<AssemblyName>Command.Bot.Core</AssemblyName>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<Version>0.1.54-alpha</Version>
 	</PropertyGroup>
 	<ItemGroup>
     <PackageReference Include="Serilog" Version="2.9.0" />
