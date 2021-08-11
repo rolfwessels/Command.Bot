@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Command.Bot.Core.Runner;
 using Serilog;
-using SlackConnector.Models;
 
 namespace Command.Bot.Core.Responders
 {
@@ -10,47 +12,54 @@ namespace Command.Bot.Core.Responders
     {
         
         private IRunner[] _runners;
+        private string _path;
 
-        public RunResponder()
+        public RunResponder(string scriptPath)
         {
             _runners = FileRunners.All;
+            _path = FileRunners.GetOrCreateFullPath(scriptPath) ;
         }
 
         #region Overrides of ResponderBase
 
         public override bool CanRespond(MessageContext context)
         {
-            return base.CanRespond(context) && FileRunners.Scripts.Find(context.CleanMessage()) != null;
+            return base.CanRespond(context) && FileRunners.Scripts(_path).Find(context.CleanMessage()) != null;
         }
 
         #endregion
 
         #region Overrides of ResponderBase
 
-        public override BotMessage GetResponse(MessageContext context)
+        public override async Task GetResponse(MessageContext context)
         {
-            var runner = FileRunners.Scripts.Find(context.CleanMessage());
-            
-            if (runner == null) return new BotMessage() {Text = "Command not found."};
+            var runner = FileRunners.Scripts(_path).Find(context.CleanMessage());
+            if (runner == null)
+            {
+                await context.Say("Command not found.");
+                return;
+            }
+
             Log.Information($"Start executing {runner.Command}");
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var enumerable = runner.Execute(context);
             foreach (var text in enumerable)
             {
-                context.Say(text);
+                await context.Say(text);
             }
-            
+
+            await context.FlushMessages();
             stopwatch.Stop();
             Log.Information($"Done executing {runner.Command} in {stopwatch.Elapsed}");
-            return new BotMessage() { Text = "Done." };
+            await context.Say("Done.");
         }
 
         #endregion
 
         #region Implementation of IResponderDescriptions
 
-        public IEnumerable<IResponderDescription> Descriptions => FileRunners.Scripts;
+        public IEnumerable<IResponderDescription> Descriptions => FileRunners.Scripts(_path);
 
         #endregion
     }

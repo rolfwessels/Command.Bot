@@ -1,21 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Command.Bot.Core.Responders;
 
 namespace Command.Bot.Core
 {
-    public class ResponseBuilder
+    public class ResponseBuilder : IResponseBuilder
     {
-        private static readonly List<IResponder> _authorizedResponders = new List<IResponder> {
-            new RunResponder()
-        };
+        private readonly List<IResponder> _responders;
 
-        public static List<IResponder> GetResponders()
+        public ResponseBuilder() : this(AuthResponder.SplitTheAllowedUsers(), Settings.Default.ScriptsPath)
         {
-            var responders = new List<IResponder> {new AuthResponder(), new HelpResponder(_authorizedResponders)};
-            responders.AddRange(_authorizedResponders);
-            responders.Add(new DefaultResponse());
-            return responders;
+        }
+
+        public ResponseBuilder(string[] allowedUsers, string defaultScriptsPath)
+        {
+            _responders = new List<IResponder> {
+                new AuthResponder(allowedUsers),
+                new RunResponder(defaultScriptsPath)
+            };
+            _responders.Add(new HelpResponder(_responders));
+            _responders.Add(new DefaultResponse(_responders)); 
+        }
+
+        public List<IResponder> GetResponders()
+        {
+            
+            return _responders;
         }
     }
 }

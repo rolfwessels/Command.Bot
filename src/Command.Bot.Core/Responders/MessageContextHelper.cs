@@ -7,7 +7,7 @@ namespace Command.Bot.Core.Responders
     {
         public static bool IsForBot(this MessageContext context)
         {
-            return context.IsFromSlackbot == false && context.BotHasResponded == false &&
+            return !context.Message.User.IsBot && 
                    (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM);
         }
 

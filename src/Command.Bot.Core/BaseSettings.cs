@@ -27,7 +27,7 @@ namespace Command.Bot.Core
             Log.Debug($"Environment: '{environment}'");
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile("appsettings.json", true, true)
                 .AddJsonFile($"appsettings.{environment}.json", true, true)
                 .AddEnvironmentVariables();
             return config.Build();

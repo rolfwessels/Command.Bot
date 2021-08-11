@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Command.Bot.Core.Runner;
+using Command.Bot.Core.Utils;
 
 namespace Command.Bot.Core.Responders
 {
@@ -13,7 +15,20 @@ namespace Command.Bot.Core.Responders
           return fileRunners.FirstOrDefault(x => x.MatchesString(cleanMessage));
         }
 
-        public static IEnumerable<string> FindWithSimilarNames(this IEnumerable<FileRunner> runners, string message, int max = 3)
+        public static IEnumerable<IResponderDescription> GetCommands(this IEnumerable<IResponder> responders)
+        {
+            foreach (var responderDescription in responders)
+            {
+                if (responderDescription is IResponderDescription description)
+                    yield return description;
+                else if (responderDescription is IResponderDescriptions descriptions)
+                    foreach (var desc in descriptions.Descriptions)
+                    {
+                        yield return desc;;
+                    }
+            }
+        }
+        public static IEnumerable<string> FindWithSimilarNames(this IEnumerable<IResponderDescription> runners, string message, int max = 3)
         {
             var source2 = message.Trim().ToLower();
             var enumerable = runners

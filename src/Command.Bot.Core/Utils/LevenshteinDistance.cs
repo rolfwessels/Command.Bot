@@ -1,6 +1,6 @@
 using System;
 
-namespace Command.Bot.Core.Responders
+namespace Command.Bot.Core.Utils
 {
     //Found at https://gist.github.com/Davidblkx/e12ab0bb2aff7fd8072632b396538560
     //Thanks to https://gist.github.com/Davidblkx

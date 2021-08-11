@@ -15,5 +15,7 @@ namespace Command.Bot.Core
         public string BotKey => ReadConfigValue("BotKey", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         public string AllowedUser => ReadConfigValue("AllowedUser", "xxxxxxxxxxxxxxxxxx");
         public string ScriptsPath => ReadConfigValue("ScriptsPath", "xxxxxxxxxxxxxxxxxx");
+        public int MaxReconnectTries => Convert.ToInt32(ReadConfigValue("MaxReconnectTries", "10"));
+        public int WaitRetryMinutes => Convert.ToInt32(ReadConfigValue("WaitRetryMinutes", "5"));
     }
 }
