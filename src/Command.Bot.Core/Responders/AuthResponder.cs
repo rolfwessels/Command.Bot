@@ -1,5 +1,5 @@
 using System.Linq;
-using SlackConnector.Models;
+using System.Threading.Tasks;
 
 namespace Command.Bot.Core.Responders
 {
@@ -7,14 +7,14 @@ namespace Command.Bot.Core.Responders
     {
         private readonly string[] _allowedUsers;
 
-        public AuthResponder()
+        public AuthResponder(string[] allowedUsers)
         { 
-            _allowedUsers = SplitTheAllowedUsers();
+            _allowedUsers = allowedUsers;
         }
 
-        private static string[] SplitTheAllowedUsers()
+        public static string[] SplitTheAllowedUsers()
         {
-            return Settings.Default.AllowedUser.Split(new [] {',',':',';'}).Select(x=>x.Trim()).Where(x=>!string.IsNullOrEmpty(x)).ToArray();
+            return Settings.Default.AllowedUser.Split(',', ':', ';').Select(x=>x.Trim()).Where(x=>!string.IsNullOrEmpty(x)).ToArray();
         }
 
         #region Overrides of ResponderBase
@@ -24,9 +24,9 @@ namespace Command.Bot.Core.Responders
             return base.CanRespond(context) && _allowedUsers.Length > 0 && !(_allowedUsers.Contains(context.Message.User.Id) || _allowedUsers.Contains(context.Message.User.Name));
         }
 
-        public override BotMessage GetResponse(MessageContext context)
+        public override Task GetResponse(MessageContext context)
         {
-            return new BotMessage() {Text = "This is not the bot you are looking for ... *wave bot like arms*"};
+            return context.Say("This is not the bot you are looking for ... *wave bot like arms*");
         }
 
         #endregion

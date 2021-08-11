@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Serilog;
-using SlackConnector.Models;
+using System.Threading.Tasks;
 
 namespace Command.Bot.Core.Responders
 {
-    public class HelpResponder : ResponderBase
+    public class HelpResponder : ResponderBase , IResponderDescription
     {
         private readonly IEnumerable<IResponder> _responderDescriptions;
 
@@ -19,38 +17,25 @@ namespace Command.Bot.Core.Responders
         #region Overrides of ResponderBase
 
         public override bool CanRespond(MessageContext context)
-        {
-            
-            return context.IsForBot() && context.HasMessage("help");
+        {   
+            return context.IsForBot() && context.HasMessage(Command);
         }
 
         #endregion
 
         #region Implementation of IResponder
 
-        public override BotMessage GetResponse(MessageContext context)
+        public override Task GetResponse(MessageContext context)
         {
-            var botMessage = new BotMessage() { Text =
-                $"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}"
-            };
-
-            return botMessage;
+            return context.Say($"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}");
         }
 
         private string GetCommands()
         {
             var stringBuilder = new StringBuilder();
-            foreach (var responderDescription in _responderDescriptions)
+            foreach (var description in _responderDescriptions.GetCommands())
             {
-                var description = responderDescription as IResponderDescription;
-                if (description != null)
-                    AppendDescription(stringBuilder, description);
-                var descriptions = responderDescription as IResponderDescriptions;
-                if (descriptions == null) continue;
-                foreach (var desc in descriptions.Descriptions)
-                {
-                    AppendDescription(stringBuilder, desc);
-                }
+                AppendDescription(stringBuilder, description);
             }
             return stringBuilder.ToString();
         }
@@ -64,6 +49,13 @@ namespace Command.Bot.Core.Responders
         {
             return $"{Environment.MachineName}({Network.GetLocalIPAddress()})";
         }
+
+        #endregion
+
+        #region Implementation of IResponderDescription
+
+        public string Command => "help";
+        public string Description => "Display help information";
 
         #endregion
     }
