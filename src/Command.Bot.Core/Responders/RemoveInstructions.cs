@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Command.Bot.Core.Runner;
 using SlackConnector.Models;
 
@@ -21,16 +22,20 @@ namespace Command.Bot.Core.Responders
 
         #region Overrides of ResponderBase
 
-        public override BotMessage GetResponse(MessageContext context)
+        public override async Task GetResponse(MessageContext context)
         {
             if (context.StartsWith(Name, out var param))
             {
                 var runnerToRemove = FileRunners.Scripts.Find(param);
-                if (runnerToRemove == null) return new BotMessage() {Text = $"File '{param}' could not be found."};
+                if (runnerToRemove == null)
+                {
+                    await context.Say($"File '{param}' could not be found.");
+                    return;
+                }
+
                 File.Delete(runnerToRemove.File);
-                return new BotMessage() { Text = Path.GetFileName(runnerToRemove.File)+" removed" };
+                await context.Say(Path.GetFileName(runnerToRemove.File)+" removed");
             }
-            return new BotMessage() { Text = "File not found." };
         }
 
         #endregion

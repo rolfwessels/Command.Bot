@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Serilog;
 using SlackConnector.Models;
 
@@ -28,13 +29,9 @@ namespace Command.Bot.Core.Responders
 
         #region Implementation of IResponder
 
-        public override BotMessage GetResponse(MessageContext context)
+        public override Task GetResponse(MessageContext context)
         {
-            var botMessage = new BotMessage() { Text =
-                $"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}"
-            };
-
-            return botMessage;
+            return context.Say($"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}");
         }
 
         private string GetCommands()

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Command.Bot.Core.Runner;
 using Serilog;
 using SlackConnector.Models;
@@ -27,23 +28,23 @@ namespace Command.Bot.Core.Responders
 
         #region Overrides of ResponderBase
 
-        public override BotMessage GetResponse(MessageContext context)
+        public override async Task GetResponse(MessageContext context)
         {
             var runner = FileRunners.Scripts.Find(context.CleanMessage());
-            
-            if (runner == null) return new BotMessage() {Text = "Command not found."};
+
+            await context.Say("Command not found.");
             Log.Information($"Start executing {runner.Command}");
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var enumerable = runner.Execute(context);
             foreach (var text in enumerable)
             {
-                context.Say(text);
+                await context.Say(text);
             }
             
             stopwatch.Stop();
             Log.Information($"Done executing {runner.Command} in {stopwatch.Elapsed}");
-            return new BotMessage() { Text = "Done." };
+            await context.Say("Done.");
         }
 
         #endregion

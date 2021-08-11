@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using SlackConnector.Models;
 
 namespace Command.Bot.Core.Responders
@@ -24,9 +25,9 @@ namespace Command.Bot.Core.Responders
             return base.CanRespond(context) && _allowedUsers.Length > 0 && !(_allowedUsers.Contains(context.Message.User.Id) || _allowedUsers.Contains(context.Message.User.Name));
         }
 
-        public override BotMessage GetResponse(MessageContext context)
+        public override Task GetResponse(MessageContext context)
         {
-            return new BotMessage() {Text = "This is not the bot you are looking for ... *wave bot like arms*"};
+            return Task.CompletedTask;
         }
 
         #endregion

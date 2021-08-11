@@ -4,18 +4,24 @@ using Command.Bot.Core.Responders;
 
 namespace Command.Bot.Core
 {
-    public class ResponseBuilder
+    public class ResponseBuilder : IResponseBuilder
     {
-        private static readonly List<IResponder> _authorizedResponders = new List<IResponder> {
-            new RunResponder()
-        };
+        private readonly List<IResponder> _responders;
 
-        public static List<IResponder> GetResponders()
+        public ResponseBuilder()
         {
-            var responders = new List<IResponder> {new AuthResponder(), new HelpResponder(_authorizedResponders)};
-            responders.AddRange(_authorizedResponders);
-            responders.Add(new DefaultResponse());
-            return responders;
+            var authorizedResponders = new List<IResponder> {
+                new RunResponder()
+            };
+            _responders = new List<IResponder> { new AuthResponder(), new HelpResponder(authorizedResponders) };
+            _responders.AddRange(authorizedResponders);
+            _responders.Add(new DefaultResponse());
+        }
+
+        public List<IResponder> GetResponders()
+        {
+            
+            return _responders;
         }
     }
 }

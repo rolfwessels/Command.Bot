@@ -1,4 +1,5 @@
-﻿using SlackConnector.Models;
+﻿using System.Threading.Tasks;
+using SlackConnector.Models;
 
 namespace Command.Bot.Core.Responders
 {
@@ -9,7 +10,7 @@ namespace Command.Bot.Core.Responders
             return MessageContextHelper.IsForBot(context);
         }
 
-        public abstract BotMessage GetResponse(MessageContext context);
+        public abstract Task GetResponse(MessageContext context);
 
        
     }
