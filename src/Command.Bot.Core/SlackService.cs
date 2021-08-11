@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Command.Bot.Core.Responders;
@@ -110,22 +111,17 @@ namespace Command.Bot.Core
 
         private MessageContext GetMessageContext(SlackMessage message)
         {
-            const bool botHasResponded = false;
-            var messageContext = new MessageContext(message, botHasResponded, _connection);
-
+            var messageContext = new MessageContext(message,_connection);
             return messageContext;
         }
 
-        private async Task ProcessMessage(MessageContext messageContext)
+        public async Task ProcessMessage(MessageContext messageContext)
         {
             _log.Debug($"Message in {messageContext.Message.User.Name}: {messageContext.Message.Text}");
-            foreach (var responder in _responders)
+            foreach (var responder in _responders.Where(responder => responder.CanRespond(messageContext)))
             {
-                if (responder.CanRespond(messageContext))
-                {
-                    await responder.GetResponse(messageContext);
-
-                }
+                await responder.GetResponse(messageContext);
+                break;
             }
         }
 

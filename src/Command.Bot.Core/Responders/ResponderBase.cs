@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using SlackConnector.Models;
 
 namespace Command.Bot.Core.Responders
@@ -7,7 +8,7 @@ namespace Command.Bot.Core.Responders
     {
         public virtual bool CanRespond(MessageContext context)
         {
-            return MessageContextHelper.IsForBot(context);
+            return context.IsForBot();
         }
 
         public abstract Task GetResponse(MessageContext context);

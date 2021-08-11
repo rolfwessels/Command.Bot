@@ -29,11 +29,10 @@ namespace Command.Bot.Core.Runner
 
         public static IRunner[] All { get; set; }
 
-        public static IEnumerable<FileRunner> Scripts
+        public static IEnumerable<FileRunner> Scripts(string path)
         {
-            get
-            {
-                var files = Directory.GetFiles(BasePath.Value);
+          
+                var files = Directory.GetFiles(path);
                 foreach (var file in files)
                 {   
                     var fileRunner = All.Where(x=>x.IsExtensionMatch(file)).Select(x => x.GetRunner(file)).FirstOrDefault(x => x != null);
@@ -43,15 +42,10 @@ namespace Command.Bot.Core.Runner
                         yield return fileRunner;
                     }
                 }
-            }
+            
         }
 
-        public static string GetFileLocation(string name)
-        {
-            return Path.Combine(BasePath.Value, name) ;
-        }
-
-        private static string GetOrCreateFullPath(string scripts)
+        public static string GetOrCreateFullPath(string scripts)
         {
             var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)??@".\";
             var fullPath = Path.GetFullPath(Path.Combine(directoryName, scripts));

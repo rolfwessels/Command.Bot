@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Command.Bot.Core.Runner;
 using Serilog;
-using SlackConnector.Models;
 
 namespace Command.Bot.Core.Responders
 {
@@ -11,17 +12,20 @@ namespace Command.Bot.Core.Responders
     {
         
         private IRunner[] _runners;
+        private string _path;
 
-        public RunResponder()
+        public RunResponder(string scriptPath)
         {
             _runners = FileRunners.All;
+            _path = FileRunners.GetOrCreateFullPath(scriptPath) ;
+            Console.Out.WriteLine("_path"+ _path);
         }
 
         #region Overrides of ResponderBase
 
         public override bool CanRespond(MessageContext context)
         {
-            return base.CanRespond(context) && FileRunners.Scripts.Find(context.CleanMessage()) != null;
+            return base.CanRespond(context) && FileRunners.Scripts(_path).Find(context.CleanMessage()) != null;
         }
 
         #endregion
@@ -30,7 +34,7 @@ namespace Command.Bot.Core.Responders
 
         public override async Task GetResponse(MessageContext context)
         {
-            var runner = FileRunners.Scripts.Find(context.CleanMessage());
+            var runner = FileRunners.Scripts(_path).Find(context.CleanMessage());
 
             await context.Say("Command not found.");
             Log.Information($"Start executing {runner.Command}");
@@ -51,7 +55,7 @@ namespace Command.Bot.Core.Responders
 
         #region Implementation of IResponderDescriptions
 
-        public IEnumerable<IResponderDescription> Descriptions => FileRunners.Scripts;
+        public IEnumerable<IResponderDescription> Descriptions => FileRunners.Scripts(_path);
 
         #endregion
     }

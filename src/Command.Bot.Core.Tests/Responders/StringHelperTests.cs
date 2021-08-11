@@ -1,4 +1,5 @@
 using Command.Bot.Core.Responders;
+using Command.Bot.Core.Utils;
 using FluentAssertions;
 using NUnit.Framework;
 

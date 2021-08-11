@@ -10,17 +10,13 @@ namespace Command.Bot.Core
     {
         private readonly ISlackConnection _connection;
 
-        public MessageContext(SlackMessage message, bool botHasResponded, ISlackConnection connection)
+        public MessageContext(SlackMessage message, ISlackConnection connection)
         {
             _connection = connection;
             Message = message;
-            BotHasResponded = false;
-            IsFromSlackbot = botHasResponded;
         }
 
-        public SlackMessage Message { get; private set; }
-        public bool BotHasResponded { get; set; }
-        public bool IsFromSlackbot { get; private set; }
+        public SlackMessage Message { get; }
 
         public Task Say(string text)
         {

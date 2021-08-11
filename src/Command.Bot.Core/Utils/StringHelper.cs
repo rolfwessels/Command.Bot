@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Command.Bot.Core.Responders
+namespace Command.Bot.Core.Utils
 {
     public static class StringHelper
     {
