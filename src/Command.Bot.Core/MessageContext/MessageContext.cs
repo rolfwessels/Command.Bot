@@ -6,13 +6,12 @@ using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using Command.Bot.Core.Responders;
-using Command.Bot.Core.Runner;
 using Command.Bot.Core.Utils;
 using Serilog;
 using SlackConnector;
 using SlackConnector.Models;
 
-namespace Command.Bot.Core
+namespace Command.Bot.Core.MessageContext
 {
     public class MessageContext : IMessageContext, IDisposable
     {

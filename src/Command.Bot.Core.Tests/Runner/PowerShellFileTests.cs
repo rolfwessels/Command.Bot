@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Command.Bot.Core.Runner;
+using Command.Bot.Shared.Components.Runner;
 using FluentAssertions;
 using Serilog;
 using NUnit.Framework;

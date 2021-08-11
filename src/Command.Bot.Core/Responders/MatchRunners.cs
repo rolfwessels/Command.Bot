@@ -2,18 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Command.Bot.Core.Runner;
 using Command.Bot.Core.Utils;
 
 namespace Command.Bot.Core.Responders
 {
     public static class MatchRunners
     {
-        public static FileRunner Find(this IEnumerable<FileRunner> fileRunners,
-            string cleanMessage)
-        {
-          return fileRunners.FirstOrDefault(x => x.MatchesString(cleanMessage));
-        }
 
         public static IEnumerable<IResponderDescription> GetCommands(this IEnumerable<IResponder> responders)
         {

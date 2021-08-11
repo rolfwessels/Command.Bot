@@ -19,8 +19,9 @@ namespace Command.Bot.Service.Commands
 
         protected override void StartService()
         {
+      
             Log.Information($"Starting service {Settings.Default.BotKey.Substring(1, 5)}");
-            _slackService = new SlackService(Settings.Default.BotKey, new ResponseBuilder(), Settings.Default.WaitRetryMinutes, Settings.Default.MaxReconnectTries);
+            _slackService = new SlackService(Settings.Default.BotKey, new ResponseBuilder(Settings.Default.SplitTheAllowedUsers(),Settings.Default.ScriptsPath), Settings.Default.WaitRetryMinutes, Settings.Default.MaxReconnectTries);
             _slackService.Connect().ContinueWith(Connected);
         }
 

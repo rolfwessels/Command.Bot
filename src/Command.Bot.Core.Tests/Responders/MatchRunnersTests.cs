@@ -1,6 +1,7 @@
 using System.Linq;
 using Command.Bot.Core.Responders;
-using Command.Bot.Core.Runner;
+using Command.Bot.Shared.Components.Responder;
+using Command.Bot.Shared.Components.Runner;
 using FluentAssertions;
 using NUnit.Framework;
 

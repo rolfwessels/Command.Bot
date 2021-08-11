@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Command.Bot.Shared;
 using FluentAssertions;
 using NUnit.Framework;
 using SlackConnector;
@@ -22,7 +23,7 @@ namespace Command.Bot.Core.Tests
             Setup();
             var slackConnection = new FakeConnection();
             // action
-            await _slackService.ProcessMessage(new MessageContext(Message("hi"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("hi"), slackConnection));
             // assert
             slackConnection.Said.Select(x=>x.Text).Should().Contain("Could not find command `hi`. Did you mean to run *help*.");
         }
@@ -35,7 +36,7 @@ namespace Command.Bot.Core.Tests
             Setup();
             var slackConnection = new FakeConnection();
             // action
-            await _slackService.ProcessMessage(new MessageContext(Message("hdfasdfasdi"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("hdfasdfasdi"), slackConnection));
             // assert
             slackConnection.Said.Select(x => x.Text).Should().Contain("Sorry I don't know that command. Type *help* for command information.");
         }
@@ -47,7 +48,7 @@ namespace Command.Bot.Core.Tests
             Setup();
             var slackConnection = new FakeConnection();
             // action
-            await _slackService.ProcessMessage(new MessageContext(Message("Help"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help"), slackConnection));
             // assert
             slackConnection.Said.Select(x=>x.Text).First().Should().Contain("You are currently connected");
         }
@@ -58,7 +59,7 @@ namespace Command.Bot.Core.Tests
             // arrange
             Setup();
             var slackConnection = new FakeConnection();
-            await _slackService.ProcessMessage(new MessageContext(Message("Help","invalid-user"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help","invalid-user"), slackConnection));
             // action
             slackConnection.Said.Should().HaveCount(1);
             // assert
@@ -72,7 +73,7 @@ namespace Command.Bot.Core.Tests
             Setup();
             var slackConnection = new FakeConnection();
             // action
-            await _slackService.ProcessMessage(new MessageContext(Message("batExample -test"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("batExample -test"), slackConnection));
             // assert
             slackConnection.Said.Select(x => x.Text).Should().Contain("```hello\ni am a bat file\nYour first argument was '-test'\nOr is it '-test' ?```");
         }
@@ -84,7 +85,7 @@ namespace Command.Bot.Core.Tests
             Setup();
             var slackConnection = new FakeConnection();
             // action
-            await _slackService.ProcessMessage(new MessageContext(Message("batExample"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("batExample"), slackConnection));
             // assert
             slackConnection.Said.Select(x => x.Text).Should().Contain("Done.");
         }
@@ -96,7 +97,7 @@ namespace Command.Bot.Core.Tests
             Setup();
             var slackConnection = new FakeConnection();
             // action
-            await _slackService.ProcessMessage(new MessageContext(Message("batExample1"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("batExample1"), slackConnection));
             // assert
             slackConnection.Said.Select(x => x.Text).Should().Contain("Could not find command `batexample1`. Did you mean to run *batExample* or *psExample*.");
         }

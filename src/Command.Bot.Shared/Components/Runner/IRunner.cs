@@ -1,4 +1,4 @@
-﻿namespace Command.Bot.Core.Runner
+﻿namespace Command.Bot.Shared.Components.Runner
 {
     public interface IRunner
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using Command.Bot.Core.Runner;
+using Command.Bot.Core.MessageContext;
 using Serilog;
 
 namespace Command.Bot.Core.Tests.Runner

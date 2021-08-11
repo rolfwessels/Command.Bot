@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace Command.Bot.Core
+namespace Command.Bot.Shared
 {
     public class BaseSettings
     {

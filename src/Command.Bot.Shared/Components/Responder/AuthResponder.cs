@@ -1,7 +1,8 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Command.Bot.Core.Responders;
 
-namespace Command.Bot.Core.Responders
+namespace Command.Bot.Shared.Components.Responder
 {
     public class AuthResponder : ResponderBase
     {
@@ -11,20 +12,17 @@ namespace Command.Bot.Core.Responders
         { 
             _allowedUsers = allowedUsers;
         }
-
-        public static string[] SplitTheAllowedUsers()
-        {
-            return Settings.Default.AllowedUser.Split(',', ':', ';').Select(x=>x.Trim()).Where(x=>!string.IsNullOrEmpty(x)).ToArray();
-        }
+        
+        
 
         #region Overrides of ResponderBase
 
-        public override bool CanRespond(MessageContext context)
+        public override bool CanRespond(Core.MessageContext.MessageContext context)
         {
             return base.CanRespond(context) && _allowedUsers.Length > 0 && !(_allowedUsers.Contains(context.Message.User.Id) || _allowedUsers.Contains(context.Message.User.Name));
         }
 
-        public override Task GetResponse(MessageContext context)
+        public override Task GetResponse(Core.MessageContext.MessageContext context)
         {
             return context.Say("This is not the bot you are looking for ... *wave bot like arms*");
         }

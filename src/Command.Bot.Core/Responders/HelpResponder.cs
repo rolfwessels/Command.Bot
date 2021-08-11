@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Command.Bot.Core.Utils;
 
 namespace Command.Bot.Core.Responders
 {
@@ -16,7 +17,7 @@ namespace Command.Bot.Core.Responders
 
         #region Overrides of ResponderBase
 
-        public override bool CanRespond(MessageContext context)
+        public override bool CanRespond(MessageContext.MessageContext context)
         {   
             return context.IsForBot() && context.HasMessage(Command);
         }
@@ -25,7 +26,7 @@ namespace Command.Bot.Core.Responders
 
         #region Implementation of IResponder
 
-        public override Task GetResponse(MessageContext context)
+        public override Task GetResponse(MessageContext.MessageContext context)
         {
             return context.Say($"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}");
         }
@@ -47,7 +48,7 @@ namespace Command.Bot.Core.Responders
 
         private string GetCurrentMachineInformation()
         {
-            return $"{Environment.MachineName}({Network.GetLocalIPAddress()})";
+            return $"{Environment.MachineName}({Network.GetLocalIpAddress()})";
         }
 
         #endregion

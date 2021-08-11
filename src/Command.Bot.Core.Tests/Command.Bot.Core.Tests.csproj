@@ -14,6 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Command.Bot.Core\Command.Bot.Core.csproj" />
+    <ProjectReference Include="..\Command.Bot.Shared\Command.Bot.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Samples\shExample.sh">

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Command.Bot.Core.MessageContext;
 
-namespace Command.Bot.Core.Runner
+namespace Command.Bot.Shared.Components.Runner
 {
     public class PowerShellFile : BaseCommandLineRunner, IRunner
     {

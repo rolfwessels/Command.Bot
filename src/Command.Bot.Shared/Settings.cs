@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
+using Command.Bot.Core;
 using Microsoft.Extensions.Configuration;
 
-namespace Command.Bot.Core
+namespace Command.Bot.Shared
 {
     public class Settings : BaseSettings
     {
@@ -17,5 +19,10 @@ namespace Command.Bot.Core
         public string ScriptsPath => ReadConfigValue("ScriptsPath", "xxxxxxxxxxxxxxxxxx");
         public int MaxReconnectTries => Convert.ToInt32(ReadConfigValue("MaxReconnectTries", "10"));
         public int WaitRetryMinutes => Convert.ToInt32(ReadConfigValue("WaitRetryMinutes", "5"));
+
+        public string[] SplitTheAllowedUsers()
+        {
+            return AllowedUser.Split(',', ':', ';').Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+        }
     }
 }

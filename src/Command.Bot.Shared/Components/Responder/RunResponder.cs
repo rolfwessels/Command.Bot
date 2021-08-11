@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using Command.Bot.Core.Runner;
+using Command.Bot.Core;
+using Command.Bot.Core.Responders;
+using Command.Bot.Shared.Components.Runner;
 using Serilog;
 
-namespace Command.Bot.Core.Responders
+namespace Command.Bot.Shared.Components.Responder
 {
-    public class RunResponder : ResponderBase , IResponderDescriptions
+    public class RunResponder : ResponderBase, IResponderDescriptions
     {
-        
         private IRunner[] _runners;
         private string _path;
 
         public RunResponder(string scriptPath)
         {
             _runners = FileRunners.All;
-            _path = FileRunners.GetOrCreateFullPath(scriptPath) ;
+            _path = FileRunners.GetOrCreateFullPath(scriptPath);
         }
 
         #region Overrides of ResponderBase
 
-        public override bool CanRespond(MessageContext context)
+        public override bool CanRespond(Core.MessageContext.MessageContext context)
         {
             return base.CanRespond(context) && FileRunners.Scripts(_path).Find(context.CleanMessage()) != null;
         }
@@ -31,7 +30,7 @@ namespace Command.Bot.Core.Responders
 
         #region Overrides of ResponderBase
 
-        public override async Task GetResponse(MessageContext context)
+        public override async Task GetResponse(Core.MessageContext.MessageContext context)
         {
             var runner = FileRunners.Scripts(_path).Find(context.CleanMessage());
             if (runner == null)
