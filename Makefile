@@ -91,11 +91,11 @@ build: down
 	@docker-compose build
 
 publish: 
-	@echo  "${GREEN}Publish branch $(current-branch) to $(docker-tags) to version $(version) as user ${DOCKER_USER}${NC}"
+	@echo -e "${GREEN}Publish branch $(current-branch) to $(docker-tags) to version $(version) as user ${DOCKER_USER}${NC}"
 	@docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
-	@echo  "${GREEN}Building $(docker-tags)${NC}"
+	@echo -e "${GREEN}Building $(docker-tags)${NC}"
 	@cd src && docker build ${docker-tags} --build-arg VERSION=$(version) .
-	@echo  "${GREEN}Pusing to $(docker-tags)${NC}"
+	@echo -e "${GREEN}Pusing to $(docker-tags)${NC}"
 	@docker push --all-tags $(dockerhub)
 
 restore: 
@@ -117,17 +117,22 @@ version:
 	@mv  src/Command.Bot.Core/Command.Bot.Core.csproj.ch src/Command.Bot.Core/Command.Bot.Core.csproj
 
 publish-nuget: version
-	@echo  "${GREEN}Publish branch $(current-branch) to $(version-tag)${NC}"
+	@echo -e "${GREEN}Publish branch $(current-branch) to $(version-tag)${NC}"
 	@cd src/Command.Bot.Core && dotnet build --configuration Release
 	dotnet pack src/Command.Bot.Core/Command.Bot.Core.csproj
 	dotnet nuget push src/Command.Bot.Core/bin/Debug/Command.Bot.Core.*.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
 
-publish-nuget: version
-	@echo  "${GREEN}Publish branch $(current-branch) to $(version-tag)${NC}"
-	@cd src/Command.Bot.Core && dotnet build --configuration Release
-	dotnet pack src/Command.Bot.Core/Command.Bot.Core.csproj
-	dotnet nuget push src/Command.Bot.Core/bin/Debug/Command.Bot.Core.*.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
-
+publish-zip: version
+	@echo -e "${GREEN}Publish branch $(current-branch) to $(version-tag) zip file${NC}"
+	@echo -e "Clean folder"
+	@if [ -d "./dist/Command.Bot.$(version-tag)" ]; then rm -Rf ./dist/Command.Bot.$(version-tag); fi
+	@if [ -f "./dist/Command.Bot.$(version-tag).zip" ]; then rm -Rf ./dist/Command.Bot.$(version-tag).zip; fi
+	@echo -e "Publish"
+	@cd src/Command.Bot.Service && dotnet publish -c Release -o ../../dist/Command.Bot.$(version-tag)  /p:Version=$(version)
+	@mkdir ./dist/Command.Bot.$(version-tag)/scripts/
+	@cp src/Command.Bot.Core.Tests/Samples/* ./dist/Command.Bot.$(version-tag)/scripts/
+	@echo -e "Zip to ./Command.Bot.$(version-tag).zip"
+	@cd dist/ && zip -rq ./Command.Bot.$(version-tag).zip ./Command.Bot.$(version-tag)
 docker-check:
 	$(call assert-file-exists,$(docker-filecheck), This step should only be run from Docker. Please run `make up` first.)
 

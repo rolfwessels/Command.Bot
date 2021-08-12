@@ -20,8 +20,6 @@ namespace Command.Bot.Shared.Components.Runner
             {
                 All = new IRunner[] { new ShFile() };
             }
-            
-            
         }
 
         public static IRunner[] All { get; set; }

@@ -56,6 +56,7 @@ namespace Command.Bot.Service.Commands
             if (_serviceIsInstalled) IsInstalled();
             if (remainingArguments.Contains(AsServiceArgument))
             {
+
                 var servicesToRun = new ServiceBase[]
                 {
                     new Service(_serviceName,StartService,StopService),

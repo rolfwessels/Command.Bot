@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 	    <OutputType>Exe</OutputType>
-	    <TargetFramework>net461</TargetFramework>
+		<TargetFramework>netcoreapp2.1</TargetFramework>
 		<NoWarn>$(NoWarn);NU1605</NoWarn>
-		
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<!-- <PublishSingleFile>true</PublishSingleFile> -->
+		<!-- <PublishTrimmed>true</PublishTrimmed> -->
 		<AssemblyName>Command.Bot.Service</AssemblyName>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 	  </PropertyGroup>
@@ -15,6 +17,7 @@
 	<ItemGroup>
 	  <PackageReference Include="log4net" Version="2.0.10" />
 	  <PackageReference Include="ManyConsole" Version="2.0.1" />
+	  <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
 	  <!-- <PackageReference Include="Newtonsoft.Json" Version="8.0.3" /> -->
 	</ItemGroup>
 	<ItemGroup>
