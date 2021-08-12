@@ -20,11 +20,11 @@ jobs:
           dotnet-version: 3.1.x
       - name: Test
         run: make test
-      - name: Test
-        run: make test
       - name: Create artifacts
         run: make publish-zip
       - name: Create and publish nuget
+        env:
+          NUGET_KEY: ${{secrets.NUGET_KEY}}
         run: make publish-nuget
       - name: docker publish
         env:
