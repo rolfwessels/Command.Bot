@@ -59,11 +59,14 @@ help:
 	@echo "   - build       : (re)builds the container"
 	@echo ""
 	@echo "  Service Targets (should only be run inside the docker container)"
-	@echo "   - publish      : Build the $(project) and publish to docker $(docker-tags)"
-	@echo "   - version      : Set current version number $(project)"
-	@echo "   - start        : Run the $(project)"
-	@echo "   - test         : Run the $(project) tests"
-	@echo "   - deploy       : Deploy the $(project)"
+	@echo "   - version         : Set current version number $(project)"
+	@echo "   - start           : Run the $(project)"
+	@echo "   - test            : Run the $(project) tests"
+	@echo "   - publish         : Build the $(project) and publish to docker $(docker-tags)"
+	@echo "   - publish-nuget   : Publish the Command.Bot.Core and to nuget under version $(version-tag)"
+	@echo "   - publish-zip     : Build and compile to dist/Command.Bot.$(version-tag).zip"
+	@echo "   - deploy          : Deploy the $(project)"
+
 	@echo ""
 	@echo "Options:"
 	@echo " - env    : sets the environment - supported environments are: dev | prod"
@@ -72,7 +75,7 @@ help:
 	@echo " - Start Docker Container              : make up"
 	@echo " - Rebuild Docker Container            : make build"
 	@echo " - Rebuild & Start Docker Container    : make build up"
-	@echo " - Publish and deploy                  : make publish deploy env=dev"
+	@echo " - Publish                             : make publish"
 
 up:
 	@echo "Starting containers..."
@@ -133,6 +136,8 @@ publish-zip: version
 	@cp src/Command.Bot.Core.Tests/Samples/* ./dist/Command.Bot.$(version-tag)/scripts/
 	@echo -e "Zip to ./Command.Bot.$(version-tag).zip"
 	@cd dist/ && zip -rq ./Command.Bot.$(version-tag).zip ./Command.Bot.$(version-tag)
+
+    
 docker-check:
 	$(call assert-file-exists,$(docker-filecheck), This step should only be run from Docker. Please run `make up` first.)
 

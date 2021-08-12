@@ -57,11 +57,22 @@ services:
 
 ### Build and deploy docker
 
+The following make commands are available.
+
 ```bash
-cd src\
-docker login
-docker build -t rolfwessels/command-bot:latest -t rolfwessels/command-bot:v1.0.4 ./
-docker push -t rolfwessels/command-bot
+Docker Targets (run from local machine)
+  - up          : brings up the container & attach to the default container (dev)
+  - down        : stops the container
+  - build       : (re)builds the container
+
+Service Targets (should only be run inside the docker container)
+  - version         : Set current version number Command.Bot
+  - start           : Run the Command.Bot
+  - test            : Run the Command.Bot tests
+  - publish         : Build the Command.Bot and publish to docker -t rolfwessels/command-bot:alpha
+  - publish-nuget   : Publish the Command.Bot.Core and to nuget under version 1.1.61-alpha
+  - publish-zip     : Build and compile to dist/Command.Bot.1.1.61-alpha.zip
+  - deploy          : Deploy the Command.Bot
 ```
 
 ## Adding required security for cake ps build script
