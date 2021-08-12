@@ -64,8 +64,16 @@ namespace Command.Bot.Core.Tests
             // action
             await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help"), slackConnection));
             // assert
-            slackConnection.Said.Select(x => x.Text).StringJoin("\n").Should().Contain("Runs examples");
-            slackConnection.Said.Select(x => x.Text).StringJoin("\n").Should().Contain("Runs ps examples");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                slackConnection.Said.Select(x => x.Text).StringJoin("\n").Should().Contain("Runs examples");
+                slackConnection.Said.Select(x => x.Text).StringJoin("\n").Should().Contain("Runs ps examples");
+            }
+            else
+            {
+                slackConnection.Said.Select(x => x.Text).StringJoin("\n").Should().Contain("Runs sh examples");
+                
+            }
         }
         [Test]
         public async Task ProcessMessage_GivenInvalidUser_ShouldRespond()
