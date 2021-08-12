@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Command.Bot.Core.Responders;
+using Command.Bot.Core.MessageContext;
 
-namespace Command.Bot.Core.Runner
+namespace Command.Bot.Shared.Components.Runner
 {
-    public class BatchFile : BaseCommandLineRunner, IRunner
+    public class ShFile : BaseCommandLineRunner, IRunner
     {
         #region Implementation of IRunner
 
-        public string Extension => ".bat";
+        public string Extension => ".sh";
 
         public FileRunner GetRunner(string filePath)
         {
             if (this.IsExtensionMatch(filePath))
             {
                 var command = Path.GetFileNameWithoutExtension(filePath);
-                return new FileRunner(command, $"run {Path.GetFileName(filePath)} command.",ProcessFile(filePath), filePath);
+                return new FileRunner(command, $"run {Path.GetFileName(filePath)} command.", ProcessFile(filePath), filePath);
             }
             return null;
         }
@@ -25,7 +24,7 @@ namespace Command.Bot.Core.Runner
         private Func<IMessageContext, IEnumerable<string>> ProcessFile(string filePath)
         {
             return (context) => {
-                ExecuteCommand(context,filePath);
+                ExecuteCommand(context, filePath);
                 return new string[0];
             };
         }
@@ -34,7 +33,7 @@ namespace Command.Bot.Core.Runner
 
         void ExecuteCommand(IMessageContext context, string command)
         {
-            RunCommand(context, "cmd.exe", "/c " + CommandWithArguments(context.Text,command));
+            RunCommand(context, "sh", CommandWithArguments(context.Text, command));
         }
     }
 }

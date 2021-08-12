@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using Command.Bot.Core;
 using Command.Bot.Core.Responders;
+using Command.Bot.Shared.Components.Responder;
 
-namespace Command.Bot.Core
+namespace Command.Bot.Shared
 {
     public class ResponseBuilder : IResponseBuilder
     {
         private readonly List<IResponder> _responders;
-
-        public ResponseBuilder() : this(AuthResponder.SplitTheAllowedUsers(), Settings.Default.ScriptsPath)
-        {
-        }
-
+        
         public ResponseBuilder(string[] allowedUsers, string defaultScriptsPath)
         {
             _responders = new List<IResponder> {

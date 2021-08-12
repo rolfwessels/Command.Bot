@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using Command.Bot.Core.Responders;
+using Command.Bot.Core.MessageContext;
 using Command.Bot.Core.Utils;
 
-namespace Command.Bot.Core.Runner
+namespace Command.Bot.Shared.Components.Runner
 {
     public class BaseCommandLineRunner
     {

@@ -5,33 +5,33 @@ namespace Command.Bot.Core.Responders
 {
     public static class MessageContextHelper
     {
-        public static bool IsForBot(this MessageContext context)
+        public static bool IsForBot(this MessageContext.MessageContext context)
         {
             return !context.Message.User.IsBot && 
                    (context.Message.MentionsBot || context.Message.ChatHub.Type == SlackChatHubType.DM);
         }
 
-        public static bool MessageContains(this MessageContext context, string value)
+        public static bool MessageContains(this MessageContext.MessageContext context, string value)
         {
             return CleanMessage(context).Contains(value.ToLower());
         }
 
-        public static bool HasAttachment(this MessageContext context)
+        public static bool HasAttachment(this MessageContext.MessageContext context)
         {
             return MessageContains(context, "upload");
         }
 
-        public static bool HasMessage(this MessageContext context, string text)
+        public static bool HasMessage(this MessageContext.MessageContext context, string text)
         {
             return CleanMessage(context).Equals(text.ToLower());
         }
 
-        public static bool StartsWith(this MessageContext context, string text)
+        public static bool StartsWith(this MessageContext.MessageContext context, string text)
         {
             return CleanMessage(context).StartsWith(text.ToLower());
         }
 
-        public static bool StartsWith(this MessageContext context, string text, out string result)
+        public static bool StartsWith(this MessageContext.MessageContext context, string text, out string result)
         {
             var cleanMessage = CleanMessage(context);
             var startsWith = cleanMessage.StartsWith(text.ToLower());
@@ -43,7 +43,7 @@ namespace Command.Bot.Core.Responders
             return startsWith;
         }
 
-        public static string CleanMessage(this MessageContext context)
+        public static string CleanMessage(this MessageContext.MessageContext context)
         {
             var text = context.Message.Text;
             if (text != null)

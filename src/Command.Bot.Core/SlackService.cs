@@ -110,13 +110,13 @@ namespace Command.Bot.Core
             }
         }
 
-        private MessageContext GetMessageContext(SlackMessage message)
+        private MessageContext.MessageContext GetMessageContext(SlackMessage message)
         {
-            var messageContext = new MessageContext(message,_connection);
+            var messageContext = new MessageContext.MessageContext(message,_connection);
             return messageContext;
         }
 
-        public async Task ProcessMessage(MessageContext messageContext)
+        public async Task ProcessMessage(MessageContext.MessageContext messageContext)
         {
             _log.Debug($"Message in {messageContext.Message.User.Name}: {messageContext.Message.Text}");
             foreach (var responder in _responders.Where(responder => responder.CanRespond(messageContext)))

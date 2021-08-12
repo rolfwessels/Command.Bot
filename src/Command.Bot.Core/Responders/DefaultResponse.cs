@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Command.Bot.Core.Runner;
 using Command.Bot.Core.Utils;
 
 namespace Command.Bot.Core.Responders
 {
-    internal class DefaultResponse : ResponderBase
+    public class DefaultResponse : ResponderBase
     {
         private readonly List<IResponder> _runResponder;
 
@@ -18,7 +17,7 @@ namespace Command.Bot.Core.Responders
 
         #region Implementation of IResponder
 
-        public override async Task GetResponse(MessageContext context)
+        public override async Task GetResponse(MessageContext.MessageContext context)
         {
             var hasSimilar = _runResponder.GetCommands().FindWithSimilarNames(context.CleanMessage()).ToArray();
             if (hasSimilar.Any())

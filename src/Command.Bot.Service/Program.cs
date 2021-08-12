@@ -17,23 +17,33 @@ namespace Command.Bot.Service
         {
             try
             {
-                var location = Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location);
-                if (Directory.GetCurrentDirectory() != location)
-                {
-                    Log.Information($"Change folder from '{Directory.GetCurrentDirectory()}' to '{location}'.");
-                    Directory.SetCurrentDirectory(location ?? ".");
-                }
-                Log.Logger = LogSetup.Default().CreateLogger();
+                ChangeCurrentDirectory();
+                SetupLogging();
                 Log.Information("Starting Command.Bot service.");
-                // locate any commands in the assembly (or use an IoC container, or whatever source)
                 var commands = ConsoleCommandDispatcher.FindCommandsInSameAssemblyAs(typeof(ServiceCommand));
-                // then run them.
                 return ConsoleCommandDispatcher.DispatchCommand(commands, args, Console.Out);
             }
             catch (Exception e)
             {
                 Log.Error($"Failed to launch service:{e.Message}", e);
                 throw;
+            }
+        }
+
+        private static void SetupLogging()
+        {
+            Log.Logger = LogSetup.Default()
+                .MinimumLevel.Debug()
+                .CreateLogger();
+        }
+
+        private static void ChangeCurrentDirectory()
+        {
+            var location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            if (Directory.GetCurrentDirectory() != location)
+            {
+                Log.Information($"Change folder from '{Directory.GetCurrentDirectory()}' to '{location}'.");
+                Directory.SetCurrentDirectory(location ?? ".");
             }
         }
     }

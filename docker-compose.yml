@@ -5,7 +5,6 @@ networks:
 services:
   dev:
     build: .
-    deploy:
     restart: unless-stopped
     volumes:
       - "./:/command.bot"
@@ -20,5 +19,8 @@ services:
       - "/command.bot/src/Command.Bot.Core.Tests/obj"
       - "/command.bot/src/Command.Bot.Service/obj"
       - "/command.bot/src/Command.Bot.Shared/obj"
+    entrypoint: top -b
+    logging:
+      driver: none
     networks:
       - command-bot-network

@@ -29,7 +29,7 @@ namespace Command.Bot.Shared
             catch (Exception e)
             {
                 Log.Error(e.Message, e);
-                System.Console.Error.WriteLine(e.Message);
+                Console.Error.WriteLine(e.Message);
                 return 1;
             }
 

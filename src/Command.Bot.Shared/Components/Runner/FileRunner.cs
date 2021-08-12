@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Command.Bot.Core;
+using Command.Bot.Core.MessageContext;
 
-namespace Command.Bot.Core.Runner
+namespace Command.Bot.Shared.Components.Runner
 {
     public class FileRunner : IResponderDescription
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Command.Bot.Core.Runner
+namespace Command.Bot.Core.MessageContext
 {
     public interface IMessageContext
     {

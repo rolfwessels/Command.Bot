@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,13 +5,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Serilog;
 
-namespace Command.Bot.Core.Runner
+namespace Command.Bot.Shared.Components.Runner
 {
     public static class FileRunners
     {
         
-        private static readonly Lazy<string> BasePath = new Lazy<string>(()=> GetOrCreateFullPath(Settings.Default.ScriptsPath));
-
         static FileRunners()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -23,8 +20,6 @@ namespace Command.Bot.Core.Runner
             {
                 All = new IRunner[] { new ShFile() };
             }
-            
-            
         }
 
         public static IRunner[] All { get; set; }

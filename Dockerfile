@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-sdk-alpine3.7 as dotnet
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine as dotnet
 
 # Tools
 RUN apk update
@@ -11,22 +11,15 @@ RUN apk add --no-cache --update \
     git \
     openssh \
     make \
-    sudo \
-    vim \
     nano \
     busybox \
     busybox-extras \
     nmap \
-    screen \ 
-    man \
-    nodejs \
-    ncurses \
-    zip \
-    nss
+    screen \
+    zip
 
 RUN mkdir /command.bot
 WORKDIR /command.bot
-# install this cake tool globally 
-RUN dotnet tool install -g --version 0.38.4 Cake.Tool
-RUN printf 'export PS1="\[$(tput setaf 4)\] __v_\\n\[$(tput setaf 4)\]($(tput smul)₀   $(tput rmul)\/{\[$(tput sgr0)\] \\t \[$(tput setaf 5)\][\w]\[$(tput sgr0)\]\$ "' >> ~/.bashrc
+ENV TERM xterm-256color
+RUN printf 'export PS1="\[\e[0;34;0;33m\][DCKR]\[\e[0m\] \\t \[\e[40;38;5;28m\][\w]\[\e[0m\] \$ "' >> ~/.bashrc
 CMD ["top"]

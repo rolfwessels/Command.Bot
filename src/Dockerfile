@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-sdk-alpine3.7 as dotnet
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine as dotnet
 
 RUN mkdir /tmp/app
 WORKDIR /tmp/app
@@ -16,10 +16,10 @@ WORKDIR /app
 
 COPY ./ ./
 WORKDIR /app/Command.Bot
-RUN ./build.sh --target=Test
-RUN dotnet publish -c Release -o out
+ARG VERSION=1.0.0
+RUN dotnet publish -c Release -o out /p:Version=$VERSION 
 
-FROM microsoft/dotnet:2.1-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
 
 WORKDIR /app
 COPY --from=dotnet /app/Command.Bot/out .
