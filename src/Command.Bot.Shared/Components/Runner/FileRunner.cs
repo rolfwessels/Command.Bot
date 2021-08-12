@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using Command.Bot.Core;
 using Command.Bot.Core.MessageContext;
 
@@ -30,6 +32,14 @@ namespace Command.Bot.Shared.Components.Runner
         {
             return text.ToLower().Trim().Equals(Command.ToLower().Trim()) ||
                    text.ToLower().Trim().StartsWith(Command.ToLower().Trim()+" ");
+        }
+
+        public static string GetDescription(string filePath)
+        {
+            var readAllLines = System.IO.File.ReadAllLines(filePath);
+            return readAllLines.Where(x => x.Contains("Description:="))
+                .Select(x=>x.Split(new []{":="},StringSplitOptions.None).Last().Trim())
+                .FirstOrDefault();
         }
     }
 

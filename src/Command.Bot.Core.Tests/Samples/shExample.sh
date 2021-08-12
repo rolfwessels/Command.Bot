@@ -1,4 +1,5 @@
 #!sh
+# Description:=Runs sh examples
 RIGHT_NOW=$(date +"%x %r %Z")
 echo hello
 echo i am a sh file running at $RIGHT_NOW
