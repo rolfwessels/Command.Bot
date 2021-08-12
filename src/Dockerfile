@@ -23,5 +23,4 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
 
 WORKDIR /app
 COPY --from=dotnet /app/Command.Bot/out .
-
 ENTRYPOINT ["dotnet", "Command.Bot.dll", "run", "-v", "-c"]

@@ -35,7 +35,7 @@ namespace Command.Bot.Service.Commands
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             Log.Information($"Starting service {Settings.Default.BotKey.Substring(1, 5)}");
-            _slackService = new SlackService(Settings.Default.BotKey, new ResponseBuilder(Settings.Default.SplitTheAllowedUsers(), Settings.Default.ScriptsPath), Settings.Default.WaitRetryMinutes, Settings.Default.MaxReconnectTries);
+            _slackService = ServiceFactory.BuildDefaultSlackService();
             while (!stoppingToken.IsCancellationRequested)
             {
                 try

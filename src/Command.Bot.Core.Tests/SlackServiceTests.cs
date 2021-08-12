@@ -214,7 +214,7 @@ namespace Command.Bot.Core.Tests
 
         public Task IndicateTyping(SlackChatHub chatHub)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
         public Task Ping()

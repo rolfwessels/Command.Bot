@@ -18,7 +18,6 @@ namespace Command.Bot.Shared.Components.Responder
         {
             _runners = FileRunners.All;
             _path = FileRunners.GetOrCreateFullPath(scriptPath);
-            Console.Out.WriteLine("_path"+ _path);
         }
 
         #region Overrides of ResponderBase
@@ -41,6 +40,7 @@ namespace Command.Bot.Shared.Components.Responder
                 return;
             }
 
+            await context.IndicateTyping();
             Log.Information($"Start executing {runner.Command}");
             var stopwatch = new Stopwatch();
             stopwatch.Start();

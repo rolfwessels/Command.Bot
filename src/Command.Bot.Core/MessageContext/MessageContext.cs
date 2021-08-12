@@ -20,6 +20,7 @@ namespace Command.Bot.Core.MessageContext
         private readonly IDisposable _disposable;
         private int _counter;
         public static int MaxLength = 100;
+        public static TimeSpan BufferTimer = TimeSpan.FromMilliseconds(1000);
 
         public MessageContext(SlackMessage message, ISlackConnection connection)
         {
@@ -27,8 +28,9 @@ namespace Command.Bot.Core.MessageContext
             Message = message;
             _outputText = new Subject<string>();
 
+            
             _disposable = _outputText.AsObservable()
-                .Buffer(TimeSpan.FromSeconds(1)).Subscribe(x =>
+                .Buffer(BufferTimer).Subscribe(x =>
                 {
                     foreach (var txt in x.GroupByMaxLength(MaxLength).Select(b=>b.StringJoin("\n"))) 
                     {   
@@ -99,6 +101,11 @@ namespace Command.Bot.Core.MessageContext
             {
                 await Task.Delay(100);
             }
+        }
+
+        public Task IndicateTyping()
+        {
+            return _connection.IndicateTyping(Message.ChatHub);
         }
     }
 }
