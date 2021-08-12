@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Command.Bot.Core.Utils;
 using Command.Bot.Shared;
 using FluentAssertions;
 using NUnit.Framework;
@@ -26,7 +27,7 @@ namespace Command.Bot.Core.Tests
             // action
             await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("hi"), slackConnection));
             // assert
-            slackConnection.Said.Select(x=>x.Text).Should().Contain("Could not find command `hi`. Did you mean to run *help*.");
+            slackConnection.Said.Select(x => x.Text).Should().Contain("Could not find command `hi`. Did you mean to run *help*.");
         }
 
 
@@ -51,7 +52,7 @@ namespace Command.Bot.Core.Tests
             // action
             await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help"), slackConnection));
             // assert
-            slackConnection.Said.Select(x=>x.Text).First().Should().Contain("You are currently connected");
+            slackConnection.Said.Select(x => x.Text).First().Should().Contain("You are currently connected");
         }
 
         [Test]
@@ -60,7 +61,7 @@ namespace Command.Bot.Core.Tests
             // arrange
             Setup();
             var slackConnection = new FakeConnection();
-            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help","invalid-user"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help", "invalid-user"), slackConnection));
             // action
             slackConnection.Said.Should().HaveCount(1);
             // assert
@@ -86,8 +87,10 @@ namespace Command.Bot.Core.Tests
             {
                 await _slackService.ProcessMessage(
                     new MessageContext.MessageContext(Message("shExample -test"), slackConnection));
+                await Task.Delay(1000);
                 // assert
-                slackConnection.Said.Select(x => x.Text).First().Should()
+
+                slackConnection.Said.Select(x => x.Text).Where(x => !string.IsNullOrEmpty(x)).StringJoin().Should()
                     .Contain("Argument was -test");
             }
         }
@@ -108,6 +111,7 @@ namespace Command.Bot.Core.Tests
             {
                 await _slackService.ProcessMessage(
                     new MessageContext.MessageContext(Message("shExample"), slackConnection));
+                await Task.Delay(1000);
             }
 
             // assert
@@ -129,14 +133,17 @@ namespace Command.Bot.Core.Tests
         private static SlackMessage Message(string text, string allowedUser = "allowedUser")
         {
             return new SlackMessage()
-                {User = new SlackUser {Name = allowedUser,IsBot = false},
-                    Text = text,
-                    ChatHub = new SlackChatHub() {Type = SlackChatHubType.DM},MentionsBot = true};
+            {
+                User = new SlackUser { Name = allowedUser, IsBot = false },
+                Text = text,
+                ChatHub = new SlackChatHub() { Type = SlackChatHubType.DM },
+                MentionsBot = true
+            };
         }
 
         private void Setup()
         {
-            _slackService = new SlackService(null,new ResponseBuilder(new []{"allowedUser"},"Samples"));
+            _slackService = new SlackService(null, new ResponseBuilder(new[] { "allowedUser" }, "Samples"));
         }
     }
 
@@ -227,7 +234,7 @@ namespace Command.Bot.Core.Tests
         public string SlackKey { get; }
         public ContactDetails Team { get; }
         public ContactDetails Self { get; }
-        public List<BotMessage> Said { get;  } = new List<BotMessage>();
+        public List<BotMessage> Said { get; } = new List<BotMessage>();
 
         private event DisconnectEventHandler OnDisconnect;
 
