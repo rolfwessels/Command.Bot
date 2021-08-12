@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Command.Bot.Core;
 using Microsoft.Extensions.Configuration;
 
 namespace Command.Bot.Shared
@@ -19,6 +18,8 @@ namespace Command.Bot.Shared
         public string ScriptsPath => ReadConfigValue("ScriptsPath", "xxxxxxxxxxxxxxxxxx");
         public int MaxReconnectTries => Convert.ToInt32(ReadConfigValue("MaxReconnectTries", "10"));
         public int WaitRetryMinutes => Convert.ToInt32(ReadConfigValue("WaitRetryMinutes", "5"));
+        public int BufferTimeMs => Convert.ToInt32(ReadConfigValue("BufferTimeMs", "2000"));
+        public int MaxSlackMessageLength => Convert.ToInt32(ReadConfigValue("MaxSlackMessageLength", "200"));
 
         public string[] SplitTheAllowedUsers()
         {

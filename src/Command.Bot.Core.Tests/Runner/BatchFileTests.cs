@@ -59,6 +59,8 @@ namespace Command.Bot.Core.Tests.Runner
             fakeContext.Response.Should().Contain("INFO:hello");
         }
 
+
+
         [Test]
         public void GetRunner_GivenArgument_ShouldPassTheArgument()
         {

@@ -5,7 +5,7 @@
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-		<Version>1.1.60-alpha</Version>
+		<Version>1.1.56-alpha</Version>
 	</PropertyGroup>
 	<ItemGroup>
     <PackageReference Include="Serilog" Version="2.9.0" />
@@ -14,9 +14,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
 	  <PackageReference Include="SlackConnector" Version="5.1.7" />
+	  <PackageReference Include="SlackNet.Bot" Version="0.10.8" />
 	  <PackageReference Include="System.Reactive.Core" Version="5.0.0" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="SlackIntegration\" />
 	  <Folder Include="Properties\" />
 	</ItemGroup>
 	

@@ -56,6 +56,26 @@ namespace Command.Bot.Core.Tests
         }
 
         [Test]
+        public async Task ProcessMessage_GivenHelpShouldFindDescription_ShouldRespond()
+        {
+            // arrange
+            Setup();
+            var slackConnection = new FakeConnection();
+            // action
+            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help"), slackConnection));
+            // assert
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                slackConnection.Said.Select(x => x.Text).StringJoin("\n").Should().Contain("Runs examples");
+                slackConnection.Said.Select(x => x.Text).StringJoin("\n").Should().Contain("Runs ps examples");
+            }
+            else
+            {
+                slackConnection.Said.Select(x => x.Text).StringJoin("\n").Should().Contain("Runs sh examples");
+                
+            }
+        }
+        [Test]
         public async Task ProcessMessage_GivenInvalidUser_ShouldRespond()
         {
             // arrange
@@ -214,7 +234,7 @@ namespace Command.Bot.Core.Tests
 
         public Task IndicateTyping(SlackChatHub chatHub)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
         public Task Ping()
