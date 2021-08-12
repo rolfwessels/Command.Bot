@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.ServiceProcess;
+using Command.Bot.Core.Utils;
 using Command.Bot.Shared;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using ServiceInstaller = Command.Bot.Service.Helpers.ServiceInstaller;
 
 namespace Command.Bot.Service.Commands
 {
+   
+
     public abstract class ServiceCommandBase : CommandBase
     {
-        private const string AsServiceArgument = "executeAsService";
+        public const string AsServiceArgument = "executeAsService";
 
         private bool _serviceInstall;
         private bool _serviceIsInstalled;
@@ -32,7 +36,7 @@ namespace Command.Bot.Service.Commands
             AddArguments("start", "Start the service", () => _serviceStart = true);
             AddArguments("stop", "Stop the service", () => _serviceStop = true);
             AddArguments("isinstalled", "Is the service installed", () => _serviceIsInstalled = true);
-            HasOption<string>("servicename=", $"optional service name [{_serviceName}].",b => _serviceName = b ?? _serviceName);
+            HasOption<string>("servicename=", $"optional service name [{_serviceName}].", b => _serviceName = b ?? _serviceName);
             HasAdditionalArguments(1, GetArgumentHelpText());
         }
 
@@ -40,12 +44,10 @@ namespace Command.Bot.Service.Commands
 
         protected override void RunCommand(string[] remainingArguments)
         {
+            Log.Debug($"Run [{remainingArguments.StringJoin(" ")}]");
             if (_serviceRun)
             {
-                StartService();
-                Console.Out.WriteLine("Press any key to stop.");
-                Console.ReadKey();
-                StopService();
+                ConfigureServices(remainingArguments).RunConsoleAsync().Wait();
             }
 
             if (_serviceInstall) Install();
@@ -56,14 +58,29 @@ namespace Command.Bot.Service.Commands
             if (_serviceIsInstalled) IsInstalled();
             if (remainingArguments.Contains(AsServiceArgument))
             {
-
-                var servicesToRun = new ServiceBase[]
-                {
-                    new Service(_serviceName,StartService,StopService),
-                };
-                ServiceBase.Run(servicesToRun);
+                Log.Information("Request to start service called ");
+                ConfigureServices(remainingArguments)
+                .UseWindowsService()
+                .Build()
+                .Run(); 
             }
         }
+        
+
+        private IHostBuilder ConfigureServices(string[] remainingArguments)
+        {
+            return Host.CreateDefaultBuilder(remainingArguments)
+                .UseSerilog()
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddLogging();
+                    AddService(services); 
+                
+                });
+        }
+
+        protected abstract void AddService(IServiceCollection services);
+        
 
         #endregion
 
@@ -102,7 +119,7 @@ namespace Command.Bot.Service.Commands
         private void Install()
         {
             Console.Out.WriteLine("Installing service {0}", _serviceName);
-            var location = Assembly.GetExecutingAssembly().Location;
+            var location = Assembly.GetExecutingAssembly().Location.Replace(".dll",".exe");
             Log.Debug($"ServiceConsoleCommand:RunCommand {location}");
             ServiceInstaller.InstallAndStart(_serviceName, null, $@"{location} {AsServiceArgument}");
             Console.Out.WriteLine("Service {0} is now installed.", _serviceName);
@@ -110,59 +127,6 @@ namespace Command.Bot.Service.Commands
 
         #endregion
 
-        #region Nested type: Service
-
-        protected class Service :  ServiceBase
-        {
-            private readonly Action _startService;
-            private readonly Action _stopService;
-
-
-            public Service(string serviceName, Action startService, Action stopService)
-            {
-                _startService = startService;
-                _stopService = stopService;
-                ServiceName = serviceName;
-            }
-
-            protected override void OnStart(string[] args)
-            {
-                try
-                {
-                    Log.Information("Start service");
-                    _startService();
-                    Log.Information("Services started");
-                }
-                catch (Exception e)
-                {
-                    Log.Error(e.Message, e);
-                    throw;
-                }
-            }
-
-            protected override void OnStop()
-            {
-                try
-                {
-                    Log.Information("Stop service");
-                    _stopService();
-                    Log.Information("Services stopped");
-                }
-                catch (Exception e)
-                {
-                    Log.Error(e.Message, e);
-                    throw;
-                }
-            }
-        }
-
-        #endregion
-
-        #region Abstract methods
-
-        protected abstract void StartService();
-        protected abstract void StopService();
-
-        #endregion
+       
     }
 }

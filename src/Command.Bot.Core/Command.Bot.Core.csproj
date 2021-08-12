@@ -5,7 +5,7 @@
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-		<Version>0.1.59-alpha</Version>
+		<Version>1.1.60-alpha</Version>
 	</PropertyGroup>
 	<ItemGroup>
     <PackageReference Include="Serilog" Version="2.9.0" />

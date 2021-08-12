@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-sdk-alpine3.7 as dotnet
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine as dotnet
 
 # Tools
 RUN apk update
