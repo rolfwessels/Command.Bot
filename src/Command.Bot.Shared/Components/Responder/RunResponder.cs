@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Command.Bot.Core;
@@ -17,6 +18,7 @@ namespace Command.Bot.Shared.Components.Responder
         {
             _runners = FileRunners.All;
             _path = FileRunners.GetOrCreateFullPath(scriptPath);
+            Console.Out.WriteLine("_path"+ _path);
         }
 
         #region Overrides of ResponderBase
