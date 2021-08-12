@@ -20,7 +20,7 @@ namespace Command.Bot.Shared.Components.Runner
             if (this.IsExtensionMatch(filePath))
             {
                 var command = Path.GetFileNameWithoutExtension(filePath);
-                return new FileRunner(command, $"run {Path.GetFileName(filePath)} command.",ProcessFile(filePath), filePath);
+                return new FileRunner(command, FileRunner.GetDescription(filePath) ?? $"run {Path.GetFileName(filePath)} command.",ProcessFile(filePath), filePath);
             }
             return null;
         }
