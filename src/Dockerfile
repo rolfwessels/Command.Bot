@@ -17,7 +17,7 @@ WORKDIR /app
 COPY ./ ./
 WORKDIR /app/Command.Bot
 ARG VERSION=1.0.0
-RUN dotnet publish -c Release -o out /p:Version=$VERSION 
+RUN dotnet publish -c Release -o /app/Command.Bot/out /p:Version=$VERSION 
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
 
