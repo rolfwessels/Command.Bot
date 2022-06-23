@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Command.Bot": {
+      "commandName": "Project",
+      "commandLineArgs": "run -v"
+    }
+  }
+}
