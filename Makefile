@@ -9,7 +9,8 @@ docker-warning := ""
 RED=\033[0;31m
 GREEN=\033[0;32m
 NC=\033[0m # No Color
-version := 1.1.$(shell git rev-list HEAD --count)
+versionPrefix := 0.1
+version := $(versionPrefix).$(shell git rev-list HEAD --count)
 main-branch := master
 dockerhub := rolfwessels/command-bot
 
