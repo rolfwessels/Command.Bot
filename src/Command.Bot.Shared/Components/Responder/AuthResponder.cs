@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Command.Bot.Core.Responders;
+using Command.Bot.Core.SlackIntegration.Contracts;
 
 namespace Command.Bot.Shared.Components.Responder
 {
@@ -17,12 +18,12 @@ namespace Command.Bot.Shared.Components.Responder
 
         #region Overrides of ResponderBase
 
-        public override bool CanRespond(Core.MessageContext.MessageContext context)
+        public override bool CanRespond(IMessageContext context)
         {
-            return base.CanRespond(context) && _allowedUsers.Length > 0 && !(_allowedUsers.Contains(context.Message.User.Id) || _allowedUsers.Contains(context.Message.User.Name));
+            return base.CanRespond(context) && _allowedUsers.Length > 0 && !(_allowedUsers.Contains(context.Message.Detail.UserId) || _allowedUsers.Contains(context.Message.Detail.UserName));
         }
 
-        public override Task GetResponse(Core.MessageContext.MessageContext context)
+        public override Task GetResponse(IMessageContext context)
         {
             return context.Say("This is not the bot you are looking for ... *wave bot like arms*");
         }

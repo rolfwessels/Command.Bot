@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Command.Bot.Core.SlackIntegration;
+using Command.Bot.Core.SlackIntegration.Contracts;
 using Command.Bot.Core.Utils;
 using Command.Bot.Shared;
 using FluentAssertions;
 using NUnit.Framework;
-using SlackConnector;
-using SlackConnector.EventHandlers;
-using SlackConnector.Models;
+using SlackNet.Bot;
 
 namespace Command.Bot.Core.Tests
 {
@@ -23,9 +23,9 @@ namespace Command.Bot.Core.Tests
         {
             // arrange
             Setup();
-            var slackConnection = new FakeConnection();
+            var slackConnection = new FakeSlackMessage();
             // action
-            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("hi"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext(Message("hi", slackConnection)));
             // assert
             slackConnection.Said.Select(x => x.Text).Should().Contain("Could not find command `hi`. Did you mean to run *help*.");
         }
@@ -36,9 +36,9 @@ namespace Command.Bot.Core.Tests
         {
             // arrange
             Setup();
-            var slackConnection = new FakeConnection();
+            var slackConnection = new FakeSlackMessage();
             // action
-            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("hdfasdfasdi"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext(Message("hdfasdfasdi", slackConnection)));
             // assert
             slackConnection.Said.Select(x => x.Text).Should().Contain("Sorry I don't know that command. Type *help* for command information.");
         }
@@ -48,9 +48,9 @@ namespace Command.Bot.Core.Tests
         {
             // arrange
             Setup();
-            var slackConnection = new FakeConnection();
+            var slackConnection = new FakeSlackMessage();
             // action
-            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext(Message("Help", slackConnection)));
             // assert
             slackConnection.Said.Select(x => x.Text).First().Should().Contain("You are currently connected");
         }
@@ -60,9 +60,9 @@ namespace Command.Bot.Core.Tests
         {
             // arrange
             Setup();
-            var slackConnection = new FakeConnection();
+            var slackConnection = new FakeSlackMessage();
             // action
-            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext(Message("Help", slackConnection)));
             // assert
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -80,8 +80,8 @@ namespace Command.Bot.Core.Tests
         {
             // arrange
             Setup();
-            var slackConnection = new FakeConnection();
-            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("Help", "invalid-user"), slackConnection));
+            var slackConnection = new FakeSlackMessage();
+            await _slackService.ProcessMessage(new MessageContext(Message("Help", slackConnection, "invalid-user")));
             // action
             slackConnection.Said.Should().HaveCount(1);
             // assert
@@ -93,12 +93,12 @@ namespace Command.Bot.Core.Tests
         {
             // arrange
             Setup();
-            var slackConnection = new FakeConnection();
+            var slackConnection = new FakeSlackMessage();
             // action
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 await _slackService.ProcessMessage(
-                    new MessageContext.MessageContext(Message("batExample -test"), slackConnection));
+                    new MessageContext(Message("batExample -test", slackConnection)));
                 // assert
                 slackConnection.Said.Select(x => x.Text).Should()
                     .Contain("```hello\ni am a bat file\nYour first argument was '-test'\nOr is it '-test' ?```");
@@ -106,7 +106,7 @@ namespace Command.Bot.Core.Tests
             else
             {
                 await _slackService.ProcessMessage(
-                    new MessageContext.MessageContext(Message("shExample -test"), slackConnection));
+                    new MessageContext(Message("shExample -test", slackConnection)));
                 await Task.Delay(1000);
                 // assert
 
@@ -120,17 +120,17 @@ namespace Command.Bot.Core.Tests
         {
             // arrange
             Setup();
-            var slackConnection = new FakeConnection();
+            var slackConnection = new FakeSlackMessage();
             // action
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 await _slackService.ProcessMessage(
-                    new MessageContext.MessageContext(Message("batExample"), slackConnection));
+                    new MessageContext(Message("batExample", slackConnection)));
             }
             else
             {
                 await _slackService.ProcessMessage(
-                    new MessageContext.MessageContext(Message("shExample"), slackConnection));
+                    new MessageContext(Message("shExample", slackConnection)));
                 await Task.Delay(1000);
             }
 
@@ -143,21 +143,23 @@ namespace Command.Bot.Core.Tests
         {
             // arrange
             Setup();
-            var slackConnection = new FakeConnection();
+            var slackConnection = new FakeSlackMessage();
             // action
-            await _slackService.ProcessMessage(new MessageContext.MessageContext(Message("batExample1"), slackConnection));
+            await _slackService.ProcessMessage(new MessageContext(Message("batExample1", slackConnection)));
             // assert
             slackConnection.Said.Select(x => x.Text).FirstOrDefault().Should().Contain("Could not find command `batexample1`. Did you mean to run");
         }
 
-        private static SlackMessage Message(string text, string allowedUser = "allowedUser")
+        private static ISlackRequest Message(string text, FakeSlackMessage fakeSlackMessage, string allowedUser = "allowedUser" )
         {
-            return new SlackMessage()
+            fakeSlackMessage.Detail = new FakeSlackMessage.DetailValue(text, allowedUser);
+            return fakeSlackMessage;
             {
-                User = new SlackUser { Name = allowedUser, IsBot = false },
-                Text = text,
-                ChatHub = new SlackChatHub() { Type = SlackChatHubType.DM },
-                MentionsBot = true
+
+                // User = new SlackUser { Name = allowedUser, IsBot = false },
+                // Text = text,
+                // ChatHub = new SlackChatHub() { Type = SlackChatHubType.DM },
+                // MentionsBot = true
             };
         }
 
@@ -167,112 +169,47 @@ namespace Command.Bot.Core.Tests
         }
     }
 
-    internal class FakeConnection : ISlackConnection
+    internal class FakeSlackMessage : ISlackRequest
     {
-        #region Implementation of ISlackConnection
+        #region Implementation of ISlackRequest
 
-        public Task Close()
+        public ISlackDetail Detail { get; set; }
+        public List<ReplyMessage> Said { get; set; } = new List<ReplyMessage>();
+
+        public bool IsForBot()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
-        public Task Say(BotMessage message)
+        public Task Reply(ReplyMessage message)
         {
             Said.Add(message);
             return Task.CompletedTask;
         }
 
-        public Task Upload(SlackChatHub chatHub, string filePath)
+        public Task IndicateTyping()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
-
-        public Task Upload(SlackChatHub chatHub, Stream stream, string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<SlackChatHub>> GetChannels()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<SlackUser>> GetUsers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<SlackChatHub> JoinDirectMessageChannel(string user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<SlackChatHub> JoinChannel(string channelName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<SlackChatHub> CreateChannel(string channelName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task ArchiveChannel(string channelName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<SlackPurpose> SetChannelPurpose(string channelName, string purpose)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<SlackTopic> SetChannelTopic(string channelName, string topic)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task IndicateTyping(SlackChatHub chatHub)
-        {
-            return Task.FromResult(true);
-        }
-
-        public Task Ping()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Stream> DownloadFile(Uri downloadUri)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyDictionary<string, SlackChatHub> ConnectedHubs { get; }
-        public IReadOnlyDictionary<string, SlackUser> UserCache { get; }
-        public bool IsConnected { get; }
-        public DateTime? ConnectedSince { get; }
-        public string SlackKey { get; }
-        public ContactDetails Team { get; }
-        public ContactDetails Self { get; }
-        public List<BotMessage> Said { get; } = new List<BotMessage>();
-
-        private event DisconnectEventHandler OnDisconnect;
-
-        event DisconnectEventHandler ISlackConnection.OnDisconnect
-        {
-            add => this.OnDisconnect += value;
-            remove => this.OnDisconnect -= value;
-        }
-
-        public event ReconnectEventHandler OnReconnecting;
-        public event ReconnectEventHandler OnReconnect;
-        public event MessageReceivedEventHandler OnMessageReceived;
-        public event ReactionReceivedEventHandler OnReaction;
-        public event ChatHubJoinedEventHandler OnChatHubJoined;
-        public event UserJoinedEventHandler OnUserJoined;
-        public event PongEventHandler OnPong;
-        public event ChannelCreatedHandler OnChannelCreated;
 
         #endregion
+
+        public class DetailValue : ISlackDetail
+        {
+            public DetailValue(string text, string allowedUser)
+            {
+                UserName = allowedUser;
+                Text = text;
+                UserId = allowedUser+"Id";
+            }
+
+            #region Implementation of ISlackDetail
+
+            public string UserName { get; }
+            public string Text { get; }
+            public string UserId { get; }
+
+            #endregion
+        }
     }
 }

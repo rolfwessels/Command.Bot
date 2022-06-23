@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using Command.Bot.Core.MessageContext;
+using Command.Bot.Core.SlackIntegration.Contracts;
 using Command.Bot.Core.Utils;
 
 namespace Command.Bot.Shared.Components.Runner

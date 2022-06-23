@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Command.Bot.Core.SlackIntegration.Contracts;
 using Serilog;
+using SlackNet;
 using SlackNet.Bot;
+using ILogger = Serilog.ILogger;
 
 namespace Command.Bot.Core.SlackIntegration
 {
@@ -18,34 +23,109 @@ namespace Command.Bot.Core.SlackIntegration
             _key = key;
         }
 
-        public async Task Start()
+        public async Task Start(ISlackConnectionHandler slackConnectionHandler)
         {
             if (!_isStarted)
             {
                 _isStarted = true;
                 _log.Information($"Starting {_key}");
                 _bot = new SlackBot(_key);
-                _bot.AddHandler(new MyMessageHandler());
+                _bot.AddHandler(new MyMessageHandler(slackConnectionHandler,this));
+                
                 await _bot.Connect();
             }
         }
+
+        public SlackBot Bot => _bot;
 
         public void Stop()
         {
             if (_isStarted)
             {
+                _isStarted = false;
                 _bot.Dispose();
+                _bot = null;
             }
         }
 
         public class MyMessageHandler : IMessageHandler
         {
-            public Task HandleMessage(IMessage message)
+            private readonly ISlackConnectionHandler _handler;
+            private readonly SlackDotNetConnection _slackDotNetConnection;
+
+            public MyMessageHandler(ISlackConnectionHandler handler, SlackDotNetConnection slackDotNetConnection)
             {
-                throw new NotImplementedException();
+                _handler = handler;
+                _slackDotNetConnection = slackDotNetConnection;
             }
+
+            public async Task HandleMessage(IMessage message)
+            {
+                await _handler.MessageReceived(new Request(message, _slackDotNetConnection));
+            }
+
+            
         }
 
+        public class Request : ISlackRequest
+        {
+            private readonly IMessage _message;
+            private readonly SlackDotNetConnection _connection;
+
+            public Request(IMessage message, SlackDotNetConnection connection)
+            {
+                _message = message;
+                _connection = connection;
+                Detail = new DetailContextDetail(message);
+            }   
+
+            public class DetailContextDetail : ISlackDetail
+            {
+                public DetailContextDetail(IMessage message)
+                {
+                    UserName = message.User.Name;
+                    Text = message.Text;
+                    UserId = message.User.Id;
+                }
+
+                #region Implementation of ISlackMessage
+
+                public string UserName { get; }
+                public string Text { get; }
+                public string UserId { get; }
+
+                #endregion
+            }
+
+
+            #region Implementation of ISlackMessageContext
+
+            public ISlackDetail Detail { get; }
+
+            public bool IsForBot()
+            {
+             return !_message.User.IsBot &&  (_message.MentionsBot || _message.Conversation.IsPrivate);
+            }
+
+            public async Task Reply(ReplyMessage message)
+            {
+                var botMessage = new BotMessage() {
+                    Text = message.Text ,
+                    Conversation = _message.Conversation,
+                    Attachments = message.Attachments?.Select(x=>new Attachment() {Text = x.Text,Color = x.ColorHex}).ToList()
+                };
+                
+                await _connection._bot.Send(botMessage);
+            }
+
+            public Task IndicateTyping()
+            {
+                _connection._bot.WhileTyping(_message.Conversation.Id,()=> Task.Delay(1000));
+                return Task.CompletedTask;
+            }
+
+            #endregion
+        }
         #region IDisposable
 
         public void Dispose()

@@ -1,6 +1,6 @@
 using System;
 using Command.Bot.Core;
-using Command.Bot.Core.MessageContext;
+using Command.Bot.Core.SlackIntegration;
 
 namespace Command.Bot.Shared
 {
@@ -11,8 +11,7 @@ namespace Command.Bot.Shared
             MessageContext.BufferTimer = TimeSpan.FromMilliseconds(Settings.Default.BufferTimeMs);
             MessageContext.MaxLength = Settings.Default.MaxSlackMessageLength;
             return new SlackService(Settings.Default.BotKey,
-                new ResponseBuilder(Settings.Default.SplitTheAllowedUsers(), Settings.Default.ScriptsPath),
-                Settings.Default.WaitRetryMinutes, Settings.Default.MaxReconnectTries);
+                new ResponseBuilder(Settings.Default.SplitTheAllowedUsers(), Settings.Default.ScriptsPath));
         }
     }
 }

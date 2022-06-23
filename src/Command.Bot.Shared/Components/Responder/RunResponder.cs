@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Command.Bot.Core;
 using Command.Bot.Core.Responders;
+using Command.Bot.Core.SlackIntegration.Contracts;
 using Command.Bot.Shared.Components.Runner;
 using Serilog;
 
@@ -22,18 +23,18 @@ namespace Command.Bot.Shared.Components.Responder
 
         #region Overrides of ResponderBase
 
-        public override bool CanRespond(Core.MessageContext.MessageContext context)
+        public override bool CanRespond(IMessageContext context)
         {
-            return base.CanRespond(context) && FileRunners.Scripts(_path).Find(context.CleanMessage()) != null;
+            return base.CanRespond(context) && FileRunners.Scripts(_path).Find(context.Text) != null;
         }
 
         #endregion
 
         #region Overrides of ResponderBase
 
-        public override async Task GetResponse(Core.MessageContext.MessageContext context)
+        public override async Task GetResponse(IMessageContext context)
         {
-            var runner = FileRunners.Scripts(_path).Find(context.CleanMessage());
+            var runner = FileRunners.Scripts(_path).Find(context.Text);
             if (runner == null)
             {
                 await context.Say("Command not found.");

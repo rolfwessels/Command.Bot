@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Command.Bot.Core.MessageContext;
+using Command.Bot.Core.SlackIntegration.Contracts;
 
 namespace Command.Bot.Shared.Components.Runner
 {
