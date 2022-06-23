@@ -38,10 +38,10 @@ endif
 ifeq ($(current-branch), $(main-branch))
   version-tag :=  $(version)
 else ifeq ($(current-branch), develop)
-  version := $(versionPrefix).$(shell git rev-list origin/main --count).$(shell git rev-list origin/main..HEAD --count)
+  version := $(versionPrefix).$(shell git rev-list origin/master --count).$(shell git rev-list origin/master..HEAD --count)
   version-tag := $(version)-beta
 else
-  version := $(versionPrefix).$(shell git rev-list origin/main --count).$(shell git rev-list origin/main..HEAD --count)
+  version := $(versionPrefix).$(shell git rev-list origin/master --count).$(shell git rev-list origin/master..HEAD --count)
   version-tag := $(version)-alpha
 endif
 
