@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -10,7 +8,6 @@ using Command.Bot.Core.Utils;
 using Command.Bot.Shared;
 using FluentAssertions;
 using NUnit.Framework;
-using SlackNet.Bot;
 
 namespace Command.Bot.Core.Tests
 {

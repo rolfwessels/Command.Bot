@@ -31,6 +31,7 @@ namespace Command.Bot.Core.SlackIntegration
             _outputText = new Subject<string>();
             CleanText = CleanIt();
             
+            
             _disposable = _outputText.AsObservable()
                 .Buffer(BufferTimer).Subscribe(x =>
                 {
