@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Command.Bot.Core;
-using Command.Bot.Core.MessageContext;
+using Command.Bot.Core.SlackIntegration.Contracts;
 
 namespace Command.Bot.Shared.Components.Runner
 {

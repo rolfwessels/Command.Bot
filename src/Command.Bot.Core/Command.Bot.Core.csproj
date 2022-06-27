@@ -13,10 +13,11 @@
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
-	  <PackageReference Include="SlackConnector" Version="5.1.7" />
+	  <PackageReference Include="SlackNet.Bot" Version="0.10.8" />
 	  <PackageReference Include="System.Reactive.Core" Version="5.0.0" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="MessageContext\" />
 	  <Folder Include="Properties\" />
 	</ItemGroup>
 	

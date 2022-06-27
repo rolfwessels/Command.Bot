@@ -3,31 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Command.Bot.Core.Responders;
+using Command.Bot.Core.SlackIntegration.Contracts;
 using Command.Bot.Core.Utils;
 using Serilog;
-using SlackConnector;
-using SlackConnector.Models;
 
-namespace Command.Bot.Core.MessageContext
+namespace Command.Bot.Core.SlackIntegration
 {
+
     public class MessageContext : IMessageContext, IDisposable
     {
-        private readonly ISlackConnection _connection;
+        private readonly ISlackRequest _message;
+        private readonly ISlackRequest _connection;
         private readonly Subject<string> _outputText;
         private readonly IDisposable _disposable;
         private int _counter;
         public static int MaxLength = 100;
         public static TimeSpan BufferTimer = TimeSpan.FromMilliseconds(1000);
 
-        public MessageContext(SlackMessage message, ISlackConnection connection)
+        public MessageContext(ISlackRequest message)
         {
-            _connection = connection;
-            Message = message;
+            _message = message;
+            _connection = message;
+            
             _outputText = new Subject<string>();
-
+            CleanText = CleanIt();
+            
             
             _disposable = _outputText.AsObservable()
                 .Buffer(BufferTimer).Subscribe(x =>
@@ -53,14 +56,28 @@ namespace Command.Bot.Core.MessageContext
             );
         }
 
-        public SlackMessage Message { get; }
+        private string CleanIt()
+        {
+            var text = _message.Detail.Text;
+            if (text != null)
+            {
+                text = Regex.Replace(text, @"<@.*?>:", " ");
+                text = Regex.Replace(text, @"<@.*?>", " ");
+                return text.Trim().Trim('*').Trim().ToLower();
+            }
+            return null;
+        }
+
+        public ISlackRequest Message => _message;
+
 
         public Task Say(string text)
         {
-            return Say(new BotMessage() { Text = text});
+            return Say(new ReplyMessage() { Text = text});
         }
 
-        public string Text => this.CleanMessage();
+        public string Text => CleanText;
+        public string CleanText { get; }
 
         public Task SayOutput(string text)
         {
@@ -74,14 +91,20 @@ namespace Command.Bot.Core.MessageContext
         {
             await FlushMessages();
             if (string.IsNullOrEmpty(text)) return ;
-            await Say(new BotMessage() { Attachments = new List<SlackAttachment>() {new SlackAttachment() {ColorHex = "#D00000" , Text = text } }});
+            await Say(new ReplyMessage() { Attachments = new List<ReplyMessage.SlackAttachment>() {new ReplyMessage.SlackAttachment() {ColorHex = "#D00000" , Text = text } }});
         }
 
-        public Task Say(BotMessage botMessage)
+        public bool IsForBot()
         {
-            if (botMessage.ChatHub == null) botMessage.ChatHub = Message.ChatHub;
-            if (string.IsNullOrEmpty(botMessage.Text) && !botMessage.Attachments.Any()) return Task.FromResult(true);
-            return _connection.Say(botMessage);
+            return Message.IsForBot();
+            
+        }
+
+        public Task Say(ReplyMessage replyMessage)
+        {
+            
+            if (string.IsNullOrEmpty(replyMessage.Text) && !replyMessage.Attachments.Any()) return Task.FromResult(true);
+            return _connection.Reply(replyMessage);
         }
 
         #region IDisposable
@@ -105,7 +128,7 @@ namespace Command.Bot.Core.MessageContext
 
         public Task IndicateTyping()
         {
-            return _connection.IndicateTyping(Message.ChatHub);
+            return _message.IndicateTyping();
         }
     }
 }

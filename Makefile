@@ -9,7 +9,8 @@ docker-warning := ""
 RED=\033[0;31m
 GREEN=\033[0;32m
 NC=\033[0m # No Color
-version := 1.1.$(shell git rev-list HEAD --count)
+versionPrefix := 0.2
+version := $(versionPrefix).$(shell git rev-list HEAD --count)
 main-branch := master
 dockerhub := rolfwessels/command-bot
 
@@ -38,8 +39,10 @@ endif
 ifeq ($(current-branch), $(main-branch))
   version-tag :=  $(version)
 else ifeq ($(current-branch), develop)
+  version := $(versionPrefix).$(shell git rev-list origin/master --count).$(shell git rev-list origin/master..HEAD --count)
   version-tag := $(version)-beta
 else
+  version := $(versionPrefix).$(shell git rev-list origin/master --count).$(shell git rev-list origin/master..HEAD --count)
   version-tag := $(version)-alpha
 endif
 
