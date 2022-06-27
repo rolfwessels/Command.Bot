@@ -1,8 +1,9 @@
+# Command.Bot
+
 [![Github release](https://img.shields.io/github/v/release/rolfwessels/Command.Bot)](https://github.com/rolfwessels/Command.Bot/releases)
 [![Dockerhub Status](https://img.shields.io/badge/dockerhub-ok-blue.svg)](https://hub.docker.com/r/rolfwessels/command-bot/tags)
 [![Dockerhub Version](https://img.shields.io/docker/v/rolfwessels/command-bot?sort=semver)](https://hub.docker.com/r/rolfwessels/command-bot/tags)
-
-# Command.Bot
+[![Nuget](https://img.shields.io/nuget/v/Command.Bot.Core)](https://www.nuget.org/packages/Command.Bot.Core/)
 
 Slack bot that allows you to run scripts remotely.
 
