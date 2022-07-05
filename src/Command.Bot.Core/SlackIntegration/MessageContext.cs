@@ -40,7 +40,7 @@ namespace Command.Bot.Core.SlackIntegration
                         try
                         {
                             Log.Information("say:" + txt);
-                            Say($"```{txt}```").Wait();
+                            Reply($"```{txt}```").Wait();
                         }
                         catch (Exception e)
                         {
@@ -58,7 +58,8 @@ namespace Command.Bot.Core.SlackIntegration
 
         private string CleanIt()
         {
-            var text = _message.Detail.Text;
+            
+            var text = _message.Detail?.Text;
             if (text != null)
             {
                 text = Regex.Replace(text, @"<@.*?>:", " ");
@@ -71,9 +72,9 @@ namespace Command.Bot.Core.SlackIntegration
         public ISlackRequest Message => _message;
 
 
-        public Task Say(string text)
+        public Task Reply(string text)
         {
-            return Say(new ReplyMessage() { Text = text});
+            return Reply(new ReplyMessage() { Text = text});
         }
 
         public string Text => CleanText;
@@ -91,7 +92,9 @@ namespace Command.Bot.Core.SlackIntegration
         {
             await FlushMessages();
             if (string.IsNullOrEmpty(text)) return ;
-            await Say(new ReplyMessage() { Attachments = new List<ReplyMessage.SlackAttachment>() {new ReplyMessage.SlackAttachment() {ColorHex = "#D00000" , Text = text } }});
+            await Reply(new ReplyMessage() { 
+                Attachments = new List<ReplyMessage.SlackAttachment>() {
+                    new ReplyMessage.SlackAttachment() {ColorHex = "#D00000" , Text = text } }});
         }
 
         public bool IsForBot()
@@ -100,12 +103,20 @@ namespace Command.Bot.Core.SlackIntegration
             
         }
 
-        public Task Say(ReplyMessage replyMessage)
+        public Task Reply(ReplyMessage replyMessage)
         {
-            
             if (string.IsNullOrEmpty(replyMessage.Text) && !replyMessage.Attachments.Any()) return Task.FromResult(true);
+            AllowLinksInEmails(replyMessage);
             return _connection.Reply(replyMessage);
         }
+
+        private static void AllowLinksInEmails(ReplyMessage replyMessage)
+        {
+            var linkParser = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            foreach (Match m in linkParser.Matches(replyMessage.Text))
+                replyMessage.Text = replyMessage.Text.Replace(m.Value, $"<{m.Value}>");
+        }
+
 
         #region IDisposable
 
@@ -126,9 +137,9 @@ namespace Command.Bot.Core.SlackIntegration
             }
         }
 
-        public Task IndicateTyping()
+        public Task WrapInTyping(Func<Task> executeRunner)
         {
-            return _message.IndicateTyping();
+            return _message.WrapInTyping(executeRunner);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Command.Bot.Core.SlackIntegration.Contracts;
@@ -38,19 +39,21 @@ namespace Command.Bot.Core.Tests.Runner
             throw new System.NotImplementedException();
         }
 
-        public Task Say(string text)
+        public Task Reply(string text)
         {
             throw new System.NotImplementedException();
         }
-
-        public Task IndicateTyping()
-        {
-            throw new System.NotImplementedException();
-        }
+        
 
         public Task FlushMessages()
         {
             throw new System.NotImplementedException();
+        }
+        
+
+        public async Task WrapInTyping(Func<Task> executeRunner)
+        {
+            await executeRunner();
         }
 
         public List<string> Response { get; }

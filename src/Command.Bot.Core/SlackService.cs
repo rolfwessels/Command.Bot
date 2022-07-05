@@ -40,12 +40,12 @@ namespace Command.Bot.Core
         }
 
       
-
-
         private void Close()
         {
             _connector.Dispose();
         }
+
+
         public async Task MessageReceived(ISlackRequest request)
         {
             using (var messageContext = GetMessageContext(request))
@@ -57,7 +57,7 @@ namespace Command.Bot.Core
                 catch (Exception e)
                 {
                     _log.Error(e.Message, e);
-                    await messageContext.Say($"Ooops something went wrong ({e.Message})");
+                    await messageContext.Reply($"Ooops something went wrong ({e.Message})");
                 }
             }
         }
@@ -87,8 +87,6 @@ namespace Command.Bot.Core
         }
 
         #endregion
-
-       
     }
 
     public interface IResponseBuilder

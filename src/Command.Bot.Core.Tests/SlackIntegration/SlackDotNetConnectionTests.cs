@@ -27,12 +27,13 @@ namespace Command.Bot.Core.Tests.SlackIntegration
             // action
             var slackConnectionHandler = new Reader();
             await slackDotNetConnection.Start(slackConnectionHandler);
-            await slackDotNetConnection.SayToUser(Settings.Default.SplitTheAllowedUsers().First(), "You have 10 seconds to type hi!");
+            await slackDotNetConnection.SayToUser(Settings.Default.SplitTheAllowedUsers().First(), "You have 10 seconds ```test <http://google.com>``` type hi! <http://google.com>");
             await slackConnectionHandler.Wait();
             // assert
             slackConnectionHandler.Received.Select(x=>x.Detail.Text).Should().Contain("hi");
             await slackConnectionHandler.Received.First().Reply(new ReplyMessage("Success"));
         }
+
         public class Reader : ISlackConnectionHandler
         {
             private TaskCompletionSource<bool> _taskCompletionSource;

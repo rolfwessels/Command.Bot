@@ -28,10 +28,8 @@ namespace Command.Bot.Core.SlackIntegration
             if (!_isStarted)
             {
                 _isStarted = true;
-                _log.Information($"Starting {_key}");
                 Bot = new SlackBot(_key);
                 Bot.AddHandler(new MyMessageHandler(slackConnectionHandler, this));
-
                 await Bot.Connect();
             }
         }
@@ -84,11 +82,13 @@ namespace Command.Bot.Core.SlackIntegration
                     UserName = message.User.Name;
                     Text = message.Text;
                     UserId = message.User.Id;
+                    ChannelId = message.Conversation.Id;
                 }
 
                 public string UserName { get; }
                 public string Text { get; }
                 public string UserId { get; }
+                public string ChannelId { get;  }
             }
 
             public bool IsForBot()
@@ -109,13 +109,15 @@ namespace Command.Bot.Core.SlackIntegration
                 await _connection.Bot.Send(botMessage);
             }
 
-            public Task IndicateTyping()
+            public async Task WrapInTyping(Func<Task> executeRunner)
             {
-                var indicateTyping = Task.Delay(100);
-                _connection.Bot.WhileTyping(_message.Conversation.Id, () => indicateTyping);
-                return indicateTyping;
+                await _connection.Bot.WhileTyping(Detail.ChannelId, async () =>
+                {
+                    await executeRunner();
+                });
             }
         }
+
 
         public void Dispose()
         {

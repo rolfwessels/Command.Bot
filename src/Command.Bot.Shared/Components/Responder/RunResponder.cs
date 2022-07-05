@@ -37,24 +37,28 @@ namespace Command.Bot.Shared.Components.Responder
             var runner = FileRunners.Scripts(_path).Find(context.Text);
             if (runner == null)
             {
-                await context.Say("Command not found.");
+                await context.Reply("Command not found.");
                 return;
             }
 
-            await context.IndicateTyping();
+            await context.WrapInTyping(() => ExecuteRunner(context, runner));
+        }
+
+        private static async Task ExecuteRunner(IMessageContext context, FileRunner runner)
+        {
             Log.Information($"Start executing {runner.Command}");
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var enumerable = runner.Execute(context);
             foreach (var text in enumerable)
             {
-                await context.Say(text);
+                await context.Reply(text);
             }
 
             await context.FlushMessages();
             stopwatch.Stop();
             Log.Information($"Done executing {runner.Command} in {stopwatch.Elapsed}");
-            await context.Say("Done.");
+            await context.Reply("Done.");
         }
 
         #endregion

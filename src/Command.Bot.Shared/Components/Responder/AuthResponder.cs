@@ -25,7 +25,7 @@ namespace Command.Bot.Shared.Components.Responder
 
         public override Task GetResponse(IMessageContext context)
         {
-            return context.Say("This is not the bot you are looking for ... *wave bot like arms*");
+            return context.Reply("This is not the bot you are looking for ... *wave bot like arms*");
         }
 
         #endregion
