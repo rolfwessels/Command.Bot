@@ -26,12 +26,12 @@ namespace Command.Bot.Core.Responders
                 var stringJoinAnd = hasSimilar
                     .Select(x => $"*{x}*")
                     .StringJoinAnd(" or ");
-                await context.Say(
+                await context.Reply(
                     $"Could not find command `{context.Text}`. Did you mean to run {stringJoinAnd}.");
             }
             else
             {
-                await context.Say("Sorry I don't know that command. Type *help* for command information.");
+                await context.Reply("Sorry I don't know that command. Type *help* for command information.");
             }
         }
 

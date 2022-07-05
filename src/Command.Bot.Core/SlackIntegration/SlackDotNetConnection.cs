@@ -28,10 +28,8 @@ namespace Command.Bot.Core.SlackIntegration
             if (!_isStarted)
             {
                 _isStarted = true;
-                _log.Information($"Starting {_key}");
                 Bot = new SlackBot(_key);
                 Bot.AddHandler(new MyMessageHandler(slackConnectionHandler, this));
-
                 await Bot.Connect();
             }
         }

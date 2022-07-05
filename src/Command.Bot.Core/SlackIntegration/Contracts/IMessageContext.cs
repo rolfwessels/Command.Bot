@@ -11,7 +11,7 @@ namespace Command.Bot.Core.SlackIntegration.Contracts
         Task SayOutput(string text);
         Task SayError(string text);
         bool IsForBot();
-        Task Say(string text);
+        Task Reply(string text);
         Task IndicateTyping();
         Task FlushMessages();
     }

@@ -29,7 +29,7 @@ namespace Command.Bot.Core.Responders
 
         public override Task GetResponse(IMessageContext context)
         {
-            return context.Say($"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}");
+            return context.Reply($"Hi, You are currently connected to {GetCurrentMachineInformation()}\n\n{GetCommands()}");
         }
 
         private string GetCommands()

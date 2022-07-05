@@ -37,7 +37,7 @@ namespace Command.Bot.Shared.Components.Responder
             var runner = FileRunners.Scripts(_path).Find(context.Text);
             if (runner == null)
             {
-                await context.Say("Command not found.");
+                await context.Reply("Command not found.");
                 return;
             }
 
@@ -48,13 +48,13 @@ namespace Command.Bot.Shared.Components.Responder
             var enumerable = runner.Execute(context);
             foreach (var text in enumerable)
             {
-                await context.Say(text);
+                await context.Reply(text);
             }
 
             await context.FlushMessages();
             stopwatch.Stop();
             Log.Information($"Done executing {runner.Command} in {stopwatch.Elapsed}");
-            await context.Say("Done.");
+            await context.Reply("Done.");
         }
 
         #endregion

@@ -38,7 +38,7 @@ namespace Command.Bot.Core.Tests.Runner
             throw new System.NotImplementedException();
         }
 
-        public Task Say(string text)
+        public Task Reply(string text)
         {
             throw new System.NotImplementedException();
         }
