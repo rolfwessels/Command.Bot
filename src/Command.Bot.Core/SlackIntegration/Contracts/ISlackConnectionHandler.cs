@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Command.Bot.Core.SlackIntegration.Contracts
@@ -13,7 +14,7 @@ namespace Command.Bot.Core.SlackIntegration.Contracts
         ISlackDetail Detail { get;}
         bool IsForBot();
         Task Reply(ReplyMessage message);
-        Task WrapInTyping(Task executeRunner);
+        Task WrapInTyping(Func<Task> executeRunner);
     }
 
     public interface ISlackDetail

@@ -137,7 +137,7 @@ namespace Command.Bot.Core.SlackIntegration
             }
         }
 
-        public Task WrapInTyping(Task executeRunner)
+        public Task WrapInTyping(Func<Task> executeRunner)
         {
             return _message.WrapInTyping(executeRunner);
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -184,9 +185,9 @@ namespace Command.Bot.Core.Tests
             return Task.CompletedTask;
         }
 
-        public async Task WrapInTyping(Task executeRunner)
+        public async Task WrapInTyping(Func<Task> executeRunner)
         {
-            await executeRunner;
+            await executeRunner();
         }
 
         public Task IndicateTyping()

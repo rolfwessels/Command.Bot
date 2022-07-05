@@ -109,9 +109,12 @@ namespace Command.Bot.Core.SlackIntegration
                 await _connection.Bot.Send(botMessage);
             }
 
-            public async Task WrapInTyping(Task executeRunner)
+            public async Task WrapInTyping(Func<Task> executeRunner)
             {
-                await _connection.Bot.WhileTyping(Detail.ChannelId,() => executeRunner);
+                await _connection.Bot.WhileTyping(Detail.ChannelId, async () =>
+                {
+                    await executeRunner();
+                });
             }
         }
 

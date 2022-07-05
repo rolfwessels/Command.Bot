@@ -41,7 +41,7 @@ namespace Command.Bot.Shared.Components.Responder
                 return;
             }
 
-            await context.WrapInTyping(ExecuteRunner(context, runner));
+            await context.WrapInTyping(() => ExecuteRunner(context, runner));
         }
 
         private static async Task ExecuteRunner(IMessageContext context, FileRunner runner)

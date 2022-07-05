@@ -13,6 +13,6 @@ namespace Command.Bot.Core.SlackIntegration.Contracts
         bool IsForBot();
         Task Reply(string text);
         Task FlushMessages();
-        Task WrapInTyping(Task executeRunner);
+        Task WrapInTyping(Func<Task> executeRunner);
     }
 }
