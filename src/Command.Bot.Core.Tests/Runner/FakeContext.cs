@@ -42,15 +42,16 @@ namespace Command.Bot.Core.Tests.Runner
         {
             throw new System.NotImplementedException();
         }
-
-        public Task IndicateTyping()
-        {
-            throw new System.NotImplementedException();
-        }
+        
 
         public Task FlushMessages()
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task WrapInTyping(Task executeRunner)
+        {
+            await executeRunner;
         }
 
         public List<string> Response { get; }

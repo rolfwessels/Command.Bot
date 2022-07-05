@@ -13,7 +13,7 @@ namespace Command.Bot.Core.SlackIntegration.Contracts
         ISlackDetail Detail { get;}
         bool IsForBot();
         Task Reply(ReplyMessage message);
-        Task IndicateTyping();
+        Task WrapInTyping(Task executeRunner);
     }
 
     public interface ISlackDetail
@@ -21,6 +21,7 @@ namespace Command.Bot.Core.SlackIntegration.Contracts
         string UserName { get;  }
         string Text { get;  }
         string UserId { get; }
+        string ChannelId { get;  }
     }
 
     public class ReplyMessage

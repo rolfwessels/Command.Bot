@@ -40,12 +40,12 @@ namespace Command.Bot.Core
         }
 
       
-
-
         private void Close()
         {
             _connector.Dispose();
         }
+
+
         public async Task MessageReceived(ISlackRequest request)
         {
             using (var messageContext = GetMessageContext(request))
@@ -87,8 +87,6 @@ namespace Command.Bot.Core
         }
 
         #endregion
-
-       
     }
 
     public interface IResponseBuilder

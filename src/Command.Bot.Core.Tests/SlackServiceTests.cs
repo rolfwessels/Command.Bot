@@ -98,7 +98,7 @@ namespace Command.Bot.Core.Tests
                     new MessageContext(Message("batExample -test", slackConnection)));
                 // assert
                 slackConnection.Said.Select(x => x.Text).Should()
-                    .Contain("```hello\ni am a bat file\nYour first argument was '-test'\nOr is it '-test' ?```");
+                    .Contain("```hello\ni am a bat file with a link <https://github.com/rolfwessels/command.Bot>/\nYour first argument was '-test'\nOr is it '-test' ?```");
             }
             else
             {
@@ -184,6 +184,11 @@ namespace Command.Bot.Core.Tests
             return Task.CompletedTask;
         }
 
+        public async Task WrapInTyping(Task executeRunner)
+        {
+            await executeRunner;
+        }
+
         public Task IndicateTyping()
         {
             return Task.CompletedTask;
@@ -198,6 +203,7 @@ namespace Command.Bot.Core.Tests
                 UserName = allowedUser;
                 Text = text;
                 UserId = allowedUser+"Id";
+                ChannelId = allowedUser + "ChanId";
             }
 
             #region Implementation of ISlackDetail
@@ -205,6 +211,7 @@ namespace Command.Bot.Core.Tests
             public string UserName { get; }
             public string Text { get; }
             public string UserId { get; }
+            public string ChannelId { get; }
 
             #endregion
         }

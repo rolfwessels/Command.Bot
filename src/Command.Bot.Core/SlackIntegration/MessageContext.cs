@@ -137,9 +137,9 @@ namespace Command.Bot.Core.SlackIntegration
             }
         }
 
-        public Task IndicateTyping()
+        public Task WrapInTyping(Task executeRunner)
         {
-            return _message.IndicateTyping();
+            return _message.WrapInTyping(executeRunner);
         }
     }
 }

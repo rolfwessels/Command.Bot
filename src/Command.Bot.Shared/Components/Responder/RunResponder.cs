@@ -41,7 +41,11 @@ namespace Command.Bot.Shared.Components.Responder
                 return;
             }
 
-            await context.IndicateTyping();
+            await context.WrapInTyping(ExecuteRunner(context, runner));
+        }
+
+        private static async Task ExecuteRunner(IMessageContext context, FileRunner runner)
+        {
             Log.Information($"Start executing {runner.Command}");
             var stopwatch = new Stopwatch();
             stopwatch.Start();
